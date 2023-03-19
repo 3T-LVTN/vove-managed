@@ -3,17 +3,15 @@
   "npmScope": "back-end",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
-        "accessToken": "YWE2Y2I5M2QtY2UzMC00NTA0LTk3MjctNjEwOGY0MDcwNDJifHJlYWQtd3JpdGU="
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
+  },
+  "workspaceLayout": {
+    "appsDir": "src/frameworks-and-drivers/lambda",
+    "libsDir": "src/"
   },
   "targetDefaults": {
     "build": {

@@ -15,15 +15,39 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@back-end/user-management/domain": [
-        "libs/user-management/domain/src/index.ts"
+      "@back-end/application/configurations": [
+        "src/application/configurations/src/index.ts"
       ],
-      "@back-end/user-management/frameworks/mongoose": [
-        "libs/user-management/frameworks/mongoose/src/index.ts"
+      "@back-end/application/interactors/user": [
+        "src/application/interactors/user/src/index.ts"
       ],
-      "@back-end/user-management/interface-adapters/controllers": [
-        "libs/user-management/interface-adapters/controllers/src/index.ts"
-      ]
+      "@back-end/application/repositories/user": [
+        "src/application/repositories/user/src/index.ts"
+      ],
+      "@back-end/application/usecases/user": [
+        "src/application/usecases/user/src/index.ts"
+      ],
+      "@back-end/application/utilities": [
+        "src/application/utilities/src/index.ts"
+      ],
+      "@back-end/domain/dtos/user": ["src/domain/dtos/user/src/index.ts"],
+      "@back-end/domain/entities/user": [
+        "src/domain/entities/user/src/index.ts"
+      ],
+      "@back-end/domain/shared": ["src/domain/shared/src/index.ts"],
+      "@back-end/frameworks-and-drivers/configuration": [
+        "src/frameworks-and-drivers/configuration/src/index.ts"
+      ],
+      "@back-end/frameworks-and-drivers/mongodb/user": [
+        "src/frameworks-and-drivers/mongodb/user/src/index.ts"
+      ],
+      "@back-end/frameworks-and-drivers/rest-api": [
+        "src/frameworks-and-drivers/rest-api/src/index.ts"
+      ],
+      "@back-end/interface-adapters/controllers/user": [
+        "src/interface-adapters/controllers/user/src/index.ts"
+      ],
+      "@back-end/shared": ["src/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
