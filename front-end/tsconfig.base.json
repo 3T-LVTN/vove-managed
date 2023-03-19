@@ -14,7 +14,29 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@front-end/application/interactors/user": [
+        "src/application/interactors/user/src/index.ts"
+      ],
+      "@front-end/application/repositories/user": [
+        "src/application/repositories/user/src/index.ts"
+      ],
+      "@front-end/application/usecases/user": [
+        "src/application/usecases/user/src/index.ts"
+      ],
+      "@front-end/domain/entities/user": [
+        "src/domain/entities/user/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/dashboard": [
+        "src/interface-adapters/controllers/dashboard/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/user": [
+        "src/interface-adapters/controllers/user/src/index.ts"
+      ],
+      "@front-end/interface-adapters/view-models/user": [
+        "src/interface-adapters/view-models/user/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
