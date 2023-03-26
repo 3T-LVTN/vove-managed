@@ -27,6 +27,12 @@
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
       ],
+      "@front-end/frameworks-and-drivers/firebase-auth": [
+        "src/frameworks-and-drivers/firebase-auth/src/index.ts"
+      ],
+      "@front-end/frameworks-and-drivers/mantine": [
+        "src/frameworks-and-drivers/mantine/src/index.ts"
+      ],
       "@front-end/interface-adapters/controllers/dashboard": [
         "src/interface-adapters/controllers/dashboard/src/index.ts"
       ],

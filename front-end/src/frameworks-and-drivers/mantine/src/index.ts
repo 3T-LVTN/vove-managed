@@ -12,3 +12,4 @@ export { default as Text } from "./lib/Text/text";
 export { default as AppShell } from "./lib/AppShell/app-shell";
 export { default as Navbar } from "./lib/AppShell/Navbar/nav-bar";
 export { default as Header } from "./lib/AppShell/Header/header";
+export { default as Footer } from './lib/AppShell/Footer/footer'
