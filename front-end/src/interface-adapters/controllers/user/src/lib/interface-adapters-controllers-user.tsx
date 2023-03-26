@@ -1,16 +1,19 @@
-import styles from './interface-adapters-controllers-user.module.css';
+import {UserUseCase} from "@front-end/application/usecases/user";
+import {UserViewModels} from "@front-end/interface-adapters/view-models/user";
 
-/* eslint-disable-next-line */
-export interface InterfaceAdaptersControllersUserProps {}
+export class UserController {
+  constructor(private readonly authUseCase: UserUseCase) {}
+  auth(): Promise<void> {
+    return this.authUseCase.auth();
+  }
 
-export function InterfaceAdaptersControllersUser(
-  props: InterfaceAdaptersControllersUserProps
-) {
-  return (
-    <div className={styles['container']}>
-      <h1>Welcome to InterfaceAdaptersControllersUser!</h1>
-    </div>
-  );
+  getUser(): Promise<UserViewModels> {
+    return this.authUseCase.getUserInfo().then((user) => ({
+      email: user.email,
+    }));
+  }
+
+  signOut(): Promise<void> {
+    return this.authUseCase.signOut();
+  }
 }
-
-export default InterfaceAdaptersControllersUser;
