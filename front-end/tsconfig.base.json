@@ -18,8 +18,8 @@
       "@front-end/application/interactors/user": [
         "src/application/interactors/user/src/index.ts"
       ],
-      "@front-end/application/repositories/user": [
-        "src/application/repositories/user/src/index.ts"
+      "@front-end/application/repositories/user-auth": [
+        "src/application/repositories/user-auth/src/index.ts"
       ],
       "@front-end/application/usecases/user": [
         "src/application/usecases/user/src/index.ts"
