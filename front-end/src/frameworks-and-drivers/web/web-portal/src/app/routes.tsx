@@ -1,4 +1,3 @@
-import {ui} from "@front-end/frameworks-and-drivers/firebase-auth";
 import { RouteObject } from 'react-router-dom';
 import { Dashboard } from '../views/dashboard/dashboard';
 import Login from "../views/login/login";
@@ -12,7 +11,7 @@ export const routes = [
     children: [
       {
         path: '',
-        element: <Login ui={ui}/>,
+        element: <Login/>,
       },
     ],
   },

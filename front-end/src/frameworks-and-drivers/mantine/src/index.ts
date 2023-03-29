@@ -9,7 +9,15 @@ export { default as Anchor } from "./lib/Anchor/anchor";
 export { default as Modal } from "./lib/Modal/modal";
 export { default as Group } from "./lib/Group/group";
 export { default as Text } from "./lib/Text/text";
+export { default as Image } from "./lib/Image/image";
+export { default as PasswordInput } from "./lib/PasswordInput/password-input";
+export { default as Center } from "./lib/Center/center";
+export { default as Checkbox } from "./lib/Checkbox/checkbox";
+export { default as Stack } from "./lib/Stack/stack";
+export { default as Title } from "./lib/Title/title";
+export { default as Paper } from "./lib/Paper/paper";
+export { default as MantineProvider } from "./lib/MantineProvider/mantine-provider";
 export { default as AppShell } from "./lib/AppShell/app-shell";
 export { default as Navbar } from "./lib/AppShell/Navbar/nav-bar";
 export { default as Header } from "./lib/AppShell/Header/header";
-export { default as Footer } from './lib/AppShell/Footer/footer'
+export { default as Footer } from "./lib/AppShell/Footer/footer";
