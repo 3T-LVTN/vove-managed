@@ -1,4 +1,4 @@
-import {Anchor, AppShell, Footer, Header} from "@front-end/frameworks-and-drivers/mantine";
+import {AppShell, Footer, Header, Anchor} from "@front-end/shared/ui";
 import {useMantineTheme} from "@mantine/core";
 import {Outlet} from 'react-router-dom';
 

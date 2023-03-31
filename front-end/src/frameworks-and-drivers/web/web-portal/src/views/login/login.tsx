@@ -10,7 +10,7 @@ import {
   TextInput,
   Title,
   Text
-} from "@front-end/frameworks-and-drivers/mantine";
+} from "@front-end/shared/ui";
 import {useForm} from "@mantine/form";
 import SigninImage from "../../assets/Login.png"
 import "firebaseui/dist/firebaseui.css";
@@ -41,7 +41,7 @@ export const Login = () => {
               form.onSubmit(() =>
                 signinEmailPassword(form.values.email, form.values.password)
               )}>
-              <Stack spacing="lg">
+              <Stack spacing="lg" align="stretch" justify="space-around">
                 <Title order={2} align="center">Log In</Title>
 
                 <TextInput
@@ -57,7 +57,7 @@ export const Login = () => {
                   {...form.getInputProps('password')}
                 />
 
-                <Button type="submit" maw="200px">
+                <Button type="submit">
                   Log In
                 </Button>
 

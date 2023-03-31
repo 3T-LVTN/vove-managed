@@ -41,7 +41,8 @@
       ],
       "@front-end/interface-adapters/view-models/user": [
         "src/interface-adapters/view-models/user/src/index.ts"
-      ]
+      ],
+      "@front-end/shared/ui": ["src/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
