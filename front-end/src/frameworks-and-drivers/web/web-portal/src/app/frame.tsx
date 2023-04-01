@@ -33,13 +33,14 @@ export const Frame = () => {
         });
 
         setCurrentUser(user);
+        navigate("");
 
       } else {
         if (isAuthRoutes()) return;
         navigate("/login");
       }
     });
-  }, [currentUser, navigate]);
+  }, [currentUser]);
 
   const theme = useMantineTheme();
   return (
