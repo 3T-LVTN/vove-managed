@@ -2,16 +2,20 @@ import { RouteObject } from 'react-router-dom';
 import { Dashboard } from '../views/dashboard/dashboard';
 import Login from "../views/login/login";
 import { Frame } from './frame';
-import NxWelcome from "./nx-welcome";
+import ResetPassword from "../views/reset-password/reset-password";
 
 export const routes = [
   {
-    path: '/',
+    path: '',
     element: <Frame/>,
     children: [
       {
-        path: '',
+        path: 'login',
         element: <Login/>,
+      },
+      {
+        path: 'reset-password',
+        element: <ResetPassword/>,
       },
     ],
   },

@@ -61,7 +61,7 @@ export const Login = () => {
                   Log In
                 </Button>
 
-                <Text>Forgot password? <Anchor td="underline">Change password</Anchor></Text>
+                <Text>Forgot password? <Anchor href="reset-password" td="underline">Change password</Anchor></Text>
               </Stack>
             </form>
           </Grid.Col>

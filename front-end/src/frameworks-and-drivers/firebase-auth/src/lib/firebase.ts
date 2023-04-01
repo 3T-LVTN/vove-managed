@@ -1,6 +1,10 @@
 import {initializeApp} from "firebase/app";
 import * as firebaseAuth from "firebase/auth";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {signInWithEmailAndPassword, sendPasswordResetEmail,} from "firebase/auth";
+
+const actionCodeSettings = {
+  url: 'http://localhost:4200/'
+}
 
 const app = initializeApp({
   apiKey: process.env["NX_FIREBASE_API_KEY"],
@@ -17,7 +21,17 @@ export const signinEmailPassword = async (email: string, password: string) => {
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+}
+
+export const resetPassword = async (email: string) => {
+  return await sendPasswordResetEmail(auth, email, actionCodeSettings)
+    .then(() => {
+      // Password reset email sent!
     })
     .catch((error) => {
       const errorCode = error.code;
