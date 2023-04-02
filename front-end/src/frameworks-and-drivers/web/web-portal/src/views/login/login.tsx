@@ -56,7 +56,7 @@ export const Login = () => {
                   .then(showWrongInfoNotification)
               )}>
               <Stack spacing="lg" align="stretch" justify="space-around">
-                <Title order={2} align="center">Log In</Title>
+                <Title order={2} align="center">Log Innn</Title>
 
                 <TextInput
                   placeholder="Email"
