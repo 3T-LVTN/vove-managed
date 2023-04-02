@@ -1,8 +1,9 @@
+import {MantineProvider} from "@front-end/shared/ui";
 import {StrictMode} from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import App from './app/app';
-import {MantineProvider} from "@front-end/frameworks-and-drivers/mantine";
+import {Notifications} from "@mantine/notifications";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,6 +22,7 @@ root.render(
         primaryColor: "cyan",
       }}
     >
+      <Notifications />
       <App/>
     </MantineProvider>
   </StrictMode>

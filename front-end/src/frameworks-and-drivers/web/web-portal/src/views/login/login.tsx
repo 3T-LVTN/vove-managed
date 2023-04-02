@@ -10,11 +10,13 @@ import {
   TextInput,
   Title,
   Text
-} from "@front-end/frameworks-and-drivers/mantine";
+} from "@front-end/shared/ui";
 import {useForm} from "@mantine/form";
 import SigninImage from "../../assets/Login.png"
 import "firebaseui/dist/firebaseui.css";
-import {signinEmailPassword} from "@front-end/frameworks-and-drivers/firebase-auth";
+import {auth, signinEmailPassword} from "@front-end/frameworks-and-drivers/firebase-auth";
+import {validateEmail, validatePassword} from "@front-end/shared/utils";
+import {notifications} from "@mantine/notifications";
 
 export const Login = () => {
   const form = useForm({
@@ -24,14 +26,25 @@ export const Login = () => {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value) => validateEmail(value),
+      password: (value) => validatePassword(value)
     },
   });
+
+  const showWrongInfoNotification = () => {
+    if (auth.currentUser) return null;
+    return notifications.show({
+      autoClose: 5000,
+      title: "Wrong Email or Password",
+      message: 'Please try again',
+      color: 'red',
+    });
+  }
 
   return (
     <Container size="md" my="5%">
       <Paper shadow="xs" p="md" radius="xl">
-        <Grid gutter={50}>
+        <Grid gutter={50} align="center">
           <Grid.Col sm={6} xs={12} p="xs">
             <Image mx="auto" src={SigninImage} alt="Signin image"/>
           </Grid.Col>
@@ -40,8 +53,9 @@ export const Login = () => {
             <form onSubmit={
               form.onSubmit(() =>
                 signinEmailPassword(form.values.email, form.values.password)
+                  .then(showWrongInfoNotification)
               )}>
-              <Stack spacing="lg">
+              <Stack spacing="lg" align="stretch" justify="space-around">
                 <Title order={2} align="center">Log In</Title>
 
                 <TextInput
@@ -57,11 +71,11 @@ export const Login = () => {
                   {...form.getInputProps('password')}
                 />
 
-                <Button type="submit" maw="200px">
+                <Button type="submit">
                   Log In
                 </Button>
 
-                <Text>Forgot password? <Anchor td="underline">Change password</Anchor></Text>
+                <Text>Forgot password? <Anchor href="reset-password" td="underline">Change password</Anchor></Text>
               </Stack>
             </form>
           </Grid.Col>

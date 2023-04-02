@@ -1,7 +1,7 @@
 {
   "name": "web-portal",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "src/frameworks-and-drivers/web//web-portal/src",
+  "sourceRoot": "src/frameworks-and-drivers/web/web-portal/src",
   "projectType": "application",
   "targets": {
     "build": {
