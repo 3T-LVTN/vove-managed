@@ -35,3 +35,5 @@ export const Dashboard = () => {
     <div> Wellcome to vove managed </div>
   );
 }
+
+export default Dashboard;
