@@ -1,10 +1,9 @@
-import { render } from '@testing-library/react';
+import {DashboardControllers} from "@front-end/interface-adapters/controllers/dashboard";
 
-import InterfaceAdaptersControllersDashboard from './interface-adapters-controllers-dashboard';
-
-describe('InterfaceAdaptersControllersDashboard', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(<InterfaceAdaptersControllersDashboard />);
-    expect(baseElement).toBeTruthy();
+describe('interfaceAdaptersControllersDashboard', () => {
+  it('should work', () => {
+    expect(DashboardControllers()).toEqual(
+      'interface-adapters-controllers-dashboard'
+    );
   });
 });

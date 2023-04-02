@@ -18,14 +18,20 @@
       "@front-end/application/interactors/user": [
         "src/application/interactors/user/src/index.ts"
       ],
-      "@front-end/application/repositories/user": [
-        "src/application/repositories/user/src/index.ts"
+      "@front-end/application/repositories/user-auth": [
+        "src/application/repositories/user-auth/src/index.ts"
       ],
       "@front-end/application/usecases/user": [
         "src/application/usecases/user/src/index.ts"
       ],
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
+      ],
+      "@front-end/frameworks-and-drivers/firebase-auth": [
+        "src/frameworks-and-drivers/firebase-auth/src/index.ts"
+      ],
+      "@front-end/frameworks-and-drivers/mantine": [
+        "src/frameworks-and-drivers/mantine/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/dashboard": [
         "src/interface-adapters/controllers/dashboard/src/index.ts"
@@ -35,7 +41,9 @@
       ],
       "@front-end/interface-adapters/view-models/user": [
         "src/interface-adapters/view-models/user/src/index.ts"
-      ]
+      ],
+      "@front-end/shared/ui": ["src/shared/ui/src/index.ts"],
+      "@front-end/shared/utils": ["src/shared/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
