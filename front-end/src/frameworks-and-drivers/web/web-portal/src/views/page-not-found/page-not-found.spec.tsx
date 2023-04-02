@@ -1,18 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
-import Dashboard from './dashboard';
+import PageNotFound from './page-not-found';
 
 describe('Dashboard', () => {
   it('should render successfully', async () => {
     await act(async () => {
-      const { baseElement } = render(<Dashboard />);
+      const { baseElement } = render(<PageNotFound />);
       expect(baseElement).toBeTruthy();
     });
-    //
-    // const email = screen.getByTestId('email');
-    // expect(email.innerHTML).toContain('user email');
   });
-
-  it.todo('should be able mock date');
 });
