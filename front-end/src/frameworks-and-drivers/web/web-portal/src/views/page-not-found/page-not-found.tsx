@@ -22,3 +22,5 @@ export const PageNotFound = () => {
 }
 
 export default PageNotFound;
+
+
