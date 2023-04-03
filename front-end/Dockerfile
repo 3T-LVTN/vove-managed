@@ -8,4 +8,5 @@ RUN npx nx run web-portal:build:production
 FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /app/dist/src/frameworks-and-drivers/web/web-portal .
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
