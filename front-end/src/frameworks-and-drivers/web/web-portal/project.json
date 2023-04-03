@@ -34,8 +34,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "src/frameworks-and-drivers/web/web-portal/src/environments/environment.ts",
-              "with": "src/frameworks-and-drivers/web/web-portal/src/environments/environment.prod.ts"
+              "replace": "environments/environment.ts",
+              "with": "environments/environment.prod.ts"
             }
           ],
           "optimization": true,
