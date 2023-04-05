@@ -12,7 +12,6 @@ import {
   Text
 } from "@front-end/shared/ui";
 import {useForm} from "@mantine/form";
-import SigninImage from "../../assets/Login.png"
 import "firebaseui/dist/firebaseui.css";
 import {auth, signinEmailPassword} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {validateEmail, validatePassword} from "@front-end/shared/utils";
@@ -46,7 +45,7 @@ export const Login = () => {
       <Paper shadow="xs" p="md" radius="xl">
         <Grid gutter={50} align="center">
           <Grid.Col sm={6} xs={12} p="xs">
-            <Image mx="auto" src={SigninImage} alt="Signin image"/>
+            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"} alt="Signin image"/>
           </Grid.Col>
 
           <Grid.Col sm={6} xs={12} p="50px">
