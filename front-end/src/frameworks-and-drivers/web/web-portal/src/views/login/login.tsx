@@ -38,6 +38,7 @@ export const Login = () => {
   });
 
   const showWrongInfoNotification = () => {
+    console.error("Wrong email or password");
     notifications.show({
       title: "Wrong Email or Password",
       message: 'Please try again',
@@ -45,28 +46,20 @@ export const Login = () => {
     });
   }
 
-  const checkWrongInfo = () => {
-    userController.getUser()
-      .then((user) => {
-        if (!user) showWrongInfoNotification();
-        notifications.clean();
-        navigate('');
-      })
-  }
-
   return (
     <Container size="md" my="5%">
       <Paper shadow="xs" p="md" radius="xl">
         <Grid gutter={50} align="center">
           <Grid.Col sm={6} xs={12} p="xs">
-            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"} alt="Signin image"/>
+            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"}
+                   alt="Signin image"/>
           </Grid.Col>
 
           <Grid.Col sm={6} xs={12} p="50px">
             <form onSubmit={
               form.onSubmit(() =>
                 userController.signIn(form.values.email, form.values.password)
-                  .then(()=>checkWrongInfo())
+                  .catch(() => showWrongInfoNotification())
               )}>
               <Stack spacing="lg" align="stretch" justify="space-around">
                 <Title order={2} align="center">Log In</Title>

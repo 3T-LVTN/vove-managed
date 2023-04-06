@@ -12,7 +12,9 @@ export class UserInteractor implements UserUseCase {
       await Promise.all([
         new Promise((resolve) => setTimeout(resolve, 10000)),
         this.userAuth.signInWithEmailPassword(email, password),
-      ]);
+      ]).catch((error) => {
+        throw new Error(error)
+      });
     }
   }
 
@@ -22,7 +24,9 @@ export class UserInteractor implements UserUseCase {
       await Promise.all([
         new Promise((resolve) => setTimeout(resolve, 10000)),
         this.userAuth.resetPassword(email, homeUrl),
-      ]);
+      ]).catch((error) => {
+        throw new Error(error)
+      });
     }
   }
 
@@ -31,14 +35,10 @@ export class UserInteractor implements UserUseCase {
   }
 
   async getUserInfo(): Promise<User> {
-    const currentSession = await this.userAuth.currentSession();
-    let userInfo: User = {
-      email: "",
-      name: "",
-      photoUrl: "",
-    };
     return this.userAuth.currentAuthenticatedUser()
-      .then((user)=> userInfo=user)
-      .catch((error) => {throw new Error(error)});
+      .then((user) => user)
+      .catch((error) => {
+        throw new Error(error)
+      });
   }
 }

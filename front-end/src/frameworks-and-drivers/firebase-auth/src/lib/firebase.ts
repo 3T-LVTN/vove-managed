@@ -18,25 +18,13 @@ const app = initializeApp(firebaseConfig);
 const auth: Auth = getAuth(app);
 
 export class AuthFirebase implements UserAuthRepository {
-  async forceAuth(): Promise<void> {
-    const user = auth.currentUser;
-    if (user) {
-      console.info("User is signed in");
-    } else {
-      console.info("User is not signed in");
-    }
-  }
-
   async signInWithEmailPassword(email: string, password: string): Promise<void> {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        //TODO: REMOVE THIS LOG AFTER TESTING
-        console.info(userCredential.user);
+        console.info("Login success");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+        throw new Error(error.message);
       });
   }
 
@@ -72,9 +60,7 @@ export class AuthFirebase implements UserAuthRepository {
         console.info("Reset password email sent");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+        throw new Error(error.message);
       });
   }
 }

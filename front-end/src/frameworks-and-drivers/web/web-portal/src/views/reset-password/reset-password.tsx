@@ -29,13 +29,23 @@ export const ResetPassword = () => {
     },
   });
 
-  const showResetPasswordEmailNotification = () =>
+  const showSuccessResetPasswordEmailNotification = () => {
+    console.info("Reset password email has been sent");
     notifications.show({
-      autoClose: 10000,
       title: "Reset password email has been sent",
       message: 'Please check your mailbox to reset password',
       color: 'blue',
-    });
+    })
+  };
+
+  const showErrorResetPasswordEmailNotification = () => {
+    console.error("Cannot send reset password email");
+    notifications.show({
+      title: "Cannot send reset password email",
+      message: 'Please check your email again',
+      color: 'red',
+    })
+  };
 
   return (
     <Container size="xs" my="5%">
@@ -43,7 +53,8 @@ export const ResetPassword = () => {
         <form onSubmit={
           form.onSubmit(() => {
               userController.resetPassword(form.values.email, environment.homeUrl)
-                .then(()=>showResetPasswordEmailNotification());
+                .then(() => showSuccessResetPasswordEmailNotification())
+                .catch(() => showErrorResetPasswordEmailNotification());
             }
           )}>
           <Stack spacing="lg" align="stretch" justify="space-around">
