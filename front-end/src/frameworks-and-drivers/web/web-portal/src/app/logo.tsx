@@ -1,4 +1,4 @@
-import { Image } from "@front-end/shared/ui";
+import { Image } from "@mantine/core";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import {Anchor, Button, Container, Image, Space, Stack, Text} from "@front-end/shared/ui"
+import {Anchor, Button, Container, Image, Space, Stack, Text} from "@mantine/core"
 import { useNavigate } from "react-router-dom";
 export const PageNotFound = () => {
   const navigate = useNavigate();

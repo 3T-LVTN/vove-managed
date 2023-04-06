@@ -1,10 +1,13 @@
-import {AppShell, Footer, Header, Anchor, Container, Group, Button} from "@front-end/shared/ui";
+import {AppShell, Footer, Header, Anchor, Container, Group, Button} from "@mantine/core";
 import {createStyles, useMantineTheme} from "@mantine/core";
 import {Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from "react";
-import {onAuthStateChanged, User} from "firebase/auth";
-import {auth} from "@front-end/frameworks-and-drivers/firebase-auth";
+import {onAuthStateChanged, getAuth} from "firebase/auth";
+import {User} from "@front-end/domain/entities/user";
 import {Logo} from "./logo";
+import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
+import {UserInteractor} from "@front-end/application/interactors/user";
+import {UserController} from "@front-end/interface-adapters/controllers/user";
 
 const navigations = [
   {name: "Home", href: "#", current: true},
@@ -33,25 +36,28 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const Frame = () => {
+  const authRepository = new AuthFirebase();
+  const userUseCase = new UserInteractor(authRepository);
+  const userController = new UserController(userUseCase);
+
   const [currentUser, setCurrentUser] = useState<User>();
   const navigate = useNavigate();
   const location = useLocation();
-  const { classes } = useStyles();
+  const {classes} = useStyles();
+  const auth = getAuth();
 
   const isAuthRoutes = () => {
     return authRoutes.includes(location.pathname);
   }
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        user.getIdToken().then((token) => {
-          localStorage.setItem("token", token);
-        });
-
-        setCurrentUser(user);
+        setCurrentUser({
+          email: user.email,
+          name: user.displayName,
+          photoUrl: user.photoURL
+        } as User);
         navigate("");
-
       } else {
         if (isAuthRoutes()) return;
         navigate("/login");
@@ -81,10 +87,10 @@ export const Frame = () => {
       // }
       header={
         !isAuthRoutes() ?
-          <Header height={60} sx={{ borderBottom: 0 }} mb={120}>
+          <Header height={60} sx={{borderBottom: 0}} mb={120}>
             <Container className={classes.inner} fluid>
               <Group>
-                <Logo />
+                <Logo/>
               </Group>
               <Group spacing={5} className={classes.navigation}>
                 {navigations.map((item) => (
@@ -93,7 +99,7 @@ export const Frame = () => {
                   </Anchor>
                 ))}
               </Group>
-              <Button radius="xl" h={30}>
+              <Button radius="xl" h={30} onClick={() => userController.signOut()}>
                 Logout
               </Button>
             </Container>
