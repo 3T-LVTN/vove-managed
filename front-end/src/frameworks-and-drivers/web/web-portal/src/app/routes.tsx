@@ -8,7 +8,7 @@ import ResetPassword from "../views/reset-password/reset-password";
 export const routes = [
   {
     path: '',
-    element: <Frame/>,
+    element: <Frame />,
     children: [
       {
         path: 'login',
