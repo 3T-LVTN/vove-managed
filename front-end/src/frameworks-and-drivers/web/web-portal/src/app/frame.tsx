@@ -1,4 +1,4 @@
-import {AppShell, Footer, Header, Anchor, Container, Group, Button} from "@mantine/core";
+import {AppShell, Header, Container, Group, Menu, ActionIcon, Avatar} from "@mantine/core";
 import {createStyles, useMantineTheme} from "@mantine/core";
 import {Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from "react";
@@ -8,6 +8,8 @@ import {Logo} from "./logo";
 import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
+import { IconLogout } from "@tabler/icons-react";
+
 
 const navigations = [
   {name: "Home", href: "#", current: true},
@@ -41,9 +43,11 @@ export const Frame = () => {
   const userController = new UserController(userUseCase);
 
   const [currentUser, setCurrentUser] = useState<User>();
+  const userEmail = currentUser?.email ?? "";
   const navigate = useNavigate();
   const location = useLocation();
   const {classes} = useStyles();
+  window.scrollTo(0, 0);
   const auth = getAuth();
 
   const isAuthRoutes = () => {
@@ -76,15 +80,6 @@ export const Frame = () => {
               : theme.colors["gray"][0],
         },
       }}
-      // footer={
-      //   !isAuthRoutes() ?
-      //     <Footer height={60} p="md">
-      //       Application footer
-      //       {/*TODO: Change to appropriate footer*/}
-      //     </Footer>
-      //     :
-      //     <></>
-      // }
       header={
         !isAuthRoutes() ?
           <Header height={60} sx={{borderBottom: 0}} mb={120}>
@@ -92,16 +87,28 @@ export const Frame = () => {
               <Group>
                 <Logo/>
               </Group>
-              <Group spacing={5} className={classes.navigation}>
-                {navigations.map((item) => (
-                  <Anchor href={item.href} target="_self" key={item.name}>
-                    {item.name}
-                  </Anchor>
-                ))}
+              <Group>
+                <span>{userEmail}</span>
+                <Menu
+                  transitionProps={{ transition: "pop" }}
+                  position="bottom-end"
+                  withinPortal
+                >
+                  <Menu.Target>
+                    <ActionIcon>
+                      <Avatar radius="xl" />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      onClick={() => userController.signOut()}
+                      icon={<IconLogout size="1rem" stroke={1.5} />}
+                    >
+                      Logout
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Group>
-              <Button radius="xl" h={30} onClick={() => userController.signOut()}>
-                Logout
-              </Button>
             </Container>
           </Header>
           :
