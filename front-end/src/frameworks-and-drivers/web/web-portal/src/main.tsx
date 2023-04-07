@@ -1,4 +1,4 @@
-import {MantineProvider} from "@front-end/shared/ui";
+import {MantineProvider} from "@mantine/core";
 import {StrictMode} from 'react';
 import * as ReactDOM from 'react-dom/client';
 

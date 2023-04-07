@@ -10,20 +10,27 @@ import {
   TextInput,
   Title,
   Text
-} from "@front-end/shared/ui";
+} from "@mantine/core";
 import {useForm} from "@mantine/form";
-import "firebaseui/dist/firebaseui.css";
-import {auth, signinEmailPassword} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {validateEmail, validatePassword} from "@front-end/shared/utils";
 import {notifications} from "@mantine/notifications";
+import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
+import {UserInteractor} from "@front-end/application/interactors/user";
+import {UserController} from "@front-end/interface-adapters/controllers/user";
+import {useNavigate} from "react-router-dom";
 
 export const Login = () => {
+  const authRepository = new AuthFirebase();
+  const userUseCase = new UserInteractor(authRepository);
+  const userController = new UserController(userUseCase);
+
+  const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       email: '',
       password: ''
     },
-
     validate: {
       email: (value) => validateEmail(value),
       password: (value) => validatePassword(value)
@@ -31,9 +38,8 @@ export const Login = () => {
   });
 
   const showWrongInfoNotification = () => {
-    if (auth.currentUser) return null;
-    return notifications.show({
-      autoClose: 5000,
+    console.error("Wrong email or password");
+    notifications.show({
       title: "Wrong Email or Password",
       message: 'Please try again',
       color: 'red',
@@ -45,17 +51,18 @@ export const Login = () => {
       <Paper shadow="xs" p="md" radius="xl">
         <Grid gutter={50} align="center">
           <Grid.Col sm={6} xs={12} p="xs">
-            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"} alt="Signin image"/>
+            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"}
+                   alt="Signin image"/>
           </Grid.Col>
 
           <Grid.Col sm={6} xs={12} p="50px">
             <form onSubmit={
               form.onSubmit(() =>
-                signinEmailPassword(form.values.email, form.values.password)
-                  .then(showWrongInfoNotification)
+                userController.signIn(form.values.email, form.values.password)
+                  .catch(() => showWrongInfoNotification())
               )}>
               <Stack spacing="lg" align="stretch" justify="space-around">
-                <Title order={2} align="center">Log Innnn</Title>
+                <Title order={2} align="center">Log In</Title>
 
                 <TextInput
                   placeholder="Email"
