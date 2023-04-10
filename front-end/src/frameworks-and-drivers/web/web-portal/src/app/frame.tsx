@@ -58,7 +58,7 @@ export const Frame = () => {
           name: user.displayName,
           photoUrl: user.photoURL
         } as User);
-        navigate("");
+        if(isAuthRoutes())navigate("");
       } else {
         if (isAuthRoutes()) return;
         setCurrentUser(undefined);
