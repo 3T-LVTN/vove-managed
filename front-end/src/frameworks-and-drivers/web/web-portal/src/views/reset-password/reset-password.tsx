@@ -9,13 +9,14 @@ import {
 } from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {notifications} from "@mantine/notifications";
-import {environment} from "../../environments/environment";
 import {validateEmail} from "@front-end/shared/utils";
 import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
 
 export const ResetPassword = () => {
+  const homeUrl = process.env["NX_HOME_URL"] as string;
+
   const authRepository = new AuthFirebase();
   const userUseCase = new UserInteractor(authRepository);
   const userController = new UserController(userUseCase);
@@ -52,7 +53,7 @@ export const ResetPassword = () => {
       <Paper shadow="xs" p="xl" radius="xl">
         <form onSubmit={
           form.onSubmit(() => {
-              userController.resetPassword(form.values.email, environment.homeUrl)
+              userController.resetPassword(form.values.email, homeUrl)
                 .then(() => showSuccessResetPasswordEmailNotification())
                 .catch(() => showErrorResetPasswordEmailNotification());
             }
