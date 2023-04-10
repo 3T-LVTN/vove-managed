@@ -1,9 +1,9 @@
-import {UserAuthRepository} from "@front-end/application/repositories/user-auth";
+import {UserRepository} from "@front-end/application/repositories/user";
 import {UserUseCase} from "@front-end/application/usecases/user";
 import {User} from "@front-end/domain/entities/user";
 
 export class UserInteractor implements UserUseCase {
-  constructor(private readonly userAuth: UserAuthRepository) {
+  constructor(private readonly userAuth: UserRepository) {
   }
 
   async signIn(email: string, password: string): Promise<void> {
