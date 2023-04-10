@@ -9,7 +9,7 @@ import Userlist from "../views/users/userlist";
 export const routes = [
   {
     path: '',
-    element: <Frame/>,
+    element: <Frame />,
     children: [
       {
         path: 'login',
