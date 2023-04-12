@@ -3,7 +3,7 @@ import {
   MantineReactTable,
   MantineReactTableProps,
   MRT_Cell,
-  MRT_ColumnDef, MRT_ColumnFiltersState, MRT_PaginationProps,
+  MRT_ColumnDef, MRT_ColumnFiltersState,
   MRT_Row,
 } from 'mantine-react-table';
 import {
@@ -18,11 +18,14 @@ import {AppUserApi} from "@front-end/frameworks-and-drivers/app-sync/user";
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
+import {Query, UserFilter} from "@front-end/shared/utils";
 
 const AppUserList = () => {
   const appUserRepository: AppUserRepository = new AppUserApi();
   const appUserUseCase: AppUserUseCase = new AppUserInteractor(appUserRepository);
   const appUserController: AppUserController = new AppUserController(appUserUseCase);
+  const [detailFilter, setDetailFilter] = useState<UserFilter>(new UserFilter());
+
   const [totalRows, setTotalRows] = useState(0);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -30,15 +33,6 @@ const AppUserList = () => {
   });
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
-  const [detailFilter, setDetailFilter] = useState<AppUserViewModel>(
-    {
-      id: "",
-      email: "",
-      name: "",
-      phoneNumber: "",
-      address: "",
-      photoUrl: ""
-  });
 
   const [tableData, setTableData] = useState<AppUserViewModel[]>([]);
   const [validationErrors, setValidationErrors] = useState<{
@@ -46,8 +40,15 @@ const AppUserList = () => {
   }>({});
 
   const fetchData = async () => {
-    const userList = await appUserController.getUserList(pagination.pageIndex + 1, globalFilter, detailFilter)
-      .then((users) => users)
+    const query: Query = {
+      search: globalFilter,
+      filter: detailFilter,
+      page: pagination.pageIndex + 1,
+    }
+    const userList = await appUserController.getUserList(query)
+      .then((users) => {
+        return users;
+      })
       .catch((error) => {
         return {
           users: [],
@@ -185,11 +186,13 @@ const AppUserList = () => {
       <MantineReactTable
         columns={columns}
         data={tableData}
+
         editingMode="modal" //default
         enableSorting={false}
         enableFilterMatchHighlighting={false}
-        enableTableHead={true}
         enableEditing
+        enableFullScreenToggle={false}
+
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
 

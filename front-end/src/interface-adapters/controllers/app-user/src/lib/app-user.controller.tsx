@@ -1,13 +1,13 @@
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserListViewModel, AppUserViewModel} from "@front-end/interface-adapters/view-models/app-user";
 import {AppUser} from "@front-end/domain/entities/app-user";
+import {Query} from "@front-end/shared/utils";
 
 export class AppUserController {
   constructor(private readonly appUserUseCase: AppUserUseCase) {}
 
-  async getUserList(page: number, search: string, filterModel: AppUserViewModel): Promise<AppUserListViewModel> {
-    const filter: AppUser = filterModel as AppUser;
-    return this.appUserUseCase.getUserList(page, search, filter)
+  async getUserList(query: Query): Promise<AppUserListViewModel> {
+    return this.appUserUseCase.getUserList(query)
       .then((users) => users)
       .catch((error) => {
         throw new Error(error)
@@ -22,7 +22,7 @@ export class AppUserController {
       });
   }
 
-  async updateUser(user: AppUserViewModel): Promise<void> {
+  async updateUser(user: AppUserViewModel): Promise<number> {
     const userEntity: AppUser = {
       id: user.id,
       email: user.email,

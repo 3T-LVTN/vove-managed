@@ -1,13 +1,14 @@
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserRepository} from "@front-end/application/repositories/app-user";
 import {AppUser, AppUserList} from "@front-end/domain/entities/app-user";
+import {Query} from "@front-end/shared/utils";
 
 export class AppUserInteractor implements AppUserUseCase {
   constructor(private readonly appUserRepository: AppUserRepository) {
   }
 
-  async getUserList(page: number, search: string, filter: AppUser): Promise<AppUserList> {
-    return this.appUserRepository.getUserList(page, search, filter)
+  async getUserList(query: Query): Promise<AppUserList> {
+    return this.appUserRepository.getUserList(query)
       .then((users) => users)
       .catch((error) => {
         throw new Error(error)
@@ -22,7 +23,7 @@ export class AppUserInteractor implements AppUserUseCase {
       });
   }
 
-  updateUser(user: AppUser): Promise<void> {
+  updateUser(user: AppUser): Promise<number> {
     return this.appUserRepository.updateUser(user);
   }
 
