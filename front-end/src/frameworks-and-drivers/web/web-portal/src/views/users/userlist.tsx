@@ -238,7 +238,7 @@ const AppUserList = () => {
   );
 };
 
-const validateRequired = (value: string) => !!value.length;
+const validateRequired = (value: string) => value.length > 0;
 const validateEmail = (email: string) =>
   !!email.length &&
   email
