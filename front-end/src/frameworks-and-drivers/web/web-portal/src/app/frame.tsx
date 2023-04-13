@@ -56,14 +56,16 @@ export const Frame = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        if (currentUser !== undefined) return;
         setCurrentUser({
           email: user.email,
           name: user.displayName,
           photoUrl: user.photoURL
         } as User);
-        navigate("");
+        if(isAuthRoutes())navigate("");
       } else {
         if (isAuthRoutes()) return;
+        setCurrentUser(undefined);
         navigate("/login");
       }
     });

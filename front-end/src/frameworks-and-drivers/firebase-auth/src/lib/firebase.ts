@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app";
 import {getAuth, Auth} from "firebase/auth";
 import {signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
-import {UserAuthRepository} from "@front-end/application/repositories/user-auth";
+import {UserRepository} from "@front-end/application/repositories/user";
 import {User} from "@front-end/domain/entities/user";
 
 const firebaseConfig = {
@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 
 const auth: Auth = getAuth(app);
 
-export class AuthFirebase implements UserAuthRepository {
+export class AuthFirebase implements UserRepository {
   async signInWithEmailPassword(email: string, password: string): Promise<void> {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {

@@ -1,6 +1,6 @@
 import {User} from "@front-end/domain/entities/user";
 
-export interface UserAuthRepository {
+export interface UserRepository {
   signInWithEmailPassword(email: string, password: string): Promise<void>;
   currentAuthenticatedUser(): Promise<User>;
   signOut(): Promise<void>;
