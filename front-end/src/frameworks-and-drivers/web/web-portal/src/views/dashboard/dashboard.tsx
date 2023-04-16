@@ -1,38 +1,22 @@
-// import {UserInteractor} from "@front-end/application/interactors/user";
-// import {DashboardControllers} from "@front-end/interface-adapters/controllers/dashboard";
-// import {UserController} from "@front-end/interface-adapters/controllers/user";
-// import {UserViewModels} from "@front-end/interface-adapters/view-models/user";
-// import {useEffect, useState} from "react";
-// import styles from './dashboard.module.css';
-//
-// /* eslint-disable-next-line */
-//
-// export function Dashboard(props: DashboardProps) {
-//   // const authRepository = new AuthCognito();
-//   // const userUseCase = new UserInteractor(authRepository);
-//   // const userController = new UserController(userUseCase);
-//
-//   const [error, setError] = useState(false);
-//
-//
-//   const [user, setUser] = useState<UserViewModels>();
-//   // useEffect(() => {
-//   //   userController.getUser().then(setUser).catch(setError);
-//   // }, []);
-//
-//   return (
-//     <div className={styles['container']}>
-//       <h1 data-testid="email">user email: {user && user.email}</h1>
-//       <h1>{error && `${error}`}</h1>
-//     </div>
-//   );
-// }
-//
-// export default Dashboard;
+import {Grid, Skeleton, Container} from '@mantine/core';
+import {PageTitle} from "../../components/page-title/page-title";
+import {useState} from "react";
+
+const child = <Skeleton height={350} radius="md" animate={true} />;
 
 export const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
   return (
-    <div> Wellcome to vove managed </div>
+  <Container size="xl" fluid={true}>
+    <PageTitle title="Dash Board" />
+    <Grid>
+        <Grid.Col md={6} lg={8}>{child}</Grid.Col>
+        <Grid.Col md={6} lg={4}>{child}</Grid.Col>
+        <Grid.Col md={6} lg={4}>{child}</Grid.Col>
+        <Grid.Col md={6} lg={4}>{child}</Grid.Col>
+        <Grid.Col md={6} lg={4}>{child}</Grid.Col>
+      </Grid>
+    </Container>
   );
 }
 

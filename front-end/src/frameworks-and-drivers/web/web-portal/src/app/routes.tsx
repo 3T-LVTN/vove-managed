@@ -12,6 +12,10 @@ export const routes = [
     element: <Frame />,
     children: [
       {
+        path: '',
+        element: <Dashboard/>
+      },
+      {
         path: 'login',
         element: <Login/>,
       },
