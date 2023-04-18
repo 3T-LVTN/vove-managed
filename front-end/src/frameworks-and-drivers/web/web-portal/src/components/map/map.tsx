@@ -11,18 +11,14 @@ export const Map = () => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
+    libraries: ["visualization"],
   });
 
   const centerPoint = { lat: 10.7644912, lng: 106.702996 };
 
-
   const [map, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map: any) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(centerPoint);
-    map.fitBounds(bounds);
-
     setMap(map);
   }, []);
 
