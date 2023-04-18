@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'user-function',
+  displayName: 'vove-managed-api',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory:
-    '../../../../coverage/src/frameworks-and-drivers/lambda/user-function',
+    '../../../../coverage/src/frameworks-and-drivers/vove-managed/vove-managed-api',
 };

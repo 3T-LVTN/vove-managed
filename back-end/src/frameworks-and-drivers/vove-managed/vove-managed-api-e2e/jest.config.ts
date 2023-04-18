@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'user-function-e2e',
+  displayName: 'vove-managed-api-e2e',
   preset: '../../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/user-function-e2e',
+  coverageDirectory: '../../../../coverage/vove-managed-api-e2e',
 };

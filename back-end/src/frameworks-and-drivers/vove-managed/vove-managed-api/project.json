@@ -1,7 +1,7 @@
 {
-  "name": "user-function",
+  "name": "vove-managed-api",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "src/frameworks-and-drivers/lambda/user-function/src",
+  "sourceRoot": "src/frameworks-and-drivers/vove-managed/vove-managed-api/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,14 +10,14 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/src/frameworks-and-drivers/lambda/user-function",
-        "main": "src/frameworks-and-drivers/lambda/user-function/src/main.ts",
-        "tsConfig": "src/frameworks-and-drivers/lambda/user-function/tsconfig.app.json",
+        "outputPath": "dist/src/frameworks-and-drivers/vove-managed/vove-managed-api",
+        "main": "src/frameworks-and-drivers/vove-managed/vove-managed-api/src/main.ts",
+        "tsConfig": "src/frameworks-and-drivers/vove-managed/vove-managed-api/tsconfig.app.json",
         "assets": [
-          "src/frameworks-and-drivers/lambda/user-function/src/assets"
+          "src/frameworks-and-drivers/vove-managed/vove-managed-api/src/assets"
         ],
         "isolatedConfig": true,
-        "webpackConfig": "src/frameworks-and-drivers/lambda/user-function/webpack.config.js"
+        "webpackConfig": "src/frameworks-and-drivers/vove-managed/vove-managed-api/webpack.config.js"
       },
       "configurations": {
         "production": {
@@ -30,11 +30,11 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "user-function:build"
+        "buildTarget": "vove-managed-api:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "user-function:build:production"
+          "buildTarget": "vove-managed-api:build:production"
         }
       }
     },
@@ -43,7 +43,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "src/frameworks-and-drivers/lambda/user-function/**/*.ts"
+          "src/frameworks-and-drivers/vove-managed/vove-managed-api/**/*.ts"
         ]
       }
     },
@@ -51,7 +51,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "src/frameworks-and-drivers/lambda/user-function/jest.config.ts",
+        "jestConfig": "src/frameworks-and-drivers/vove-managed/vove-managed-api/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

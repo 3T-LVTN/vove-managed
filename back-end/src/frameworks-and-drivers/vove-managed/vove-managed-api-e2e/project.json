@@ -1,13 +1,13 @@
 {
-  "name": "user-function-e2e",
+  "name": "vove-managed-api-e2e",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["user-function"],
+  "implicitDependencies": ["vove-managed-api"],
   "targets": {
     "e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "src/frameworks-and-drivers/lambda/user-function-e2e/jest.config.ts",
+        "jestConfig": "src/frameworks-and-drivers/vove-managed/vove-managed-api-e2e/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -16,7 +16,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "src/frameworks-and-drivers/lambda/user-function-e2e/**/*.{js,ts}"
+          "src/frameworks-and-drivers/vove-managed/vove-managed-api-e2e/**/*.{js,ts}"
         ]
       }
     }
