@@ -1,5 +1,6 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {GoogleMap, HeatmapLayer, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+
 
 const containerStyle = {
   width: "100%",
@@ -8,11 +9,12 @@ const containerStyle = {
 
 
 export const Map = () => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
-    libraries: ["visualization"],
-  });
+  // TODO: fix the bug maps is undefine (loading prob)
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
+  //   libraries: ['visualization']
+  // });
 
   const centerPoint = { lat: 10.7644912, lng: 106.702996 };
 
@@ -26,16 +28,23 @@ export const Map = () => {
     setMap(null);
   }, []);
 
-  return isLoaded ? (
+  const heatmapData = [
+    {location: new google.maps.LatLng(10.764, 106.702), weight: 15},
+    {location: new google.maps.LatLng(10.764, 106.703), weight: 15},
+    {location: new google.maps.LatLng(10.764, 106.701), weight: 15},
+    {location: new google.maps.LatLng(10.764, 106.705), weight: 15},
+    {location: new google.maps.LatLng(10.764, 106.704), weight: 15},
+  ]
+
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={centerPoint}
-      zoom={12}
+      zoom={15}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
+      <HeatmapLayerF data={heatmapData}/>
     </GoogleMap>
-  ) : (
-    <></>
-  );
+  )
 };
