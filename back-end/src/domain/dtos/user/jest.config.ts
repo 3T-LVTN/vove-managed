@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'domain-shared',
-  preset: '../../../jest.preset.js',
+  displayName: 'domain-dtos-user',
+  preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/src/domain/shared',
+  coverageDirectory: '../../../../coverage/src/domain/entities/user',
 };

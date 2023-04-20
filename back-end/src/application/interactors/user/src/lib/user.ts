@@ -2,6 +2,9 @@ import {UserUseCase} from "@back-end/application/usecases/user";
 import {User} from "@back-end/domain/entities/user";
 import {Inject, Injectable} from "@nestjs/common";
 import {UserRepository} from "@back-end/application/repositories/user";
+import {UserQuery} from "@back-end/domain/shared/query";
+import {UserDTO} from "@back-end/domain/dtos/user";
+import {UsersMapper} from "@back-end/application/utilities";
 
 @Injectable()
 export class UserInteractors implements UserUseCase {
@@ -10,19 +13,22 @@ export class UserInteractors implements UserUseCase {
     private userRepository: UserRepository) {
   }
 
-  async getUserList(): Promise<User[]> {
-    return this.userRepository.getUserList();
+  async getUserList(query: UserQuery): Promise<User[]> {
+    return this.userRepository.getUserList(query);
   }
 
-  getUser(id: string): Promise<User> {
-    throw new Error("Method not implemented.");
+  getUser(id: number): Promise<User> {
+    return this.userRepository.getUser(id)
+      .catch((error) => {throw new Error(error)})
   }
 
-  updateUser(user: User): Promise<number> {
-    throw new Error("Method not implemented.");
+  updateUser(id: number, user: UserDTO): Promise<number> {
+    return this.userRepository.updateUser(id, UsersMapper.toDomain(user))
+      .catch((error) => {throw new Error(error)})
   }
 
-  deleteUser(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  deleteUser(id: number): Promise<void> {
+    return this.userRepository.deleteUser(id)
+      .catch((error) => {throw new Error(error)});
   }
 }

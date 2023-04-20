@@ -1,21 +1,21 @@
 {
-  "name": "domain-shared",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "src/domain/shared/src",
+  "name": "domain-dtos-user",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "src/domain/dtos/user/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["src/domain/shared/**/*.ts"]
+        "lintFilePatterns": ["src/domain/dtos/user/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "src/domain/shared/jest.config.ts",
+        "jestConfig": "src/domain/dtos/user/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
