@@ -6,3 +6,9 @@ export interface UserDTO {
   address?: string;
   photoUrl?: string;
 }
+
+export interface UserListDTO {
+  users: UserDTO[];
+  page: number;
+  total: number;
+}

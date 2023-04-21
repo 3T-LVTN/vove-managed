@@ -1,5 +1,5 @@
-import {User} from "@back-end/domain/entities/user";
-import {UserDTO} from "@back-end/domain/dtos/user";
+import {User, UserList} from "@back-end/domain/entities/user";
+import {UserDTO, UserListDTO} from "@back-end/domain/dtos/user";
 
 export class UsersMapper {
   static toDTO(user: User): UserDTO {
@@ -13,7 +13,7 @@ export class UsersMapper {
     };
   }
 
-  static toDomain(userDTO: UserDTO): User {
+  static toEntity(userDTO: UserDTO): User {
     return {
       _id: userDTO._id,
       email: userDTO.email,
@@ -21,6 +21,14 @@ export class UsersMapper {
       phoneNumber: userDTO.phoneNumber,
       address: userDTO.address,
       photoUrl: userDTO.photoUrl,
+    };
+  }
+
+  static toListDTO(users: UserList): UserListDTO {
+    return {
+      users: users.users.map((user) => this.toDTO(user)),
+      page: users.page,
+      total: users.total,
     };
   }
 }

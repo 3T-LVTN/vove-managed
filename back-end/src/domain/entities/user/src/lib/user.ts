@@ -6,3 +6,9 @@ export interface User {
   address?: string;
   photoUrl?: string;
 }
+
+export interface UserList {
+  users: User[];
+  page: number;
+  total: number;
+}

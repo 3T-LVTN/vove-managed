@@ -1,9 +1,8 @@
 import {UserUseCase} from "@back-end/application/usecases/user";
-import {User} from "@back-end/domain/entities/user";
 import {Inject, Injectable} from "@nestjs/common";
 import {UserRepository} from "@back-end/application/repositories/user";
 import {UserQuery} from "@back-end/domain/shared/query";
-import {UserDTO} from "@back-end/domain/dtos/user";
+import {UserDTO, UserListDTO} from "@back-end/domain/dtos/user";
 import {UsersMapper} from "@back-end/application/utilities";
 
 @Injectable()
@@ -13,22 +12,21 @@ export class UserInteractors implements UserUseCase {
     private userRepository: UserRepository) {
   }
 
-  async getUserList(query: UserQuery): Promise<User[]> {
-    return this.userRepository.getUserList(query);
+  async getUserList(query: UserQuery): Promise<UserListDTO> {
+    return this.userRepository.getUserList(query)
+      .then((users) => UsersMapper.toListDTO(users));
   }
 
-  getUser(id: number): Promise<User> {
+  getUser(id: number): Promise<UserDTO> {
     return this.userRepository.getUser(id)
-      .catch((error) => {throw new Error(error)})
+      .then((user) => Promise.resolve(UsersMapper.toDTO(user)));
   }
 
   updateUser(id: number, user: UserDTO): Promise<number> {
-    return this.userRepository.updateUser(id, UsersMapper.toDomain(user))
-      .catch((error) => {throw new Error(error)})
+    return this.userRepository.updateUser(id, UsersMapper.toEntity(user));
   }
 
   deleteUser(id: number): Promise<void> {
-    return this.userRepository.deleteUser(id)
-      .catch((error) => {throw new Error(error)});
+    return this.userRepository.deleteUser(id);
   }
 }

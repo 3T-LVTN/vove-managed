@@ -1,5 +1,5 @@
-import {Injectable} from "@nestjs/common";
-import {User} from "@back-end/domain/entities/user";
+import {Injectable, NotFoundException} from "@nestjs/common";
+import {User, UserList} from "@back-end/domain/entities/user";
 import {UserRepository} from "@back-end/application/repositories/user";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
@@ -11,11 +11,27 @@ export class UserMongoDBRepository implements UserRepository {
   constructor(@InjectModel("Users") private readonly userModel: Model<User>) {
   }
 
-  async getUserList(query: UserQuery): Promise<User[]> {
-    return this.userModel.find(
-      QueryHelper.getUserFilter(query),
+  async getUserList(query: UserQuery): Promise<UserList> {
+    const filter = QueryHelper.getUserFilter(query);
+    const options = QueryHelper.getOptions(query);
+    const count = await this.userModel.countDocuments(filter).exec()
+      .then((count) => {
+        if (count) {
+          return count;
+        } else {
+          throw NotFoundException;
+        }
+      })
+    const userList = await this.userModel.find(
+      filter,
       null,
-      QueryHelper.getOptions(query)).exec();
+      options
+    ).exec();
+    return {
+      users: userList,
+      page: query.page ? +query.page : 0,
+      total: count
+    }
   }
 
   getUser(id: number): Promise<User> {
@@ -24,8 +40,7 @@ export class UserMongoDBRepository implements UserRepository {
         if (user) {
           return user;
         } else {
-          //TODO: Add Exception
-          throw new Error("User not found");
+          throw NotFoundException;
         }
       });
   }
@@ -36,8 +51,7 @@ export class UserMongoDBRepository implements UserRepository {
         if (user) {
           return user._id;
         } else {
-          //TODO: Add Exception
-          throw new Error("User not found");
+          throw NotFoundException;
         }
       });
   }
@@ -46,8 +60,7 @@ export class UserMongoDBRepository implements UserRepository {
     return this.userModel.findByIdAndDelete(id).exec()
       .then((user) => {
         if (!user) {
-          //TODO: Add Exception
-          throw new Error("User not found");
+          throw NotFoundException;
         }
       });
   }
