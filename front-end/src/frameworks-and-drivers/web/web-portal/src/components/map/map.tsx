@@ -43,6 +43,7 @@ export const Map = () => {
       zoom={15}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      options={{streetViewControl: false}}
     >
       <HeatmapLayerF data={heatmapData}/>
     </GoogleMap>
