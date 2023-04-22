@@ -16,18 +16,17 @@ export class QueryHelper {
   }
 
   static getUserFilter(userQuery: UserQuery) {
-    const result: { [key: string]: RegExp | number } = {};
+    const search: { [key: string]: object } = {};
     if (userQuery.search) {
-      return {
-        $or: [
-          {_id: new RegExp(userQuery.search, "ig")},
-          {name: new RegExp(userQuery.search, "ig")},
-          {email: new RegExp(userQuery.search, "ig")},
-          {phoneNumber: new RegExp(userQuery.search, "ig")},
-          {address: new RegExp(userQuery.search, "ig")}
-        ]
-      }
+      search["$or"] = [
+        {_id: new RegExp(userQuery.search, "ig")},
+        {name: new RegExp(userQuery.search, "ig")},
+        {email: new RegExp(userQuery.search, "ig")},
+        {phoneNumber: new RegExp(userQuery.search, "ig")},
+        {address: new RegExp(userQuery.search, "ig")},
+      ]
     }
+    const result: { [key: string]: RegExp | number } = {};
     if (userQuery.id) {
       result._id = new RegExp(userQuery.id, "ig");
     }
@@ -43,6 +42,11 @@ export class QueryHelper {
     if (userQuery.address) {
       result.address = new RegExp(userQuery.address, "ig");
     }
-    return result;
+    return {
+      $and: [
+        search,
+        result
+      ]
+    };
   }
 }
