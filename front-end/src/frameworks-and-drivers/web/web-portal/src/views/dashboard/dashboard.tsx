@@ -1,4 +1,4 @@
-import {Grid, Container, Title, Paper, Modal} from '@mantine/core';
+import {Grid, Container, Title, Paper, Modal, Text} from '@mantine/core';
 import {Map} from "../../components/map/map";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useState} from "react";
@@ -51,7 +51,7 @@ export const Dashboard = () => {
     <Modal
       opened={searchHeatmapModalController.getSearchHeatmapModalViewModel().isModalOpened}
       onClose={() => searchHeatmapModalController.setIsModalOpened(false)}
-      title={"HCMC Mosquito Heatmap"}
+      title={<Text color="dark.4" fw={700}>HCMC Mosquito Heatmap</Text>}
       centered={true}
       size={"90%"}
       xOffset={0}

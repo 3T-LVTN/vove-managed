@@ -1,4 +1,4 @@
-import {Grid} from "@mantine/core";
+import {Divider, Grid, Space, Text, Title} from "@mantine/core";
 import React from "react";
 import {GoogleMap, HeatmapLayerF, Marker, useJsApiLoader} from "@react-google-maps/api";
 import SearchBox from "../search-box/search-box";
@@ -42,6 +42,13 @@ export function SearchHeatmapModal() {
     <Grid>
       <Grid.Col xs={4} style={{position: "relative"}}>
         <SearchBox setSelected={setSelected}></SearchBox>
+        <Space h="xl" />
+        <Title order={3} color="cyan">Name of the place</Title>
+        <Text color="dark.4">Last updated:</Text>
+        <Divider size="xs" color="dark.1" />
+        <Space h="xl" />
+        <Text color="dark.4">Mosquito Rate:</Text>
+        <Text color="dark.4">Dengue Rate:</Text>
       </Grid.Col>
       <Grid.Col xs={8} style={{height: "80vh"}}>
           <GoogleMap
