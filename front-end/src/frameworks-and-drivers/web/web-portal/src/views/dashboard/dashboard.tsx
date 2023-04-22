@@ -51,7 +51,7 @@ export const Dashboard = () => {
     <Modal
       opened={searchHeatmapModalController.getSearchHeatmapModalViewModel().isModalOpened}
       onClose={() => searchHeatmapModalController.setIsModalOpened(false)}
-      title={<Title order={4} color="dark.4">HCMC Mosquito Heatmap</Title>}
+      title={"HCMC Mosquito Heatmap"}
       centered={true}
       size={"90%"}
       xOffset={0}

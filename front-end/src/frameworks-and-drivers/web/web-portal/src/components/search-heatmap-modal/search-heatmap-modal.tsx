@@ -1,6 +1,7 @@
 import {Grid} from "@mantine/core";
 import React from "react";
-import {GoogleMap, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+import {GoogleMap, HeatmapLayerF, Marker, useJsApiLoader} from "@react-google-maps/api";
+import SearchBox from "../search-box/search-box";
 
 
 const containerStyle = {
@@ -19,11 +20,15 @@ const heatmapData = [
 ]
 
 export function SearchHeatmapModal() {
+
+  // TODO: fix the bug maps is undefine (loading prob)
   // const { isLoaded } = useJsApiLoader({
   //   id: "google-map-script",
   //   googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
   // });
+
   const [map, setMap] = React.useState(null);
+  const [selected, setSelected] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map: any) {
     setMap(map);
@@ -35,7 +40,8 @@ export function SearchHeatmapModal() {
 
   return (
     <Grid>
-      <Grid.Col xs={4}>
+      <Grid.Col xs={4} style={{position: "relative"}}>
+        <SearchBox setSelected={setSelected}></SearchBox>
       </Grid.Col>
       <Grid.Col xs={8} style={{height: "80vh"}}>
           <GoogleMap
@@ -47,6 +53,7 @@ export function SearchHeatmapModal() {
             options={{streetViewControl: false, fullscreenControl: false}}
           >
             <HeatmapLayerF data={heatmapData}/>
+            {selected && <Marker position={selected} />}
           </GoogleMap>
       </Grid.Col>
     </Grid>
