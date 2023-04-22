@@ -1,12 +1,17 @@
-import React from "react";
-import {GoogleMap, HeatmapLayer, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+import React, {ReactElement, useEffect} from "react";
+import { GoogleMap, HeatmapLayerF, useGoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {ActionIcon} from "@mantine/core";
+import { IconArrowsMaximize } from "@tabler/icons-react";
+import styles from './map.module.css'
+import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
+import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
+import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 
 
 const containerStyle = {
   width: "100%",
   height: "100%",
 };
-
 
 export const Map = () => {
   // TODO: fix the bug maps is undefine (loading prob)
@@ -17,6 +22,10 @@ export const Map = () => {
   // });
 
   const centerPoint = { lat: 10.7644912, lng: 106.702996 };
+
+  const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState()
+  const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
+  const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
   const [map, setMap] = React.useState(null);
 
@@ -37,15 +46,16 @@ export const Map = () => {
   ]
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={centerPoint}
-      zoom={15}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={{streetViewControl: false}}
-    >
-      <HeatmapLayerF data={heatmapData}/>
-    </GoogleMap>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={centerPoint}
+        zoom={15}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={{streetViewControl: false, fullscreenControl: false}}
+      >
+        <HeatmapLayerF data={heatmapData}/>
+        <div className={styles.buttonLayer}><ActionIcon size="lg" variant="light" onClick={() => searchHeatmapModalController.setIsModalOpened(true)}><IconArrowsMaximize size="2.125rem"/></ActionIcon></div>
+      </GoogleMap>
   )
 };
