@@ -3,7 +3,7 @@ import {UserQuery} from "@back-end/domain/shared/query";
 
 export interface UserRepository {
   getUserList(query: UserQuery): Promise<UserList>;
-  getUser(id: number): Promise<User>;
-  updateUser(id: number, user: User): Promise<number>;
-  deleteUser(id: number): Promise<void>;
+  getUser(id: string): Promise<User>;
+  updateUser(id: string, user: User): Promise<string>;
+  deleteUser(id: string): Promise<void>;
 }

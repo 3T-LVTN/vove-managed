@@ -34,7 +34,7 @@ export class UserMongoDBRepository implements UserRepository {
     }
   }
 
-  getUser(id: number): Promise<User> {
+  getUser(id: string): Promise<User> {
     return this.userModel.findById(id).exec()
       .then(user => {
         if (user) {
@@ -45,7 +45,7 @@ export class UserMongoDBRepository implements UserRepository {
       });
   }
 
-  updateUser(id: number, user: User): Promise<number> {
+  updateUser(id: string, user: User): Promise<string> {
     return this.userModel.findByIdAndUpdate(id, user).exec()
       .then((user) => {
         if (user) {
@@ -56,7 +56,7 @@ export class UserMongoDBRepository implements UserRepository {
       });
   }
 
-  deleteUser(id: number): Promise<void> {
+  deleteUser(id: string): Promise<void> {
     return this.userModel.findByIdAndDelete(id).exec()
       .then((user) => {
         if (!user) {

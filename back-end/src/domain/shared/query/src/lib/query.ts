@@ -6,13 +6,10 @@ export interface Query {
   limit?: number;
 }
 
-export interface UserFilter {
-  _id?: number;
+export interface UserQuery extends Query {
+  _id?: string;
   name?: string;
   email?: string;
   phoneNumber?: string;
   address?: string;
-}
-
-export interface UserQuery extends Query, UserFilter {
 }

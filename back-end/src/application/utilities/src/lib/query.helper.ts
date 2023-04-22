@@ -1,4 +1,4 @@
-import {Query, UserFilter} from "@back-end/domain/shared/query";
+import {Query, UserQuery} from "@back-end/domain/shared/query";
 
 export class QueryHelper {
   static getOptions(query: Query) {
@@ -10,22 +10,33 @@ export class QueryHelper {
     return result;
   }
 
-  static getUserFilter(userFilter: UserFilter) {
+  static getUserFilter(userQuery: UserQuery) {
     const result: { [key: string]: RegExp | number} = {};
-    if (userFilter._id) {
-      result._id = userFilter._id;
+    if(userQuery.search) {
+      return {
+        $or: [
+          {_id: new RegExp(userQuery.search, "ig")},
+          {name: new RegExp(userQuery.search, "ig")},
+          {email: new RegExp(userQuery.search, "ig")},
+          {phoneNumber: new RegExp(userQuery.search, "ig")},
+          {address: new RegExp(userQuery.search, "ig")}
+        ]
+      }
     }
-    if (userFilter.name) {
-      result.name = new RegExp(userFilter.name, "ig");
+    if (userQuery._id) {
+      result._id = new RegExp(userQuery._id, "ig");
     }
-    if (userFilter.email) {
-      result.email = new RegExp(userFilter.email, "ig");
+    if (userQuery.name) {
+      result.name = new RegExp(userQuery.name, "ig");
     }
-    if (userFilter.phoneNumber) {
-      result.phoneNumber = new RegExp(userFilter.phoneNumber, "ig");
+    if (userQuery.email) {
+      result.email = new RegExp(userQuery.email, "ig");
     }
-    if (userFilter.address) {
-      result.address = new RegExp(userFilter.address, "ig");
+    if (userQuery.phoneNumber) {
+      result.phoneNumber = new RegExp(userQuery.phoneNumber, "ig");
+    }
+    if (userQuery.address) {
+      result.address = new RegExp(userQuery.address, "ig");
     }
     return result;
   }

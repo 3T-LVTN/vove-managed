@@ -3,7 +3,7 @@ import {UserDTO, UserListDTO} from "@back-end/domain/dtos/user";
 
 export interface UserUseCase {
   getUserList(query: UserQuery): Promise<UserListDTO>;
-  getUser(id: number): Promise<UserDTO>;
-  updateUser(id: number, user: UserDTO): Promise<number>;
-  deleteUser(id: number): Promise<void>;
+  getUser(id: string): Promise<UserDTO>;
+  updateUser(id: string, user: UserDTO): Promise<string>;
+  deleteUser(id: string): Promise<void>;
 }

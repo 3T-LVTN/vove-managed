@@ -17,17 +17,17 @@ export class UserControllers {
   }
 
   @Get(":id")
-  async getUser(@Param("id") id: number) {
+  async getUser(@Param("id") id: string) {
     return this.userUseCase.getUser(id);
   }
 
   @Put(":id")
-  async updateUser(@Param("id") id: number, @Body() userDTO: UserDTO) {
+  async updateUser(@Param("id") id: string, @Body() userDTO: UserDTO) {
     return this.userUseCase.updateUser(id, userDTO);
   }
 
   @Delete(":id")
-  async deleteUser(@Param("id") id: number) {
+  async deleteUser(@Param("id") id: string) {
     return this.userUseCase.deleteUser(id);
   }
 }

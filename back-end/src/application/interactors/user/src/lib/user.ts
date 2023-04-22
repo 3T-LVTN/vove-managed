@@ -17,16 +17,16 @@ export class UserInteractors implements UserUseCase {
       .then((users) => UsersMapper.toListDTO(users));
   }
 
-  getUser(id: number): Promise<UserDTO> {
+  getUser(id: string): Promise<UserDTO> {
     return this.userRepository.getUser(id)
       .then((user) => Promise.resolve(UsersMapper.toDTO(user)));
   }
 
-  updateUser(id: number, user: UserDTO): Promise<number> {
+  updateUser(id: string, user: UserDTO): Promise<string> {
     return this.userRepository.updateUser(id, UsersMapper.toEntity(user));
   }
 
-  deleteUser(id: number): Promise<void> {
+  deleteUser(id: string): Promise<void> {
     return this.userRepository.deleteUser(id);
   }
 }
