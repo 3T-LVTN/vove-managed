@@ -19,7 +19,7 @@ import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
 import {Query, UserFilter} from "@front-end/shared/utils";
-//import {PageTitle} from "../components/page-title/page-title";
+import {PageTitle} from "../components/page-title/page-title";
 
 const AppUserList = () => {
   const appUserRepository: AppUserRepository = new AppUserApi();
@@ -48,7 +48,7 @@ const AppUserList = () => {
     return result;
   }
 
-  const sortingConvert = (sorting: MRT_SortingState) : {sort?:string, order?: string} => {
+  const sortingConvert = (sorting: MRT_SortingState): { sort?: string, order?: string } => {
     if (sorting.length === 0) return {};
     return {
       sort: sorting.at(0)?.id,
@@ -58,7 +58,6 @@ const AppUserList = () => {
 
   const fetchData = async () => {
     const {sort, order} = sortingConvert(sorting);
-    console.log(sort, order);
     const query: Query = {
       search: globalFilter,
       filter: filterConvert(columnFilters),
@@ -82,8 +81,8 @@ const AppUserList = () => {
     setTotalRows(userList.total);
   };
 
+
   useEffect(() => {
-    console.log(sorting);
     if (pagination.pageIndex * pagination.pageSize > totalRows)
       setPagination({...pagination, pageIndex: 0});
     fetchData();
@@ -195,7 +194,7 @@ const AppUserList = () => {
 
   return (
     <>
-      {/*<PageTitle title={"Users Management"}></PageTitle>*/}
+      <PageTitle title={"Users Management"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}
