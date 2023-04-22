@@ -7,7 +7,7 @@ export interface Query {
 }
 
 export interface UserQuery extends Query {
-  _id?: string;
+  id?: string;
   name?: string;
   email?: string;
   phoneNumber?: string;

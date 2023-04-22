@@ -9,16 +9,9 @@ axios.defaults.baseURL = process.env["NX_API_URL"];
 export class AppUserApi implements AppUserRepository {
   async getUserList(query: Query): Promise<AppUserList> {
     const queryBuilder = new QueryBuilderUtil();
-    return axios.get<AppUser[]>(`/users` + queryBuilder.build(query))
-      .then<AppUserList>((response) => {
-        const users: AppUser[] = response.data as AppUser[];
-        return {
-          //TODO: change this when have a real API
-          users: users,
-          page: query.page,
-          total: 20,
-        } as AppUserList;
-      })
+    console.log(queryBuilder.build(query));
+    return axios.get<AppUserList>(`users` + queryBuilder.build(query))
+      .then<AppUserList>((response) => response.data)
       .catch((error) => {throw new Error(error)});
   }
 

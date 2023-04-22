@@ -2,17 +2,22 @@ import {Query, UserQuery} from "@back-end/domain/shared/query";
 
 export class QueryHelper {
   static getOptions(query: Query) {
-    const result: { [key: string]: string | number | object} = {};
-    const order = (query.orderBy == "desc")? -1 : 1;
-    result.sort = query.sortBy ? {[query.sortBy] : order} : {};
+    const result: { [key: string]: string | number | object } = {};
+    const order = (query.orderBy == "desc") ? -1 : 1;
+    if (query.sortBy) {
+      if (query.sortBy == "id")
+        result.sort = {_id: order};
+      else
+        result.sort = {[query.sortBy]: order};
+    }
     result.limit = query.limit ?? 20;
     result.skip = (query.page ?? 0) * result.limit;
     return result;
   }
 
   static getUserFilter(userQuery: UserQuery) {
-    const result: { [key: string]: RegExp | number} = {};
-    if(userQuery.search) {
+    const result: { [key: string]: RegExp | number } = {};
+    if (userQuery.search) {
       return {
         $or: [
           {_id: new RegExp(userQuery.search, "ig")},
@@ -23,8 +28,8 @@ export class QueryHelper {
         ]
       }
     }
-    if (userQuery._id) {
-      result._id = new RegExp(userQuery._id, "ig");
+    if (userQuery.id) {
+      result._id = new RegExp(userQuery.id, "ig");
     }
     if (userQuery.name) {
       result.name = new RegExp(userQuery.name, "ig");

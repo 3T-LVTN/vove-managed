@@ -4,12 +4,12 @@ import {
   MantineReactTableProps,
   MRT_Cell,
   MRT_ColumnDef, MRT_ColumnFiltersState,
-  MRT_Row,
+  MRT_Row, MRT_SortingState,
 } from 'mantine-react-table';
 import {
   Box,
   ActionIcon,
-  Tooltip, Title,
+  Tooltip,
 } from '@mantine/core';
 import {IconTrash, IconEdit} from '@tabler/icons-react';
 import {AppUserListViewModel, AppUserViewModel} from "@front-end/interface-adapters/view-models/app-user";
@@ -19,13 +19,12 @@ import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
 import {Query, UserFilter} from "@front-end/shared/utils";
-import {PageTitle} from "../../components/page-title/page-title";
+//import {PageTitle} from "../components/page-title/page-title";
 
 const AppUserList = () => {
   const appUserRepository: AppUserRepository = new AppUserApi();
   const appUserUseCase: AppUserUseCase = new AppUserInteractor(appUserRepository);
   const appUserController: AppUserController = new AppUserController(appUserUseCase);
-  const [detailFilter, setDetailFilter] = useState<UserFilter>(new UserFilter());
 
   const [totalRows, setTotalRows] = useState(0);
   const [pagination, setPagination] = useState({
@@ -34,17 +33,39 @@ const AppUserList = () => {
   });
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
   const [tableData, setTableData] = useState<AppUserViewModel[]>([]);
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
 
+  const filterConvert = (filter: MRT_ColumnFiltersState) => {
+    const result: UserFilter = {};
+    filter.forEach((f) => {
+      result[f.id] = f.value as string;
+    });
+    return result;
+  }
+
+  const sortingConvert = (sorting: MRT_SortingState) : {sort?:string, order?: string} => {
+    if (sorting.length === 0) return {};
+    return {
+      sort: sorting.at(0)?.id,
+      order: sorting.at(0)?.desc ? "desc" : "asc"
+    };
+  }
+
   const fetchData = async () => {
+    const {sort, order} = sortingConvert(sorting);
+    console.log(sort, order);
     const query: Query = {
       search: globalFilter,
-      filter: detailFilter,
-      page: pagination.pageIndex + 1,
+      filter: filterConvert(columnFilters),
+      sortBy: sort,
+      orderBy: order,
+      page: pagination.pageIndex,
+      limit: pagination.pageSize,
     }
     const userList = await appUserController.getUserList(query)
       .then((users) => {
@@ -62,21 +83,11 @@ const AppUserList = () => {
   };
 
   useEffect(() => {
-    columnFilters.forEach((filter) => {
-      setDetailFilter({...detailFilter, [filter.id]: filter.value});
-    });
-    setPagination({...pagination, pageIndex: 0});
+    console.log(sorting);
+    if (pagination.pageIndex * pagination.pageSize > totalRows)
+      setPagination({...pagination, pageIndex: 0});
     fetchData();
-  }, [columnFilters]);
-
-  useEffect(() => {
-    setPagination({...pagination, pageIndex: 0});
-    fetchData();
-  }, [globalFilter]);
-
-  useEffect(() => {
-    fetchData();
-  }, [pagination.pageIndex]);
+  }, [columnFilters, pagination, globalFilter, sorting]);
 
   const handleSaveRowEdits: MantineReactTableProps<AppUserViewModel>['onEditingRowSave'] =
     async ({exitEditingMode, row, values}) => {
@@ -184,19 +195,21 @@ const AppUserList = () => {
 
   return (
     <>
-      <PageTitle title={"Users Management"}></PageTitle>
+      {/*<PageTitle title={"Users Management"}></PageTitle>*/}
       <MantineReactTable
         columns={columns}
         data={tableData}
 
         editingMode="modal" //default
-        enableSorting={false}
         enableFilterMatchHighlighting={false}
         enableEditing
         enableFullScreenToggle={false}
 
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
+
+        manualSorting
+        onSortingChange={setSorting}
 
         manualFiltering
         onGlobalFilterChange={setGlobalFilter}
@@ -213,7 +226,7 @@ const AppUserList = () => {
         rowCount={totalRows}
         onPaginationChange={setPagination}
 
-        state={{pagination, globalFilter, columnFilters}}
+        state={{pagination, globalFilter, columnFilters, sorting}}
 
         renderRowActions={({row, table}) => (
           <Box sx={{display: 'flex', gap: '16px'}}>
