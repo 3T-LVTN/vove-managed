@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'interface-adapters-controllers-dashboard',
+  displayName: 'application-usecases-sreach-heatmap-modal',
   preset: '../../../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory:
-    '../../../../coverage/src/interface-adapters/controllers/dashboard',
+    '../../../../coverage/src/application/usecases/sreach-heatmap-modal',
 };

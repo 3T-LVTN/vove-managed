@@ -10,10 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -21,11 +18,17 @@
       "@front-end/application/interactors/app-user": [
         "src/application/interactors/app-user/src/index.ts"
       ],
+      "@front-end/application/interactors/sreach-heatmap-modal": [
+        "src/application/interactors/sreach-heatmap-modal/src/index.ts"
+      ],
       "@front-end/application/interactors/user": [
         "src/application/interactors/user/src/index.ts"
       ],
       "@front-end/application/repositories/app-user": [
         "src/application/repositories/app-user/src/index.ts"
+      ],
+      "@front-end/application/repositories/sreach-heatmap-modal": [
+        "src/application/repositories/sreach-heatmap-modal/src/index.ts"
       ],
       "@front-end/application/repositories/user": [
         "src/application/repositories/user/src/index.ts"
@@ -33,14 +36,23 @@
       "@front-end/application/usecases/app-user": [
         "src/application/usecases/app-user/src/index.ts"
       ],
+      "@front-end/application/usecases/sreach-heatmap-modal": [
+        "src/application/usecases/sreach-heatmap-modal/src/index.ts"
+      ],
       "@front-end/application/usecases/user": [
         "src/application/usecases/user/src/index.ts"
       ],
       "@front-end/domain/entities/app-user": [
         "src/domain/entities/app-user/src/index.ts"
       ],
+      "@front-end/domain/entities/sreach-heatmap-modal": [
+        "src/domain/entities/sreach-heatmap-modal/src/index.ts"
+      ],
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
+      ],
+      "@front-end/frameworks-and-drivers/app-sync/sreach-heatmap-modal": [
+        "src/frameworks-and-drivers/app-sync/sreach-heatmap-modal/src/index.ts"
       ],
       "@front-end/frameworks-and-drivers/app-sync/user": [
         "src/frameworks-and-drivers/app-sync/user/src/index.ts"
@@ -48,11 +60,14 @@
       "@front-end/frameworks-and-drivers/firebase-auth": [
         "src/frameworks-and-drivers/firebase-auth/src/index.ts"
       ],
-      "@front-end/interface-adapters/controllers/dashboard": [
-        "src/interface-adapters/controllers/dashboard/src/index.ts"
+      "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal": [
+        "src/frameworks-and-drivers/global-states/sreach-heatmap-modal/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/app-user": [
         "src/interface-adapters/controllers/app-user/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/sreach-heatmap-modal": [
+        "src/interface-adapters/controllers/sreach-heatmap-modal/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/user": [
         "src/interface-adapters/controllers/user/src/index.ts"
@@ -60,16 +75,14 @@
       "@front-end/interface-adapters/view-models/app-user": [
         "src/interface-adapters/view-models/app-user/src/index.ts"
       ],
+      "@front-end/interface-adapters/view-models/sreach-heatmap-modal": [
+        "src/interface-adapters/view-models/sreach-heatmap-modal/src/index.ts"
+      ],
       "@front-end/interface-adapters/view-models/user": [
         "src/interface-adapters/view-models/user/src/index.ts"
       ],
-      "@front-end/shared/utils": [
-        "src/shared/utils/src/index.ts"
-      ]
+      "@front-end/shared/utils": ["src/shared/utils/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

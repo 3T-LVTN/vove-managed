@@ -1,0 +1,56 @@
+import {Grid} from "@mantine/core";
+import React from "react";
+import {GoogleMap, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+
+
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+};
+
+const centerPoint = { lat: 10.7644912, lng: 106.702996 };
+
+const heatmapData = [
+  {location: new google.maps.LatLng(10.764, 106.702), weight: 15},
+  {location: new google.maps.LatLng(10.764, 106.703), weight: 15},
+  {location: new google.maps.LatLng(10.764, 106.701), weight: 15},
+  {location: new google.maps.LatLng(10.764, 106.705), weight: 15},
+  {location: new google.maps.LatLng(10.764, 106.704), weight: 15},
+]
+
+export function SearchHeatmapModal() {
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
+  // });
+  const [map, setMap] = React.useState(null);
+
+  const onLoad = React.useCallback(function callback(map: any) {
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback(map: any) {
+    setMap(null);
+  }, []);
+
+  return (
+    <Grid>
+      <Grid.Col xs={4}>
+      </Grid.Col>
+      <Grid.Col xs={8} style={{height: "80vh"}}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={centerPoint}
+            zoom={15}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+            options={{streetViewControl: false, fullscreenControl: false}}
+          >
+            <HeatmapLayerF data={heatmapData}/>
+          </GoogleMap>
+      </Grid.Col>
+    </Grid>
+  );
+}
+
+export default SearchHeatmapModal;

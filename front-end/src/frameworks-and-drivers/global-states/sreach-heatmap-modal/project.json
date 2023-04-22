@@ -1,7 +1,7 @@
 {
-  "name": "interface-adapters-controllers-dashboard",
+  "name": "frameworks-and-drivers-global-states-sreach-heatmap-modal",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "src/interface-adapters/controllers/dashboard/src",
+  "sourceRoot": "src/frameworks-and-drivers/global-states/sreach-heatmap-modal/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "src/interface-adapters/controllers/dashboard/**/*.{ts,tsx,js,jsx}"
+          "src/frameworks-and-drivers/global-states/sreach-heatmap-modal/**/*.{ts,tsx,js,jsx}"
         ]
       }
     },
@@ -18,7 +18,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "src/interface-adapters/controllers/dashboard/jest.config.ts",
+        "jestConfig": "src/frameworks-and-drivers/global-states/sreach-heatmap-modal/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
