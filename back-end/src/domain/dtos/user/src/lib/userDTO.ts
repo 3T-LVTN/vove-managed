@@ -1,5 +1,5 @@
-export interface User {
-  _id: string;
+export interface UserDTO {
+  id: string;
   email: string;
   name: string;
   phoneNumber?: string;
@@ -7,8 +7,8 @@ export interface User {
   photoUrl?: string;
 }
 
-export interface UserList {
-  users: User[];
+export interface UserListDTO {
+  users: UserDTO[];
   page: number;
   total: number;
 }
