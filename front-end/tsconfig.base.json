@@ -42,6 +42,9 @@
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
       ],
+      "@front-end/frameworks-and-drivers/app-sync/axios": [
+        "src/frameworks-and-drivers/app-sync/axios/src/index.ts"
+      ],
       "@front-end/frameworks-and-drivers/app-sync/user": [
         "src/frameworks-and-drivers/app-sync/user/src/index.ts"
       ],
