@@ -42,6 +42,9 @@
       "@back-end/domain/shared/query": [
         "src/domain/shared/query/src/index.ts"
       ],
+      "@back-end/frameworks-and-drivers/auth-guard": [
+        "src/frameworks-and-drivers/auth-guard/src/index.ts"
+      ],
       "@back-end/frameworks-and-drivers/configuration": [
         "src/frameworks-and-drivers/configuration/src/index.ts"
       ],

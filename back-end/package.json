@@ -12,6 +12,7 @@
     "@nestjs/mongoose": "^9.2.2",
     "@nestjs/platform-express": "^9.0.0",
     "axios": "^1.0.0",
+    "firebase-admin": "^11.7.0",
     "mongoose": "^7.0.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
