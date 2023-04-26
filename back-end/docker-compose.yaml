@@ -1,23 +1,11 @@
 version: "3.8"
 services:
-  mongo-vove:
-    image: mongo:5.0
-    container_name: mongo-vove
-    restart: always
-    ports:
-      - "5003:27017"
-    volumes:
-      - ./data:/data/db
-    networks:
-      - vove
   vove-managed-be:
     image: vove-managed-be
     container_name: vove-managed-be
     restart: always
     ports:
-      - 5000:8081
-    depends_on:
-      - mongo-vove
+      - 5001:8081
     networks:
       - vove
 
