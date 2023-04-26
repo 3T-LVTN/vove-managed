@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  vove-managed-be:
+    image: vove-managed-be
+    container_name: vove-managed-be
+    restart: always
+    ports:
+      - 5000:8081
+    networks:
+      - vove
+
+networks:
+  vove:
+    name: vove
+    external: true
