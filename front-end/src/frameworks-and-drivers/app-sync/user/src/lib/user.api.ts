@@ -1,10 +1,8 @@
 import {AppUserRepository} from "@front-end/application/repositories/app-user";
 import {AppUser, AppUserList} from "@front-end/domain/entities/app-user";
-import axios from "axios";
+import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
 import {QueryBuilderUtil} from "@front-end/shared/utils";
 import {Query} from "@front-end/shared/utils";
-
-axios.defaults.baseURL = process.env["NX_API_URL"];
 
 export class AppUserApi implements AppUserRepository {
   async getUserList(query: Query): Promise<AppUserList> {

@@ -42,11 +42,19 @@ export class AuthFirebase implements UserRepository {
   }
 
   async currentSession(): Promise<boolean> {
+    auth.onIdTokenChanged((user) => {
+      if (user) {
+        user.getIdToken().then((idToken) => {
+          localStorage.setItem("token", idToken);
+        });
+      }
+    });
     return auth.currentUser != null;
   }
 
   async signOut(): Promise<void> {
     await auth.signOut().then(() => {
+      localStorage.removeItem("token");
       console.info("Sign Out success");
     });
   }
