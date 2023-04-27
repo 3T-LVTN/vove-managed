@@ -19,7 +19,7 @@ import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
 import {Query, UserFilter} from "@front-end/shared/utils";
-import {PageTitle} from "../components/page-title/page-title";
+
 
 const AppUserList = () => {
   const appUserRepository: AppUserRepository = new AppUserApi();
@@ -194,7 +194,7 @@ const AppUserList = () => {
 
   return (
     <>
-      <PageTitle title={"Users Management"}></PageTitle>
+      {/* <PageTitle title={"Users Management"}></PageTitle> */}
       <MantineReactTable
         columns={columns}
         data={tableData}
