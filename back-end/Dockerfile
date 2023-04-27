@@ -8,6 +8,6 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
-EXPOSE 8081
+EXPOSE 3333
 
 CMD [ "npm", "start" ]
