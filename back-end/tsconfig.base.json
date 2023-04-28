@@ -10,7 +10,10 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -30,11 +33,18 @@
       "@back-end/application/utilities": [
         "src/application/utilities/src/index.ts"
       ],
-      "@back-end/domain/dtos/user": ["src/domain/dtos/user/src/index.ts"],
+      "@back-end/domain/dtos/user": [
+        "src/domain/dtos/user/src/index.ts"
+      ],
       "@back-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
       ],
-      "@back-end/domain/shared": ["src/domain/shared/src/index.ts"],
+      "@back-end/domain/shared/query": [
+        "src/domain/shared/query/src/index.ts"
+      ],
+      "@back-end/frameworks-and-drivers/auth-guard": [
+        "src/frameworks-and-drivers/auth-guard/src/index.ts"
+      ],
       "@back-end/frameworks-and-drivers/configuration": [
         "src/frameworks-and-drivers/configuration/src/index.ts"
       ],
@@ -47,8 +57,13 @@
       "@back-end/interface-adapters/controllers/user": [
         "src/interface-adapters/controllers/user/src/index.ts"
       ],
-      "@back-end/shared": ["src/shared/src/index.ts"]
+      "@back-end/shared": [
+        "src/shared/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -10,7 +10,7 @@
     }
   },
   "workspaceLayout": {
-    "appsDir": "src/frameworks-and-drivers/lambda",
+    "appsDir": "src/frameworks-and-drivers/vove-managed",
     "libsDir": "src/"
   },
   "targetDefaults": {

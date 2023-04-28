@@ -1,24 +1,14 @@
 import {AppUserRepository} from "@front-end/application/repositories/app-user";
 import {AppUser, AppUserList} from "@front-end/domain/entities/app-user";
-import axios from "axios";
+import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
 import {QueryBuilderUtil} from "@front-end/shared/utils";
 import {Query} from "@front-end/shared/utils";
-
-axios.defaults.baseURL = process.env["NX_API_URL"];
 
 export class AppUserApi implements AppUserRepository {
   async getUserList(query: Query): Promise<AppUserList> {
     const queryBuilder = new QueryBuilderUtil();
-    return axios.get<AppUser[]>(`/users` + queryBuilder.build(query))
-      .then<AppUserList>((response) => {
-        const users: AppUser[] = response.data as AppUser[];
-        return {
-          //TODO: change this when have a real API
-          users: users,
-          page: query.page,
-          total: 20,
-        } as AppUserList;
-      })
+    return axios.get<AppUserList>(`users` + queryBuilder.build(query))
+      .then<AppUserList>((response) => response.data)
       .catch((error) => {throw new Error(error)});
   }
 
