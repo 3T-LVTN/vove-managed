@@ -10,13 +10,6 @@ import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
 import { IconLogout } from "@tabler/icons-react";
 
-
-const navigations = [
-  {name: "Home", href: "#", current: true},
-  {name: "Others", href: "#", current: false},
-  {name: "About", href: "#", current: false},
-];
-
 const authRoutes = [
   "/login",
   "/reset-password"
@@ -79,12 +72,12 @@ export const Frame = () => {
           background:
             theme.colorScheme === "dark"
               ? theme.colors["dark"][8]
-              : theme.colors["gray"][0],
+              : theme.colors["white"],
         },
       }}
       header={
         !isAuthRoutes() ?
-          <Header height={60} sx={{borderBottom: 0}} mb={120}>
+          <Header height={60} mb={120} px="md">
             <Container className={classes.inner} fluid>
               <Group>
                 <Logo/>
@@ -98,7 +91,7 @@ export const Frame = () => {
                 >
                   <Menu.Target>
                     <ActionIcon>
-                      <Avatar radius="xl" />
+                      <Avatar color="cyan" radius="xl" />
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
