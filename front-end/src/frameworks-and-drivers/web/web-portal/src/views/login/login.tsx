@@ -1,16 +1,4 @@
-import {
-  Anchor,
-  Button,
-  Container,
-  Image,
-  Grid,
-  Paper,
-  PasswordInput,
-  Stack,
-  TextInput,
-  Title,
-  Text
-} from "@mantine/core";
+import {Anchor, Button, Container, Grid, Image, Paper, PasswordInput, Stack, TextInput, Title} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "@front-end/shared/utils";
 import {notifications} from "@mantine/notifications";
@@ -28,67 +16,61 @@ export const Login = () => {
 
   const form = useForm({
     initialValues: {
-      email: '',
-      password: ''
-    },
-    validate: {
-      email: (value) => validateEmail(value),
-      password: (value) => validatePassword(value)
+      email: '', password: ''
+    }, validate: {
+      email: (value) => validateEmail(value), password: (value) => validatePassword(value)
     },
   });
 
   const showWrongInfoNotification = () => {
     console.error("Wrong email or password");
     notifications.show({
-      title: "Wrong Email or Password",
-      message: 'Please try again',
-      color: 'red',
+      title: "Wrong Email or Password", message: 'Please try again', color: 'red',
     });
   }
 
-  return (
-    <Container size="md" my="5%">
-      <Paper shadow="xs" p="md" radius="xl">
-        <Grid gutter={50} align="center">
-          <Grid.Col sm={6} xs={12} p="xs">
-            <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"}
-                   alt="Signin image"/>
-          </Grid.Col>
+  return (<Container size="lg" my="10%">
+    <Paper shadow="md" p={50} mt={30} radius="md" withBorder>
+      <Grid gutter={50} align="center">
+        <Grid.Col sm={7} xs={12}>
+          <Image mx="auto" src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"}
+                 alt="Signin image"/>
+        </Grid.Col>
 
-          <Grid.Col sm={6} xs={12} p="50px">
-            <form onSubmit={
-              form.onSubmit(() =>
-                userController.signIn(form.values.email, form.values.password)
-                  .catch(() => showWrongInfoNotification())
-              )}>
-              <Stack spacing="lg" align="stretch" justify="space-around">
-                <Title order={2} align="center">Log In</Title>
-
-                <TextInput
-                  placeholder="Email"
-                  label="Username"
-                  withAsterisk
-                  {...form.getInputProps('email')}
-                />
-                <PasswordInput
-                  placeholder="Password"
-                  label="Password"
-                  withAsterisk
-                  {...form.getInputProps('password')}
-                />
-
-                <Button type="submit">
-                  Log In
-                </Button>
-
-                <Text>Forgot password? <Anchor href="reset-password" td="underline">Change password</Anchor></Text>
-              </Stack>
-            </form>
-          </Grid.Col>
-        </Grid>
-      </Paper>
-    </Container>
-  );
+        <Grid.Col sm={5} xs={12}>
+          <form onSubmit={form.onSubmit(() => userController.signIn(form.values.email, form.values.password)
+            .catch(() => showWrongInfoNotification()))}>
+            <Stack align="stretch" justify="space-around">
+              <Title
+                align="center"
+                sx={(theme) => ({fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900})}
+              >
+                Welcome Back!
+              </Title>
+              <TextInput
+                placeholder="Email"
+                label="Username"
+                withAsterisk
+                {...form.getInputProps('email')}
+              />
+              <PasswordInput
+                placeholder="Password"
+                label="Password"
+                withAsterisk
+                {...form.getInputProps('password')}
+              />
+              <Anchor size="sm" href="reset-password">
+                Forgot password?
+              </Anchor>
+              <Button type="submit" mt="md">
+                Log In
+              </Button>
+            </Stack>
+          </form>
+        </Grid.Col>
+      </Grid>
+    </Paper>
+  </Container>);
 };
 
 export default Login;
