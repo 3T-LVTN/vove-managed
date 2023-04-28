@@ -43,6 +43,7 @@ export const Login = () => {
             <Stack align="stretch" justify="space-around">
               <Title
                 align="center"
+                color="dark.4"
                 sx={(theme) => ({fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900})}
               >
                 Welcome Back!

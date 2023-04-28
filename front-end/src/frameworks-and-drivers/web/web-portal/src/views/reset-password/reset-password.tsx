@@ -68,7 +68,7 @@ export const ResetPassword = () => {
 
   return (
     <Container size={460} my="5%">
-      <Title fs="26rem" align="center">Reset Password</Title>
+      <Title color="dark.4" fw={900} fs="26rem" align="center">Reset Password</Title>
       <Text color="dimmed" fz="sm" ta="center">
         Enter your email to get a reset link
       </Text>
