@@ -16,7 +16,7 @@ export function Logo() {
 
   return (
     <div onMouseEnter={handleMouseHover} onMouseLeave={handleMouseLeave} onClick={() => navigator(`/`)} style={style}>
-      <Image width={198} height={60} src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/HorizontalLogo.png"} />
+      <Image width={132} height={40} src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/HorizontalLogo.png"} />
     </div>
   );
 }
