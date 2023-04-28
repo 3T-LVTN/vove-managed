@@ -53,6 +53,7 @@
       ],
       "@front-end/frameworks-and-drivers/app-sync/sreach-heatmap-modal": [
         "src/frameworks-and-drivers/app-sync/sreach-heatmap-modal/src/index.ts"
+      ],
       "@front-end/frameworks-and-drivers/app-sync/axios": [
         "src/frameworks-and-drivers/app-sync/axios/src/index.ts"
       ],
