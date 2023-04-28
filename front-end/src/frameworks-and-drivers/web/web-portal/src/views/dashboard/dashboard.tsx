@@ -36,16 +36,40 @@ export const Dashboard = () => {
           />
         </Grid.Col>
         <Grid.Col md={6} lg={4}>
-          <LoadingWrapper loading={loading} children={<Paper shadow="xs" p="md" style={{height:"40vh"}}></Paper>} />
+          <LoadingWrapper
+            loading={loading}
+            children={
+            <Paper shadow="xs" p="md" style={{height:"40vh"}}>
+              <Title order={4} color="dark.4">HCMC Summary</Title>
+            </Paper>}
+          />
         </Grid.Col>
         <Grid.Col md={6} lg={4}>
-          <LoadingWrapper loading={loading} children={<Paper shadow="xs" p="md" style={{height:"40vh"}}></Paper>} />
+          <LoadingWrapper
+            loading={loading}
+            children={
+            <Paper shadow="xs" p="md" style={{height:"40vh"}}>
+              <Title order={4} color="dark.4">App Analysis</Title>
+            </Paper>}
+          />
         </Grid.Col>
         <Grid.Col md={6} lg={4}>
-          <LoadingWrapper loading={loading} children={<Paper shadow="xs" p="md" style={{height:"40vh"}}></Paper>} />
+          <LoadingWrapper
+            loading={loading}
+            children={
+            <Paper shadow="xs" p="md" style={{height:"40vh"}}>
+              <Title order={4} color="dark.4">Model Management</Title>
+            </Paper>}
+          />
         </Grid.Col>
         <Grid.Col md={6} lg={4}>
-          <LoadingWrapper loading={loading} children={<Paper shadow="xs" p="md" style={{height:"40vh"}}></Paper>} />
+          <LoadingWrapper
+            loading={loading}
+            children={
+            <Paper shadow="xs" p="md" style={{height:"40vh"}}>
+              <Title order={4} color="dark.4">Inquiry Summary</Title>
+            </Paper>}
+          />
         </Grid.Col>
       </Grid>
     <Modal
