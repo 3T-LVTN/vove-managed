@@ -1,0 +1,10 @@
+.line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-around;
+}
+
+/*.map {*/
+/*  height: "80vh";*/
+/*}*/
