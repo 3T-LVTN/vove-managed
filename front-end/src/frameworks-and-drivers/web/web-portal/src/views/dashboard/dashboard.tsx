@@ -65,7 +65,7 @@ export const Dashboard = () => {
               <Stack justify="space-between" align="flex-start" h="100%">
                 <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries</Title>
                 <InquirySummary></InquirySummary>
-                <Button variant="outline" size="sm" mt="xl" style={{bottom: 0}}>Learn more</Button>
+                <Button variant="outline" size="sm" mt={0} style={{bottom: 0}}>Learn more</Button>
               </Stack>
             </Paper>}
           />
