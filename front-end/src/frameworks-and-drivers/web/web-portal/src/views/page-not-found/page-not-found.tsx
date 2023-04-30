@@ -58,7 +58,7 @@ export const PageNotFound = () => {
         <Image src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/PageNotFound.png"} alt="Page Not Found"
                className={classes.mobileImage}/>
         <div>
-          <Title className={classes.title}>Something is not right...</Title>
+          <Title className={classes.title} color="dark.4">Something is not right...</Title>
           <Text color="dimmed" size="lg">
             Page you are trying to open does not exist. You may have mistyped the address, or the
             page has been moved to another URL. If you think this is an error contact support.

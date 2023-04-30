@@ -7,9 +7,9 @@ export interface PageTitleProps {
 export function PageTitle(props: PageTitleProps) {
   return (
     <>
-      <Title order={2} color="dark.4">{props.title}</Title>
-      <Space h="sm" />
-      <Divider size="xs" color="dark.4" />
+      {/*<Space h="sm" />*/}
+      <Title order={1} color="dark.4" fw={900}>{props.title}</Title>
+      {/*<Divider size="xs" color="dark.4" />*/}
       <Space h="xl" />
     </>
   );
