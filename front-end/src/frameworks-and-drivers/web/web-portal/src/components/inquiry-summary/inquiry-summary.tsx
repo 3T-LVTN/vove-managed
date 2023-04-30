@@ -49,22 +49,6 @@ export const inquirySummary = () => {
           I can't find my place on your map
         </Text>
       </Card>
-
-      {/*<Card*/}
-      {/*  withBorder*/}
-      {/*  radius="md"*/}
-      {/*  w="100%"*/}
-      {/*  className={classes.card}*/}
-      {/*  onClick={() => navigator(`/users`)}*/}
-      {/*>*/}
-      {/*  <Text fz="xs" tt="uppercase" fw={400} c="dimmed">*/}
-      {/*    Le Tran Hoang Thinh - 09/04/2023 16:32*/}
-      {/*  </Text>*/}
-      {/*  <Text fz="lg" fw={500}>*/}
-      {/*    I can't find my place on your map*/}
-      {/*  </Text>*/}
-      {/*</Card>*/}
-
     </Stack>
 
   )

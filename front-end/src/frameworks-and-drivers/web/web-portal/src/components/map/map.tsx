@@ -7,6 +7,9 @@ import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/g
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 
+export interface MapProps {
+  fullScreenControl: Boolean
+}
 
 const containerStyle = {
   width: "100%",
@@ -17,7 +20,7 @@ export const Map = () => {
   const {isLoaded} = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
-    libraries: ['visualization']
+    libraries: ['visualization', 'places']
   });
 
   const centerPoint = {lat: 10.7644912, lng: 106.702996};
@@ -43,7 +46,7 @@ export const Map = () => {
       >
         <HeatmapLayerF data={heatmapData}/>
         <div className={styles.buttonLayer}>
-          <ActionIcon size="lg" variant="light"
+          <ActionIcon size="lg" variant="light" color="cyan"
                       onClick={() => searchHeatmapModalController.setIsModalOpened(true)}>
             <IconArrowsMaximize
               size="2.125rem"/>

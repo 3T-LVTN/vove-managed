@@ -14,7 +14,7 @@ export function SearchHeatmapModal() {
   const {isLoaded} = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
-    libraries: ['visualization']
+    libraries: ['visualization', 'places']
   });
 
   const [selected, setSelected] = React.useState(null);
