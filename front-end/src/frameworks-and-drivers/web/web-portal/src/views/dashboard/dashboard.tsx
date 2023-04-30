@@ -22,7 +22,7 @@ export const Dashboard = () => {
   useEffect(() => {
     setLoading(true);
     //TODO: catch loading API state
-    const timer = setTimeout(() => setLoading(false), 1000);
+    const timer = setTimeout(() => setLoading(false), 300);
     return () => clearTimeout(timer)
   }, [])
 
@@ -34,7 +34,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "User", value: "1000", diff: 1}}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "User", value: "1000", diff: 1}} nav={'users'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -44,7 +44,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}} nav={'/model-management'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -84,143 +84,13 @@ export const Dashboard = () => {
               <Stack justify="space-between" align="flex-start" h="100%">
                 <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>
                 <InquirySummary></InquirySummary>
-                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}}>Inquiries List</Button>
+                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} >Inquiries List</Button>
               </Stack>
             </Paper>}
           />
         </Stack>
       </Grid.Col>
     </Grid>
-    {/*<Grid>*/}
-    {/*  <Grid.Col md={6} lg={8}>*/}
-    {/*    <LoadingWrapper*/}
-    {/*      loading={loading}*/}
-    {/*      children={<Paper withBorder p="md" radius="md" style={{height: "40vh"}}>*/}
-    {/*        <Map></Map>*/}
-    {/*      </Paper>}*/}
-    {/*    />*/}
-    {/*  </Grid.Col>*/}
-    {/*  <Grid.Col md={6} lg={4}>*/}
-    {/*    <LoadingWrapper*/}
-    {/*      loading={loading}*/}
-    {/*      children={<Paper withBorder p="md" radius="md" style={{height: "40vh"}}>*/}
-    {/*        /!*<Title order={4} color="dark.4">HCMC Summary</Title>*!/*/}
-    {/*        <Stack justify="space-between" align="flex-start" h="100%">*/}
-    {/*          <div style={{*/}
-    {/*            height: "70%",*/}
-    {/*            width: "100%",*/}
-    {/*            display: "flex",*/}
-    {/*            justifyContent: "space-around",*/}
-    {/*            alignItems: "center",*/}
-    {/*            paddingTop: 30*/}
-    {/*          }}>*/}
-    {/*            <Stack h={"100%"} justify={"center"}>*/}
-    {/*              /!*<Title fw={500} fz="lg" order={4} color="dark.4">HCMC Summary</Title>*!/*/}
-    {/*              <div>*/}
-    {/*                <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>24</Text>*/}
-    {/*                <Text fz="xs" color="dimmed">Districts tracked</Text>*/}
-    {/*              </div>*/}
-    {/*              <Group mt={"lg"}>*/}
-    {/*                <div>*/}
-    {/*                  <Text fz="lg" fw={700} c={"dark.4"}>18</Text>*/}
-    {/*                  <Text fz="xs" color="dimmed">Normal</Text>*/}
-    {/*                </div>*/}
-    {/*                <div>*/}
-    {/*                  <Text size="lg" fw={700} c={"dark.4"}>6</Text>*/}
-    {/*                  <Text size="xs" color="dimmed">High risk</Text>*/}
-    {/*                </div>*/}
-    {/*              </Group>*/}
-    {/*            </Stack>*/}
-    {/*            <Pie*/}
-    {/*              data={data}*/}
-    {/*              options={{*/}
-    {/*                plugins: {*/}
-    {/*                  legend: {*/}
-    {/*                    position: "bottom",*/}
-    {/*                  }*/}
-    {/*                }*/}
-    {/*              }}*/}
-    {/*            />*/}
-    {/*          </div>*/}
-    {/*          <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Learn more</Button>*/}
-    {/*        </Stack>*/}
-    {/*      </Paper>}*/}
-    {/*    />*/}
-    {/*  </Grid.Col>*/}
-    {/*  <Grid.Col md={6} lg={4}>*/}
-    {/*    /!*<Stack h={"40vh"} align="stretch">*!/*/}
-    {/*    /!*  <LoadingWrapper*!/*/}
-    {/*    /!*    loading={loading}*!/*/}
-    {/*    /!*    children={<Paper withBorder p="md" radius="md" h={"100%"}>*!/*/}
-    {/*    /!*      <Stack justify="space-between" align="flex-start" h="100%">*!/*/}
-    {/*    /!*      <div>*!/*/}
-    {/*    /!*        <Text mt={15} fz={rem(25)} fw={700} c={"dark.4"}>120</Text>*!/*/}
-    {/*    /!*        <Text fz="xs" color="dimmed">Application users</Text>*!/*/}
-    {/*    /!*      </div>*!/*/}
-    {/*    /!*        <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Manage User</Button>*!/*/}
-    {/*    /!*      </Stack>*!/*/}
-    {/*    /!*    </Paper>}*!/*/}
-    {/*    /!*  />*!/*/}
-    {/*    /!*  <LoadingWrapper*!/*/}
-    {/*    /!*    loading={loading}*!/*/}
-    {/*    /!*    children={<Paper withBorder p="md" radius="md" h={"100%"}>*!/*/}
-
-    {/*    /!*    </Paper>}*!/*/}
-    {/*    /!*  />*!/*/}
-    {/*    /!*</Stack>*!/*/}
-    {/*    <LoadingWrapper*/}
-    {/*      loading={loading}*/}
-    {/*      children={<Paper withBorder p="md" radius="md" style={{height: "40vh"}}>*/}
-    {/*        <Stack justify="space-between" align="flex-start" h="100%">*/}
-    {/*          <Title fw={500} fz="lg" order={4} color="dark.4">App Analysis</Title>*/}
-    {/*          <div>*/}
-    {/*            <Text fz="lg" fw={700} c={"dark.4"}>1200</Text>*/}
-    {/*            <Text fz="xs" color="dimmed">Application users</Text>*/}
-    {/*          </div>*/}
-    {/*            <div>*/}
-    {/*              <Text fz="lg" fw={700} c={"dark.4"}>100</Text>*/}
-    {/*              <Text fz="xs" color="dimmed">Accesses today</Text>*/}
-    {/*            </div>*/}
-    {/*            <div>*/}
-    {/*              <Text size="lg" fw={700} c={"dark.4"}>234</Text>*/}
-    {/*              <Text size="xs" color="dimmed">Tracking points</Text>*/}
-    {/*            </div>*/}
-    {/*            <div>*/}
-    {/*              <Text size="lg" fw={700} c={"dark.4"}>100</Text>*/}
-    {/*              <Text size="xs" color="dimmed">Inquiries sent</Text>*/}
-    {/*            </div>*/}
-    {/*          <Group>*/}
-    {/*            <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Learn more</Button>*/}
-    {/*            <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Manage User</Button>*/}
-    {/*          </Group>*/}
-    {/*        </Stack>*/}
-    {/*      </Paper>}*/}
-    {/*    />*/}
-    {/*  </Grid.Col>*/}
-    {/*  <Grid.Col md={6} lg={4}>*/}
-    {/*    <LoadingWrapper*/}
-    {/*      loading={loading}*/}
-    {/*      children={<Paper withBorder p="md" radius="md" style={{height: "40vh"}}>*/}
-    {/*        <Stack justify="space-between" align="flex-start" h="100%">*/}
-    {/*          <Title fw={500} fz="lg" order={4} color="dark.4">Model</Title>*/}
-    {/*          <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Learn more</Button>*/}
-    {/*        </Stack>*/}
-    {/*      </Paper>}*/}
-    {/*    />*/}
-    {/*  </Grid.Col>*/}
-    {/*  <Grid.Col md={6} lg={4}>*/}
-    {/*    <LoadingWrapper*/}
-    {/*      loading={loading}*/}
-    {/*      children={<Paper withBorder p="md" radius="md" style={{height: "40vh"}}>*/}
-    {/*        <Stack justify="space-between" align="flex-start" h="100%">*/}
-    {/*          <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>*/}
-    {/*          <InquirySummary></InquirySummary>*/}
-    {/*          <Button variant={"outline"} size="sm" mt={0} style={{bottom: 0}}>Inquiries List</Button>*/}
-    {/*        </Stack>*/}
-    {/*      </Paper>}*/}
-    {/*    />*/}
-    {/*  </Grid.Col>*/}
-    {/*</Grid>*/}
     <Modal
       opened={searchHeatmapModalController.getSearchHeatmapModalViewModel().isModalOpened}
       onClose={() => searchHeatmapModalController.setIsModalOpened(false)}

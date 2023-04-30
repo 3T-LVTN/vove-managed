@@ -1,5 +1,5 @@
-import {ActionIcon, createStyles, Group, Text, ThemeIcon} from '@mantine/core';
-import {IconArrowDownRight, IconArrowUpRight} from '@tabler/icons-react';
+import {ActionIcon, createStyles, Group, Text} from '@mantine/core';
+import {IconArrowUpRight} from '@tabler/icons-react';
 import React from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -11,9 +11,10 @@ const useStyles = createStyles((theme) => ({
 
 interface StatsGridIconsProps {
   data: { title: string; value: string; diff: number };
+  nav: string;
 }
 
-export function StatsGridIcons({data}: StatsGridIconsProps) {
+export function StatsGridIcons({data, nav}: StatsGridIconsProps) {
   const navigator = useNavigate();
   const {classes} = useStyles();
 
@@ -27,7 +28,7 @@ export function StatsGridIcons({data}: StatsGridIconsProps) {
             {data.value}
           </Text>
         </div>
-        <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/users')}>
+        <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator(nav)}>
           <IconArrowUpRight
             size="2.125rem"/>
         </ActionIcon>

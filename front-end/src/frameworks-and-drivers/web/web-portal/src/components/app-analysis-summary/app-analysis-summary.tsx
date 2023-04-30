@@ -38,7 +38,7 @@ export function AppAnalysisSummary({data}: AppAnalysisSummaryProps) {
             inquiries created
           </Text>
         </div>
-        <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/users')}>
+        <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/app-analysis')}>
           <IconArrowUpRight
             size="2.125rem"/>
         </ActionIcon>
