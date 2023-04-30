@@ -74,7 +74,7 @@ export const Dashboard = () => {
             loading={loading}
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
-            <DistrictStatusSummary></DistrictStatusSummary>
+            <DistrictStatusSummary isForDashboard={true}></DistrictStatusSummary>
           </Paper>}
           />
           <LoadingWrapper
