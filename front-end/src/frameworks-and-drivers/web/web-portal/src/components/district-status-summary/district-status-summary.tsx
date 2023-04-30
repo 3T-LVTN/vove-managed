@@ -1,12 +1,12 @@
 import React from "react";
 import {ActionIcon, Group, rem, Stack, Text} from "@mantine/core";
 import {Pie} from "react-chartjs-2";
-import {ArcElement, Chart as ChartJS, Legend, Tooltip} from 'chart.js';
+import {ArcElement, Chart as ChartJS, Legend, LinearScale, Tooltip} from 'chart.js';
 import {IconArrowUpRight} from "@tabler/icons-react";
 import styles from './district-status-summary.module.css'
 import {useNavigate} from "react-router-dom";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, LinearScale);
 
 export const data = {
   labels: ['OK', 'NG'], datasets: [{
