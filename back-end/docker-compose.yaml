@@ -8,7 +8,11 @@ services:
       - 5001:3333
     networks:
       - vove
-
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-1
+        awslogs-group: vove-web
 networks:
   vove:
     name: vove
