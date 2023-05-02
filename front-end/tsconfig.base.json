@@ -18,8 +18,14 @@
       "@front-end/application/interactors/app-user": [
         "src/application/interactors/app-user/src/index.ts"
       ],
+      "@front-end/application/interactors/inquiry": [
+        "src/application/interactors/inquiry/src/index.ts"
+      ],
       "@front-end/application/interactors/sreach-heatmap-modal": [
         "src/application/interactors/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/application/interactors/tracking": [
+        "src/application/interactors/tracking/src/index.ts"
       ],
       "@front-end/application/interactors/user": [
         "src/application/interactors/user/src/index.ts"
@@ -27,8 +33,14 @@
       "@front-end/application/repositories/app-user": [
         "src/application/repositories/app-user/src/index.ts"
       ],
+      "@front-end/application/repositories/inquiry": [
+        "src/application/repositories/inquiry/src/index.ts"
+      ],
       "@front-end/application/repositories/sreach-heatmap-modal": [
         "src/application/repositories/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/application/repositories/tracking": [
+        "src/application/repositories/tracking/src/index.ts"
       ],
       "@front-end/application/repositories/user": [
         "src/application/repositories/user/src/index.ts"
@@ -36,8 +48,14 @@
       "@front-end/application/usecases/app-user": [
         "src/application/usecases/app-user/src/index.ts"
       ],
+      "@front-end/application/usecases/inquiry": [
+        "src/application/usecases/inquiry/src/index.ts"
+      ],
       "@front-end/application/usecases/sreach-heatmap-modal": [
         "src/application/usecases/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/application/usecases/tracking": [
+        "src/application/usecases/tracking/src/index.ts"
       ],
       "@front-end/application/usecases/user": [
         "src/application/usecases/user/src/index.ts"
@@ -45,17 +63,29 @@
       "@front-end/domain/entities/app-user": [
         "src/domain/entities/app-user/src/index.ts"
       ],
+      "@front-end/domain/entities/inquiry": [
+        "src/domain/entities/inquiry/src/index.ts"
+      ],
       "@front-end/domain/entities/sreach-heatmap-modal": [
         "src/domain/entities/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/domain/entities/tracking": [
+        "src/domain/entities/tracking/src/index.ts"
       ],
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
       ],
+      "@front-end/frameworks-and-drivers/app-sync/axios": [
+        "src/frameworks-and-drivers/app-sync/axios/src/index.ts"
+      ],
+      "@front-end/frameworks-and-drivers/app-sync/inquiry": [
+        "src/frameworks-and-drivers/app-sync/inquiry/src/index.ts"
+      ],
       "@front-end/frameworks-and-drivers/app-sync/sreach-heatmap-modal": [
         "src/frameworks-and-drivers/app-sync/sreach-heatmap-modal/src/index.ts"
       ],
-      "@front-end/frameworks-and-drivers/app-sync/axios": [
-        "src/frameworks-and-drivers/app-sync/axios/src/index.ts"
+      "@front-end/frameworks-and-drivers/app-sync/tracking": [
+        "src/frameworks-and-drivers/app-sync/tracking/src/index.ts"
       ],
       "@front-end/frameworks-and-drivers/app-sync/user": [
         "src/frameworks-and-drivers/app-sync/user/src/index.ts"
@@ -69,8 +99,14 @@
       "@front-end/interface-adapters/controllers/app-user": [
         "src/interface-adapters/controllers/app-user/src/index.ts"
       ],
+      "@front-end/interface-adapters/controllers/inquiry": [
+        "src/interface-adapters/controllers/inquiry/src/index.ts"
+      ],
       "@front-end/interface-adapters/controllers/sreach-heatmap-modal": [
         "src/interface-adapters/controllers/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/tracking": [
+        "src/interface-adapters/controllers/tracking/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/user": [
         "src/interface-adapters/controllers/user/src/index.ts"
@@ -78,8 +114,14 @@
       "@front-end/interface-adapters/view-models/app-user": [
         "src/interface-adapters/view-models/app-user/src/index.ts"
       ],
+      "@front-end/interface-adapters/view-models/inquiry": [
+        "src/interface-adapters/view-models/inquiry/src/index.ts"
+      ],
       "@front-end/interface-adapters/view-models/sreach-heatmap-modal": [
         "src/interface-adapters/view-models/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/interface-adapters/view-models/tracking": [
+        "src/interface-adapters/view-models/tracking/src/index.ts"
       ],
       "@front-end/interface-adapters/view-models/user": [
         "src/interface-adapters/view-models/user/src/index.ts"

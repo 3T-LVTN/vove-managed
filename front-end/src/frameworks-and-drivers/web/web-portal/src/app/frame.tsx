@@ -50,6 +50,10 @@ export const Frame = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (currentUser !== undefined) return;
+        user.getIdToken()
+          .then((token) => {
+            localStorage.setItem("token", token);
+          })
         setCurrentUser({
           email: user.email,
           name: user.displayName,
