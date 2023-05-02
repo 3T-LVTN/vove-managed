@@ -10,6 +10,11 @@ import {useEffect, useState} from "react";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import {TrackingViewModel} from "@front-end/interface-adapters/view-models/tracking";
+import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
+import {InquiryRepository} from "@front-end/application/repositories/inquiry";
+import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
+import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
+import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -23,6 +28,9 @@ const UserInfo = () => {
   const appUserRepository: AppUserRepository = new AppUserApi();
   const appUserUseCase: AppUserUseCase = new AppUserInteractor(appUserRepository);
   const appUserController: AppUserController = new AppUserController(appUserUseCase);
+  const inquiryRepository: InquiryRepository = new InquiryApi();
+  const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
+  const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
 
   const {id} = useParams();
   const {classes} = useStyles();
