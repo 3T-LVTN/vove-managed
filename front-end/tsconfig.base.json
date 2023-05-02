@@ -24,6 +24,9 @@
       "@front-end/application/interactors/sreach-heatmap-modal": [
         "src/application/interactors/sreach-heatmap-modal/src/index.ts"
       ],
+      "@front-end/application/interactors/tracking": [
+        "src/application/interactors/tracking/src/index.ts"
+      ],
       "@front-end/application/interactors/user": [
         "src/application/interactors/user/src/index.ts"
       ],
@@ -35,6 +38,9 @@
       ],
       "@front-end/application/repositories/sreach-heatmap-modal": [
         "src/application/repositories/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/application/repositories/tracking": [
+        "src/application/repositories/tracking/src/index.ts"
       ],
       "@front-end/application/repositories/user": [
         "src/application/repositories/user/src/index.ts"
@@ -48,6 +54,9 @@
       "@front-end/application/usecases/sreach-heatmap-modal": [
         "src/application/usecases/sreach-heatmap-modal/src/index.ts"
       ],
+      "@front-end/application/usecases/tracking": [
+        "src/application/usecases/tracking/src/index.ts"
+      ],
       "@front-end/application/usecases/user": [
         "src/application/usecases/user/src/index.ts"
       ],
@@ -59,6 +68,9 @@
       ],
       "@front-end/domain/entities/sreach-heatmap-modal": [
         "src/domain/entities/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/domain/entities/tracking": [
+        "src/domain/entities/tracking/src/index.ts"
       ],
       "@front-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
@@ -92,6 +104,9 @@
       ],
       "@front-end/interface-adapters/controllers/sreach-heatmap-modal": [
         "src/interface-adapters/controllers/sreach-heatmap-modal/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/tracking": [
+        "src/interface-adapters/controllers/tracking/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/user": [
         "src/interface-adapters/controllers/user/src/index.ts"
