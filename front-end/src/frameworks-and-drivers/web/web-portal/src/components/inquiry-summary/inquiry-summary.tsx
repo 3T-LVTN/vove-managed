@@ -1,5 +1,10 @@
 import {Badge, Card, createStyles, Stack, Text} from "@mantine/core";
 import {useNavigate} from "react-router-dom";
+import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+
+export interface InquirySummaryProps {
+  inquiries: InquiryViewModel[];
+}
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -9,48 +14,39 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const inquirySummary = () => {
+export const inquirySummary = (props: InquirySummaryProps) => {
   const navigator = useNavigate();
   const {classes} = useStyles();
 
-  return (<Stack w="100%" h="72%" justify="stretch" spacing={10}>
-      <Card
-        withBorder
-        radius="md"
-        w="100%"
-        className={classes.card}
-        onClick={() => navigator(`/users`)}
-      >
-        <div style={{display:"flex", justifyContent: "space-between"}}>
-          <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            Nguyen Mai Thy - 03/05/2023 15:15
-          </Text>
-          <Badge variant={"light"} size={"xs"}>Opening</Badge>
-        </div>
-        <Text fz="lg" fw={500} c={"dark.4"}>
-          The predict results at my living area is incorrect
-        </Text>
-      </Card>
+  const inquiryList = props.inquiries.map((inquiry) => {
 
+    return (
       <Card
         withBorder
         radius="md"
         w="100%"
         className={classes.card}
-        onClick={() => navigator(`/users`)}
+        onClick={() => navigator(`/inquiries/${inquiry.id}`)}
       >
-        <div style={{display:"flex", justifyContent: "space-between"}}>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            Le Tran Hoang Thinh - 03/05/2023 15:15
+            {inquiry.username} - {inquiry.timestamp}
           </Text>
-          <Badge variant={"light"} size={"xs"} color={"red"}>Closed</Badge>
+          {inquiry.status === "Closed" ?
+            <Badge variant={"light"} size={"xs"} color={"red"}>{inquiry.status}</Badge>
+            :
+            <Badge variant={"light"} size={"xs"}>{inquiry.status}</Badge>}
         </div>
         <Text fz="lg" fw={500} c={"dark.4"}>
-          I can't find my place on your map
+          {inquiry.details}
         </Text>
       </Card>
+    )
+  })
+  return (
+    <Stack w="100%" h="72%" justify="stretch" spacing={10}>
+      {inquiryList}
     </Stack>
-
   )
 }
 

@@ -11,17 +11,43 @@ import DistrictStatusSummary from "../../components/district-status-summary/dist
 import StatsGirdIcons from "../../components/stats-grid-icons/stats-gird-icons";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import AppAnalysisSummary from "../../components/app-analysis-summary/app-analysis-summary";
+import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 
 export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
+  const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
 
   const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState()
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
+  const mockInquiries: InquiryViewModel[] = [
+    {
+      id: "1",
+      username: "Nguyen Mai Thy",
+      timestamp: "03/05/2023 15:15",
+      address: "Address 1",
+      details: "The predict results at my living area is incorrect",
+      status: "Opening"
+    },
+    {
+      id: "2",
+      username: "Le Tran Hoang Thinh",
+      timestamp: "03/05/2023 15:15",
+      address: "Address 2",
+      details: "I can't find my place on your map",
+      status: "Closed"
+    }
+  ]
+
+  const fetchInquiries = async () => {
+    setInquiries(mockInquiries);
+  }
+
   useEffect(() => {
     setLoading(true);
     //TODO: catch loading API state
+    fetchInquiries();
     const timer = setTimeout(() => setLoading(false), 300);
     return () => clearTimeout(timer)
   }, [])
@@ -44,7 +70,8 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}} nav={'/model-management'}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}}
+                            nav={'/model-management'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -74,8 +101,8 @@ export const Dashboard = () => {
             loading={loading}
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
-            <DistrictStatusSummary isForDashboard={true}></DistrictStatusSummary>
-          </Paper>}
+              <DistrictStatusSummary isForDashboard={true}></DistrictStatusSummary>
+            </Paper>}
           />
           <LoadingWrapper
             loading={loading}
@@ -83,8 +110,8 @@ export const Dashboard = () => {
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
               <Stack justify="space-between" align="flex-start" h="100%">
                 <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>
-                <InquirySummary></InquirySummary>
-                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} >Inquiries List</Button>
+                <InquirySummary inquiries={inquiries}></InquirySummary>
+                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}}>Inquiries List</Button>
               </Stack>
             </Paper>}
           />
