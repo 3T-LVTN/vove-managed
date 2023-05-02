@@ -5,6 +5,7 @@ import {PageNotFound} from "../views/page-not-found/page-not-found";
 import { Frame } from './frame';
 import ResetPassword from "../views/reset-password/reset-password";
 import Userlist from "../views/users/userlist";
+import UserInfo from "../views/user-info/userinfo";
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
       {
         path: 'users',
         element: <Userlist/>,
+      },
+      {
+        path: 'users/:id',
+        element: <UserInfo/>,
       }
     ],
     errorElement: <PageNotFound/>
