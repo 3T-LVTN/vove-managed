@@ -71,20 +71,20 @@ const UserInfo = () => {
       {
         id: "3",
         name: "Company",
-        address: "Address 3",
-        status: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh"
+        address: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
+        status: "Epidemic"
       },
       {
         id: "4",
         name: "Ngoc's house",
-        address: "Address 4",
-        status: "Phường 5, Quận 11, Thành phố Hồ Chí Minh"
+        address: "Phường 5, Quận 11, Thành phố Hồ Chí Minh",
+        status: "High Risk"
       },
       {
         id: "5",
         name: "Khoa's house",
-        address: "Address 5",
-        status: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh"
+        address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
+        status: "Good"
       },
       {
         id: "6",
@@ -106,7 +106,7 @@ const UserInfo = () => {
     setInquiries([
       {
         id: "1",
-        username: user?.name ?? "",
+        username: user?.name ?? "Nguyen Mai Thy",
         timestamp: "03/05/2023 15:15",
         address: "Address 1",
         details: "The predict results at my living area is incorrect",
@@ -114,7 +114,7 @@ const UserInfo = () => {
       },
       {
         id: "2",
-        username: user?.name ?? "",
+        username: user?.name ?? "Nguyen Mai Thy",
         timestamp: "03/05/2023 15:15",
         address: "Address 2",
         details: "My app is slow",
@@ -181,7 +181,7 @@ const UserInfo = () => {
       >
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            {location.name}
+            {location.address}
           </Text>
           <Badge variant={"light"} size={"xs"} color={location.status === "Epidemic" ? "red" : (
             location.status === "High Risk" ? "orange" : (
@@ -191,7 +191,7 @@ const UserInfo = () => {
           </Badge>
         </div>
         <Text fz="lg" fw={500} c={"dark.4"}>
-          {location.address}
+          {location.name}
         </Text>
       </Card>
     )
