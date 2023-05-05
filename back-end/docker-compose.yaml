@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  vove-managed-be:
+    image: vove-managed-be
+    container_name: vove-managed-be
+    restart: always
+    ports:
+      - 5001:3333
+    networks:
+      - vove
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ap-southeast-1
+        awslogs-group: vove-web
+networks:
+  vove:
+    name: vove
+    external: true
