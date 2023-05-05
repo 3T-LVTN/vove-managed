@@ -8,12 +8,14 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import {AuthGuard} from "@back-end/frameworks-and-drivers/auth-guard";
+import {GlobalExceptionFilter} from "@back-end/frameworks-and-drivers/middleware"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: process.env["NX_HOME_URL"],
   });
+  app.useGlobalFilters(new GlobalExceptionFilter)
   app.useGlobalGuards(app.get(AuthGuard));
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
