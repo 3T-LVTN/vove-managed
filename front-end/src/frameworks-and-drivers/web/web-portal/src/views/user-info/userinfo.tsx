@@ -73,45 +73,45 @@ const UserInfo = () => {
     setIsLoadingTracking(false);
     setLocations([
       {
-        id: "1",
+        id: "Thinh's house",
         name: "Location 1",
-        address: "Address 1",
+        address: "12 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
         status: "Good"
       },
       {
         id: "2",
-        name: "Location 2",
-        address: "Address 2",
+        name: "School",
+        address: "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh",
         status: "More Mosquitoes"
       },
       {
         id: "3",
-        name: "Location 3",
-        address: "Address 3",
-        status: "High Risk"
-      },
-      {
-        id: "4",
-        name: "Location 4",
-        address: "Address 4",
+        name: "Company",
+        address: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
         status: "Epidemic"
       },
       {
+        id: "4",
+        name: "Ngoc's house",
+        address: "Phường 5, Quận 11, Thành phố Hồ Chí Minh",
+        status: "High Risk"
+      },
+      {
         id: "5",
-        name: "Location 5",
-        address: "Address 5",
+        name: "Khoa's house",
+        address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
         status: "Good"
       },
       {
         id: "6",
-        name: "Location 6",
-        address: "Address 6",
+        name: "Phong's house",
+        address: "Phường 2, Quận 9, Thành phố Hồ Chí Minh",
         status: "Good"
       },
       {
         id: "7",
-        name: "Location 7",
-        address: "Address 7",
+        name: "Quang's house",
+        address: "Phường 3, Quận 9, Thành phố Hồ Chí Minh",
         status: "Good"
       }
     ]);
@@ -123,7 +123,7 @@ const UserInfo = () => {
     setInquiries([
       {
         id: "1",
-        username: user?.name ?? "",
+        username: user?.name ?? "Nguyen Mai Thy",
         timestamp: "03/05/2023 15:15",
         address: "Address 1",
         details: "The predict results at my living area is incorrect",
@@ -131,52 +131,52 @@ const UserInfo = () => {
       },
       {
         id: "2",
-        username: user?.name ?? "",
+        username: user?.name ?? "Nguyen Mai Thy",
         timestamp: "03/05/2023 15:15",
         address: "Address 2",
-        details: "I can't find my place on your map",
+        details: "My app is slow",
         status: "Closed"
       },
-      {
-        id: "3",
-        username: user?.name ?? "",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 3",
-        details: "The predict results at my living area is incorrect",
-        status: "Closed"
-      },
-      {
-        id: "4",
-        username: user?.name ?? "",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 4",
-        details: "I can't find my place on your map",
-        status: "Closed"
-      },
-      {
-        id: "5",
-        username: user?.name ?? "",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 5",
-        details: "The predict results at my living area is incorrect",
-        status: "Closed"
-      },
-      {
-        id: "6",
-        username: user?.name ?? "",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 6",
-        details: "I can't find my place on your map",
-        status: "Closed"
-      },
-      {
-        id: "7",
-        username: user?.name ?? "",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 7",
-        details: "The predict results at my living area is incorrect",
-        status: "Closed"
-      }
+    //   {
+    //     id: "3",
+    //     username: user?.name ?? "",
+    //     timestamp: "03/05/2023 15:15",
+    //     address: "Address 3",
+    //     details: "The predict results at my living area is incorrect",
+    //     status: "Closed"
+    //   },
+    //   {
+    //     id: "4",
+    //     username: user?.name ?? "",
+    //     timestamp: "03/05/2023 15:15",
+    //     address: "Address 4",
+    //     details: "I can't find my place on your map",
+    //     status: "Closed"
+    //   },
+    //   {
+    //     id: "5",
+    //     username: user?.name ?? "",
+    //     timestamp: "03/05/2023 15:15",
+    //     address: "Address 5",
+    //     details: "The predict results at my living area is incorrect",
+    //     status: "Closed"
+    //   },
+    //   {
+    //     id: "6",
+    //     username: user?.name ?? "",
+    //     timestamp: "03/05/2023 15:15",
+    //     address: "Address 6",
+    //     details: "I can't find my place on your map",
+    //     status: "Closed"
+    //   },
+    //   {
+    //     id: "7",
+    //     username: user?.name ?? "",
+    //     timestamp: "03/05/2023 15:15",
+    //     address: "Address 7",
+    //     details: "The predict results at my living area is incorrect",
+    //     status: "Closed"
+    //   }
     ]);
   }
 
@@ -199,7 +199,7 @@ const UserInfo = () => {
       >
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            {location.name}
+            {location.address}
           </Text>
           <Badge variant={"light"} size={"xs"} color={location.status === "Epidemic" ? "red" : (
             location.status === "High Risk" ? "orange" : (
@@ -209,7 +209,7 @@ const UserInfo = () => {
           </Badge>
         </div>
         <Text fz="lg" fw={500} c={"dark.4"}>
-          {location.address}
+          {location.name}
         </Text>
       </Card>
     )
