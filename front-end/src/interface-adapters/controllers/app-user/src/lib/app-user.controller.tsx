@@ -28,8 +28,7 @@ export class AppUserController {
       email: user.email,
       name: user.name,
       phoneNumber: user.phoneNumber,
-      address: user.address,
-      photoUrl: user.photoUrl
+      address: user.address
     };
     return this.appUserUseCase.updateUser(userEntity);
   }

@@ -7,7 +7,8 @@ import {
   Select,
   Text,
   Title,
-  useMantineTheme
+  useMantineTheme,
+  SelectItem,
 } from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import {DropzoneButton} from "../../components/dropzone/dropzone";
@@ -159,7 +160,12 @@ const mockAccuracy: Accuracy[] = [
 export const ModelManagement = () => {
   const theme = useMantineTheme();
 
-  const [value, setValue] = useState<Date | null>(null);
+  const [inputDataDate, setInputDataDate] = useState<Date | null>(null);
+  const [predictDate, setPredictDate] = useState<Date | null>(null);
+  const [district, setDistrict] = useState<number | null>(null);
+  const [ward, setWard] = useState<number | null>(null);
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
 
   const highestAccuracyStat: number = mockAccuracy.reduce((prev, current) => (prev.value > current.value) ? prev : current).value;
 
@@ -194,20 +200,17 @@ export const ModelManagement = () => {
                   <Grid.Col span={12}>
                     <Title fw={500} fz="lg" order={4} color="dark.4">Input Data</Title>
                   </Grid.Col>
-                  <Grid.Col span={5}>
+                  <Grid.Col span={12}>
                     <DatePickerInput
                       placeholder="Pick date"
-                      value={value}
-                      onChange={setValue}
+                      value={inputDataDate}
+                      onChange={setInputDataDate}
                       size="md"
                       radius="md"
                     />
                   </Grid.Col>
-                  <Grid.Col span={7}>
-                    <Button w="100%" size="md" radius="md">Weather</Button>
-                  </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button w="100%" size="md" radius="md" color="orange">Download CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md">Download CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -221,14 +224,14 @@ export const ModelManagement = () => {
                   <Grid.Col span={12}>
                     <DatePickerInput
                       placeholder="Pick date"
-                      value={value}
-                      onChange={setValue}
+                      value={predictDate}
+                      onChange={setPredictDate}
                       size="md"
                       radius="md"
                     />
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button w="100%" size="md" radius="md" color="orange">Download CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md">Download CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -271,8 +274,8 @@ export const ModelManagement = () => {
                   <Grid.Col span={6}>
                     <DatePickerInput
                       placeholder="From date"
-                      value={value}
-                      onChange={setValue}
+                      value={fromDate}
+                      onChange={setFromDate}
                       size="md"
                       radius="md"
                     />
@@ -280,8 +283,8 @@ export const ModelManagement = () => {
                   <Grid.Col span={6}>
                     <DatePickerInput
                       placeholder="To date"
-                      value={value}
-                      onChange={setValue}
+                      value={toDate}
+                      onChange={setToDate}
                       size="md"
                       radius="md"
                     />
@@ -295,7 +298,7 @@ export const ModelManagement = () => {
         <Grid.Col span={12}>
           <Paper withBorder p="md" radius="md" ta="center">
             <DropzoneButton/>
-            <Button w={250} size="md" radius="md">Upload data</Button>
+            <Button variant={"light"} w={250} size="md" radius="md">Upload data</Button>
           </Paper>
         </Grid.Col>
       </Grid>
