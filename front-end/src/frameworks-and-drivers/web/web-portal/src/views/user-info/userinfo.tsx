@@ -3,7 +3,19 @@ import {AppUserApi} from "@front-end/frameworks-and-drivers/app-sync/user";
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
-import {Badge, Card, createStyles, Grid, Image, Paper, ScrollArea, Stack, Text, Title} from "@mantine/core";
+import {
+  Badge,
+  Card,
+  Container,
+  createStyles,
+  Grid,
+  Paper,
+  ScrollArea,
+  Skeleton,
+  Stack,
+  Text,
+  Title
+} from "@mantine/core";
 import {useParams} from "react-router-dom";
 import {AppUser} from "@front-end/domain/entities/app-user";
 import {useEffect, useState} from "react";
@@ -46,6 +58,9 @@ const UserInfo = () => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [locations, setLocations] = useState<TrackingViewModel[]>([]);
   const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
+  const [isLoadingTracking, setIsLoadingTracking] = useState<boolean>(true);
+  const [isLoadingInquiry, setIsLoadingInquiry] = useState<boolean>(true);
 
   const fetchDetails = async (id: string) => {
     appUserController.getUser(id!).then((user) => {
@@ -55,6 +70,7 @@ const UserInfo = () => {
 
   const fetchTrackingList = async (id: string) => {
     //TODO: Fetch tracking list from API
+    setIsLoadingTracking(false);
     setLocations([
       {
         id: "1",
@@ -103,6 +119,7 @@ const UserInfo = () => {
 
   const fetchInquiryList = async (id: string) => {
     //TODO: Fetch inquiry list from API
+    setIsLoadingInquiry(false)
     setInquiries([
       {
         id: "1",
@@ -166,6 +183,7 @@ const UserInfo = () => {
   useEffect(() => {
     fetchDetails(id!)
       .then(() => {
+        setIsLoadingUser(false);
         fetchTrackingList(id!);
         fetchInquiryList(id!);
       });
@@ -200,42 +218,46 @@ const UserInfo = () => {
   return (
     <Grid>
       <Grid.Col span={12}>
-        <Paper withBorder p="md" radius="md">
-          <Grid>
-            <Grid.Col xs={12} md="content" p="lg">
-              <Image maw="15vh" mah="15vh"
-                     ml="auto" mr="auto"
-                     src={user?.photoUrl ?? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"}
-                     radius="100%" alt="Avatar"></Image>
-            </Grid.Col>
-            <Grid.Col xs={12} md="auto">
-              <Title order={1} mb="xs">{user?.name}</Title>
-              <Text mb="xs"><b>Email:</b> {user?.email}</Text>
-              <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
-              <Text mb="xs"><b>Address:</b> {user?.address}</Text>
-            </Grid.Col>
-          </Grid>
-        </Paper>
+        <Skeleton visible={isLoadingUser}>
+          <Paper withBorder p="md" radius="md">
+            <Title order={1} mb="xs">{user?.name}</Title>
+            <Text mb="xs"><b>Email:</b> {user?.email}</Text>
+            <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
+            <Text mb="xs"><b>Address:</b> {user?.address}</Text>
+          </Paper>
+        </Skeleton>
       </Grid.Col>
 
       <Grid.Col xs={12} md={6}>
-        <Paper withBorder radius="md" p="md">
-          <Title order={2} mb="xs">Tracking List</Title>
-          <ScrollArea h="58vh">
-            <Stack spacing={10} p={10}>
-              {trackingList}
-            </Stack>
-          </ScrollArea>
-        </Paper>
+        <Skeleton visible={isLoadingUser}>
+          <Paper withBorder radius="md" py="md">
+            <Title order={2} mb="xs" mx="md">Tracking List</Title>
+            <ScrollArea h="58vh">
+              <Container px="md">
+                <Skeleton visible={isLoadingTracking}>
+                  <Stack spacing={10}>
+                    {trackingList}
+                  </Stack>
+                </Skeleton>
+              </Container>
+            </ScrollArea>
+          </Paper>
+        </Skeleton>
       </Grid.Col>
 
       <Grid.Col xs={12} md={6}>
-        <Paper withBorder radius="md" p="md">
-          <Title order={2} mb="xs">Inquiry List</Title>
-          <ScrollArea h="58vh">
-            <InquirySummary inquiries={inquiries}></InquirySummary>
-          </ScrollArea>
-        </Paper>
+        <Skeleton visible={isLoadingUser}>
+          <Paper withBorder radius="md" py="md">
+            <Title order={2} mb="xs" mx="md">Inquiry List</Title>
+            <ScrollArea h="58vh">
+              <Container px="md">
+                <Skeleton visible={isLoadingInquiry}>
+                  <InquirySummary inquiries={inquiries}></InquirySummary>
+                </Skeleton>
+              </Container>
+            </ScrollArea>
+          </Paper>
+        </Skeleton>
       </Grid.Col>
     </Grid>
   )

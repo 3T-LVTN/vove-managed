@@ -10,5 +10,4 @@ export interface AppUserViewModel {
   name: string;
   phoneNumber: string;
   address: string;
-  photoUrl: string;
 }

@@ -4,7 +4,6 @@ export interface AppUser {
   name: string;
   phoneNumber: string;
   address: string;
-  photoUrl: string;
 }
 
 export interface AppUserList {
