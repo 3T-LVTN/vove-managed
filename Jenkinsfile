@@ -20,12 +20,12 @@ pipeline {
                     def credentialsId = ''
                     env.BRANCH_NAME = env.BRANCH_NAME?env.BRANCH_NAME:"test_pipeline"
                     def branch = env.BRANCH_NAME
-                    if (branch == 'master') {
+                    if (branch == 'master'|| branch == 'test_pipeline') {
                         env.BE_ENV = 'vove_be_env_prod'
                         env.FE_ENV = 'vove_fe_env_prod'
                         env.ALEMBIC = 'alembic_vove_bug'
                         env.CONTAINER_PREFIX = 'prod'
-                    } else if (branch == 'dev' || branch == 'test_pipeline') {
+                    } else if (branch == 'dev') {
                         env.BE_ENV = 'vove_be_env'
                         env.FE_ENV = 'vove_fe_env'
                         env.ALEMBIC = 'alembic_vove_bug'
@@ -58,8 +58,7 @@ pipeline {
                         sh "cd $directory; chmod +x ./build.sh; ./build.sh --env $env.CONTAINER_PREFIX --env-file .env"                         
                         directory = "$directoryPrefix/front-end" 
                         sh "cp $FE_ENV $directory/.env"
-                        sh "cd $directory; chmod +x ./build.sh; ./build.sh --env $env.CONTAINER_PREFIX --env-file .env"                        
-                    
+                        sh "cd $directory; chmod +x ./build.sh; ./build.sh"                                            
                     }
                 }
             }

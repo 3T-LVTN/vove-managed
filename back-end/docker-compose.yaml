@@ -1,12 +1,12 @@
 version: "3.8"
 services:
-  vove-managed-be:
+  vove_managed_be:
     environment:
       - ENV=${ENV}
     env_file:
       - ${ENV_FILE}
-    image: vove-managed-be-${ENV}
-    container_name: vove-managed-be-${ENV}
+    image: vove_managed_be_${ENV}
+    container_name: vove_managed_be_${ENV}
     restart: always
     ports:
       - ${APP_PORT}:3333
