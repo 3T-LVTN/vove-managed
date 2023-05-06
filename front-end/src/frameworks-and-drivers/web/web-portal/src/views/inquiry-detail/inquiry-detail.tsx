@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {Button, Container, Grid, Group, Paper, Text, Title, useMantineTheme} from "@mantine/core";
 import React, {useEffect, useState} from "react";
+import {PageTitle} from "../../components/page-title/page-title";
 
 interface InquiryRequest {
   id: string;
@@ -89,6 +90,7 @@ const InquiryDetail = () => {
 
   return (
     <Container fluid>
+      <PageTitle title={"Inquiry Detail"}/>
       <Paper withBorder p="md" radius="md">
         <Title order={1} mb="xs">{inquiryRequest?.title}</Title>
         <Text mb="xs"><b>Time:</b> {inquiryRequest?.time}</Text>
