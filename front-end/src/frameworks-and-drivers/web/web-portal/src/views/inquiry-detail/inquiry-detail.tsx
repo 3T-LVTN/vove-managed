@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
-import {Button, Container, Grid, Group, Paper, Text, Title, useMantineTheme} from "@mantine/core";
-import React, {useEffect, useState} from "react";
+import {Button, Container, Grid, Group, Paper, Text, Textarea, Title, useMantineTheme} from "@mantine/core";
+import React, {useEffect, useRef, useState} from "react";
 import {PageTitle} from "../../components/page-title/page-title";
 
 interface InquiryRequest {
@@ -31,7 +31,7 @@ const mockData: InquiryRequest = {
   phoneNumber: "0394143031",
   address: "Xã Tân Xuân, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
   content: "I am writing to inquire about your epidemic forecast service. I am interested in using your service to help me better understand the likelihood and severity of potential disease outbreaks in my area. Can you provide me with more information about the data sources you use and the accuracy of your forecasts? Additionally, can you tell me more about the range of diseases that your service covers and the methods you use for analyzing and predicting outbreaks?",
-  status: "Closed",
+  status: "Opening",
 }
 
 const mockComment: Comment[] = [
@@ -52,6 +52,8 @@ const mockComment: Comment[] = [
 const InquiryDetail = () => {
   const [inquiryRequest, setInquiryRequest] = useState<InquiryRequest | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [isCommenting, setIsCommenting] = useState<boolean>(false);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const {id} = useParams();
 
@@ -61,6 +63,18 @@ const InquiryDetail = () => {
     setInquiryRequest(mockData);
     setComments(mockComment);
   }, [id]);
+
+  const confirmComment = () => {
+    console.log(commentRef.current?.value);
+    setIsCommenting(false);
+    if (commentRef.current?.value.length === 0) return;
+    const newComment = commentRef.current?.value;
+  }
+
+  const cancelComment = () => {
+    setIsCommenting(false);
+    commentRef.current!.value = "";
+  }
 
   const commentList = comments.map((comment) => {
     return (<div>
@@ -106,19 +120,33 @@ const InquiryDetail = () => {
         <Paper withBorder p="md" radius="md" mt="md">
           <Title order={2} mb="lg">Comments</Title>
           {commentList}
+          {isCommenting ?
+            <Textarea
+              placeholder="Your comment"
+              label="Add new comment"
+              mb="md"
+              size="md"
+              ref={commentRef}
+            />
+            : ""}
           {inquiryRequest?.status === "Closed" ?
             <Button variant={"light"} size="sm">Reopen</Button>
             :
-            <Group>
-              <Button variant={"light"} size="sm" >Add comment</Button>
-              <Button variant={"light"} size="sm" color="red">Close inquiry</Button>
-            </Group>
+            isCommenting ?
+              <Group>
+                <Button variant={"light"} size="sm" onClick={() => confirmComment()}>Comment</Button>
+                <Button variant={"light"} size="sm" onClick={() => cancelComment()} color="red">Cancel</Button>
+              </Group>
+              :
+              <Group>
+                <Button variant={"light"} size="sm" onClick={() => setIsCommenting(true)}>Add comment</Button>
+                <Button variant={"light"} size="sm" color="red">Close inquiry</Button>
+              </Group>
           }
         </Paper>
       }
     </Container>
-  )
-    ;
+  );
 }
 
 export default InquiryDetail;
