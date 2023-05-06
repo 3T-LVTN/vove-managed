@@ -9,7 +9,7 @@ import {
 import {
   Box,
   ActionIcon,
-  Tooltip,
+  Tooltip, Container,
 } from '@mantine/core';
 import {IconTrash, IconEdit, IconId} from '@tabler/icons-react';
 import {AppUserListViewModel, AppUserViewModel} from "@front-end/interface-adapters/view-models/app-user";
@@ -20,6 +20,7 @@ import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
 import {Query, UserFilter} from "@front-end/shared/utils";
 import {useNavigate} from "react-router-dom";
+import {PageTitle} from "../../components/page-title/page-title";
 
 
 const AppUserList = () => {
@@ -196,8 +197,8 @@ const AppUserList = () => {
   );
 
   return (
-    <>
-      {/* <PageTitle title={"Users Management"}></PageTitle> */}
+    <Container fluid>
+      <PageTitle title={"Users Management"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}
@@ -253,12 +254,8 @@ const AppUserList = () => {
             </Tooltip>
           </Box>
         )}
-
-        // renderTopToolbarCustomActions={() => (
-        //   <Title order={2}>User Management</Title>
-        // )}
       />
-    </>
+    </Container>
   );
 };
 
