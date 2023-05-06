@@ -18,9 +18,9 @@ pipeline {
             steps {
                 script {
                     def credentialsId = ''
-                    env.BRANCH_NAME = env.BRANCH_NAME?env.BRANCH_NAME:"test_pipeline"
+                    env.BRANCH_NAME = env.BRANCH_NAME?env.BRANCH_NAME:"dev"
                     def branch = env.BRANCH_NAME
-                    if (branch == 'master'|| branch == 'test_pipeline') {
+                    if (branch == 'master') {
                         env.BE_ENV = 'vove_be_env_prod'
                         env.FE_ENV = 'vove_fe_env_prod'
                         env.ALEMBIC = 'alembic_vove_bug'
