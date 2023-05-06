@@ -8,6 +8,7 @@ import Userlist from "../views/users/userlist";
 import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
 import InquiryList from "../views/inquiry-list/inquiry-list";
+import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
 
 export const routes = [
   {
@@ -41,6 +42,10 @@ export const routes = [
       {
         path: 'inquiries',
         element: <InquiryList/>,
+      },
+      {
+        path: 'inquiries/:id',
+        element: <InquiryDetail/>,
       }
     ],
     errorElement: <PageNotFound/>
