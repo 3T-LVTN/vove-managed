@@ -7,6 +7,7 @@ import ResetPassword from "../views/reset-password/reset-password";
 import Userlist from "../views/users/userlist";
 import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
+import InquiryList from "../views/inquiry-list/inquiry-list";
 
 export const routes = [
   {
@@ -36,6 +37,10 @@ export const routes = [
       {
         path: 'model-management',
         element: <ModelManagement/>,
+      },
+      {
+        path: 'inquiries',
+        element: <InquiryList/>,
       }
     ],
     errorElement: <PageNotFound/>

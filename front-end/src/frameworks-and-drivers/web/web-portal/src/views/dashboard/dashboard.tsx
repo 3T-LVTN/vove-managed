@@ -1,4 +1,4 @@
-import {ActionIcon, Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
+import {Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
 import {Map} from "../../components/map/map";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useState} from "react";
@@ -12,10 +12,13 @@ import StatsGirdIcons from "../../components/stats-grid-icons/stats-gird-icons";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import AppAnalysisSummary from "../../components/app-analysis-summary/app-analysis-summary";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+import {useNavigate} from "react-router-dom";
 
 export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
+
+  const navigator = useNavigate();
 
   const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState()
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
@@ -111,7 +114,7 @@ export const Dashboard = () => {
               <Stack justify="space-between" align="flex-start" h="100%">
                 <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>
                 <InquirySummary inquiries={inquiries}></InquirySummary>
-                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}}>Inquiries List</Button>
+                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} onClick={()=>navigator("inquiries")}>Inquiries List</Button>
               </Stack>
             </Paper>}
           />
