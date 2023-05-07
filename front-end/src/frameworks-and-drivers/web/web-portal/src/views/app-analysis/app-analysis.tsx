@@ -33,10 +33,10 @@ const AppAnalysisByPlace = () => {
                     New User
                   </Text>
                   <Text weight={700}>
-                    Lượt truy cập
+                    Visit
                   </Text>
                   <Text weight={700}>
-                    Inquiry
+                    Inquiries
                   </Text>
                 </div>
                 <div>
@@ -59,7 +59,7 @@ const AppAnalysisByPlace = () => {
                     Tracking
                   </Text>
                   <Text weight={700}>
-                    Average tracking
+                    Average Tracking
                   </Text>
                 </div>
                 <div>
@@ -79,7 +79,7 @@ const AppAnalysisByPlace = () => {
                     Feedback
                   </Text>
                   <Text weight={700}>
-                    Average feedback
+                    Average Feedback
                   </Text>
                 </div>
                 <div>
