@@ -26,5 +26,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["layer:interface-adapters"]
 }

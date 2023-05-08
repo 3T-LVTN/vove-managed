@@ -8,7 +8,7 @@ import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/s
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 
 export interface MapProps {
-  fullScreenControl: Boolean
+  fullScreenControl: boolean
 }
 
 const containerStyle = {
