@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from "react";
+import React, {ReactElement, useEffect, useMemo, useState} from "react";
 import {GoogleMap, HeatmapLayerF, useGoogleMap, useJsApiLoader} from "@react-google-maps/api";
 import {ActionIcon} from "@mantine/core";
 import {IconArrowsMaximize} from "@tabler/icons-react";
@@ -6,37 +6,62 @@ import styles from './map.module.css'
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
+import axios from "axios";
+import { json } from "stream/consumers";
+import { useLogger } from "@mantine/hooks";
 
 export interface MapProps {
-  fullScreenControl: Boolean
+  fullScreenControl: boolean
 }
 
-const containerStyle = {
+const containerStyle = {  
   width: "100%",
   height: "100%",
 };
+type HeatMapPointData = {
+  long: number
+  lat: number 
+  weight?: number
+  idx? :number
+}
+type HeatMapData = {
+  availableLocations?: Array<HeatMapPointData>
+  missingLocation?: Array<HeatMapPointData>
+}
 
-export const Map = () => {
+const initPointData: Map<number,HeatMapPointData> = new Map([
+ [1, {lat: 10.764, long: 106.702}],
+ [2,{ lat: 10.764, long:  106.703}],
+ [3,{ lat: 10.764, long:  106.701}],
+ [4,{ lat: 10.764, long:  106.705}],
+ [5,{ lat: 10.764, long:  106.704}],
+])
+
+export const VoveMap =  () => {
   const {isLoaded} = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env["NX_GOOGLE_API_KEY"]!,
     libraries: ['visualization', 'places']
   });
 
+  const [stateData , setData] =  useState(initPointData)
+  
   const centerPoint = {lat: 10.7644912, lng: 106.702996};
+
+  useMemo(() => {
+    setData(stateData);
+  }, [stateData])
 
   const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState()
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
   const renderMap = () => {
-    const heatmapData = [
-      {location: new google.maps.LatLng(10.764, 106.702), weight: 15},
-      {location: new google.maps.LatLng(10.764, 106.703), weight: 15},
-      {location: new google.maps.LatLng(10.764, 106.701), weight: 15},
-      {location: new google.maps.LatLng(10.764, 106.705), weight: 15},
-      {location: new google.maps.LatLng(10.764, 106.704), weight: 15},
-    ]
+    const data: HeatMapData =  await axios.post("/prediction", stateData).then((resp)=>resp.data).catch((e) => console.log(e))
+    const heatmapData = data.availableLocations?.forEach((value)=> {
+      const val = initPointData.get(value.idx?value.idx:0)
+      return {location: new google.maps.LatLng((val?val:value).lat, (val?val:value).long), weight: value.weight}
+    })
     return (
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -56,5 +81,5 @@ export const Map = () => {
     )
   }
 
-  return isLoaded ? renderMap() : <></>
+  return isLoaded ? renderMap():null
 };
