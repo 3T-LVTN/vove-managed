@@ -48,6 +48,12 @@
       "@back-end/frameworks-and-drivers/configuration": [
         "src/frameworks-and-drivers/configuration/src/index.ts"
       ],
+      "@back-end/frameworks-and-drivers/adapter": [
+        "src/frameworks-and-drivers/adapter/src/index.ts"
+      ],
+      "@back-end/frameworks-and-drivers/middleware": [
+        "src/frameworks-and-drivers/middleware/src/index.ts"
+      ],
       "@back-end/frameworks-and-drivers/mongodb/user": [
         "src/frameworks-and-drivers/mongodb/user/src/index.ts"
       ],

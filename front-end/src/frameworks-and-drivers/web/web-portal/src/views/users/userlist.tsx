@@ -9,9 +9,9 @@ import {
 import {
   Box,
   ActionIcon,
-  Tooltip,
+  Tooltip, Container,
 } from '@mantine/core';
-import {IconTrash, IconEdit} from '@tabler/icons-react';
+import {IconTrash, IconEdit, IconId} from '@tabler/icons-react';
 import {AppUserListViewModel, AppUserViewModel} from "@front-end/interface-adapters/view-models/app-user";
 import {AppUserRepository} from "@front-end/application/repositories/app-user";
 import {AppUserApi} from "@front-end/frameworks-and-drivers/app-sync/user";
@@ -19,6 +19,8 @@ import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
 import {Query, UserFilter} from "@front-end/shared/utils";
+import {useNavigate} from "react-router-dom";
+import {PageTitle} from "../../components/page-title/page-title";
 
 
 const AppUserList = () => {
@@ -39,6 +41,8 @@ const AppUserList = () => {
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
+
+  const navigate = useNavigate();
 
   const filterConvert = (filter: MRT_ColumnFiltersState) => {
     const result: UserFilter = {};
@@ -193,8 +197,8 @@ const AppUserList = () => {
   );
 
   return (
-    <>
-      {/* <PageTitle title={"Users Management"}></PageTitle> */}
+    <Container fluid>
+      <PageTitle title={"Users Management"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}
@@ -229,6 +233,13 @@ const AppUserList = () => {
 
         renderRowActions={({row, table}) => (
           <Box sx={{display: 'flex', gap: '16px'}}>
+            <Tooltip withArrow position="right" label="Info">
+              <ActionIcon color="blue" onClick={() => {
+                navigate(row.original.id)
+              }}>
+                <IconId/>
+              </ActionIcon>
+            </Tooltip>
             <Tooltip withArrow position="left" label="Edit">
               <ActionIcon color="teal" onClick={() => table.setEditingRow(row)}>
                 <IconEdit/>
@@ -243,12 +254,8 @@ const AppUserList = () => {
             </Tooltip>
           </Box>
         )}
-
-        // renderTopToolbarCustomActions={() => (
-        //   <Title order={2}>User Management</Title>
-        // )}
       />
-    </>
+    </Container>
   );
 };
 

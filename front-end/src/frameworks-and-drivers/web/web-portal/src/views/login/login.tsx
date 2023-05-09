@@ -39,6 +39,7 @@ export const Login = () => {
 
         <Grid.Col sm={5} xs={12}>
           <form onSubmit={form.onSubmit(() => userController.signIn(form.values.email, form.values.password)
+            .then(() => navigate('/'))
             .catch(() => showWrongInfoNotification()))}>
             <Stack align="stretch" justify="space-around">
               <Title

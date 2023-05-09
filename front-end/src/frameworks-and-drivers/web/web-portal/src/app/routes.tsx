@@ -5,6 +5,10 @@ import {PageNotFound} from "../views/page-not-found/page-not-found";
 import { Frame } from './frame';
 import ResetPassword from "../views/reset-password/reset-password";
 import Userlist from "../views/users/userlist";
+import UserInfo from "../views/user-info/userinfo";
+import {ModelManagement} from "../views/model-management/model-management";
+import InquiryList from "../views/inquiry-list/inquiry-list";
+import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
 
 export const routes = [
   {
@@ -26,6 +30,22 @@ export const routes = [
       {
         path: 'users',
         element: <Userlist/>,
+      },
+      {
+        path: 'users/:id',
+        element: <UserInfo/>,
+      },
+      {
+        path: 'model-management',
+        element: <ModelManagement/>,
+      },
+      {
+        path: 'inquiries',
+        element: <InquiryList/>,
+      },
+      {
+        path: 'inquiries/:id',
+        element: <InquiryDetail/>,
       }
     ],
     errorElement: <PageNotFound/>
