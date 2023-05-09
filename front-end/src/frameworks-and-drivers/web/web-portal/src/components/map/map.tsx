@@ -93,7 +93,6 @@ export const VoveMap = () => {
       heatmapData.push(weightedLocation);
       setHeatmapData([...heatmapData])
     })
-    console.log(heatmapData)
   }
 
   useEffect(() => {

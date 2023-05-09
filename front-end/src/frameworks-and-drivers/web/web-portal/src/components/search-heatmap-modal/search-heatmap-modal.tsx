@@ -95,12 +95,9 @@ export function SearchHeatmapModal() {
     if (!isLoaded) return;
     setIsHeatMapLoaded(false)
     fetchHeatmapData();
-    console.log("heatmapData")
   }, [isLoaded])
 
   const renderHeatMap = () => {
-    console.log("renderHeatMap")
-    console.log(heatmapData)
     return (
       <GoogleMap
         mapContainerStyle={containerStyle}
