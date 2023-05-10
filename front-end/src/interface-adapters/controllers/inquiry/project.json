@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "src/interface-adapters/controllers/inquiry/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["layer:interface-adapters"],
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",

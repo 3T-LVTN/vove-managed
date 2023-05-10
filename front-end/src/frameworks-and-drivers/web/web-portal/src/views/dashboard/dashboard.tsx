@@ -1,5 +1,5 @@
-import {Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
-import {Map} from "../../components/map/map";
+import {ActionIcon, Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
+import {VoveMap} from "../../components/map/map";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useState} from "react";
 import {LoadingWrapper} from "../../components/loading-wrapper/loading-wrapper";
@@ -94,7 +94,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"65vh"}
           children={<Paper withBorder p="md" radius="md" style={{height: "65vh"}}>
-            <Map></Map>
+            <VoveMap></VoveMap>
           </Paper>}
         />
       </Grid.Col>

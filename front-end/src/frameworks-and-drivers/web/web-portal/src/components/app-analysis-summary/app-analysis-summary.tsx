@@ -16,8 +16,7 @@ interface AppAnalysisSummaryProps {
 export function AppAnalysisSummary({data}: AppAnalysisSummaryProps) {
   const navigator = useNavigate();
 
-  return (<>
-      <Group position="apart" align="top" mt={0}>
+  return (<Group position="apart" align="top" mt={0}>
         <div>
           <Text c="dimmed" fz="sm" mt="0">
             <Text component="span" c={'cyan'} fw={700}>
@@ -42,8 +41,7 @@ export function AppAnalysisSummary({data}: AppAnalysisSummaryProps) {
           <IconArrowUpRight
             size="2.125rem"/>
         </ActionIcon>
-      </Group>
-    </>);
+      </Group>);
 }
 
 export default AppAnalysisSummary;
