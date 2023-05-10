@@ -9,9 +9,9 @@ import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
 import InquiryList from "../views/inquiry-list/inquiry-list";
 import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
-import App from "./app";
 import AppAnalysis from "../views/app-analysis/app-analysis";
 import DistrictSummary from "../views/district-summary/district-summary";
+import DistrictDetail from "../views/district-detail/district-detail";
 
 export const routes = [
   {
@@ -57,6 +57,10 @@ export const routes = [
       {
         path: 'districts',
         element: <DistrictSummary/>,
+      },
+      {
+        path: 'districts/:id',
+        element: <DistrictDetail/>,
       }
     ],
     errorElement: <PageNotFound/>
