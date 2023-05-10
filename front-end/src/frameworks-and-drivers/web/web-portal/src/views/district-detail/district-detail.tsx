@@ -154,12 +154,12 @@ const DistrictDetail = () => {
   const labels = mockData.map((districtStatus) => districtStatus.wardName);
   const date = new Date();
   const time = date.toLocaleTimeString() + " - " + date.toLocaleDateString();
-  
+
   return (
     <Container fluid>
       <PageTitle title={"District 1"}/>
       <Group mb="md">
-        <Button variant={"light"} color="yellow" onClick={() => navigate("../districts")}>
+        <Button variant={"light"} color="yellow" onClick={() => navigate(-1)}>
           Back to All places
         </Button>
         <Button variant={"light"} onClick={() => window.location.reload()}>
