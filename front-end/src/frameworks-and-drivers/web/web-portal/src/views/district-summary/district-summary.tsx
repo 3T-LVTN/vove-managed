@@ -13,7 +13,7 @@ import {
   ThemeIcon
 } from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
-import {Map} from "../../components/map/map";
+import {VoveMap} from "../../components/map/map";
 import SearchHeatmapModal from "../../components/search-heatmap-modal/search-heatmap-modal";
 import React, {useState} from "react";
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
@@ -213,7 +213,7 @@ const DistrictSummary = () => {
         </Modal>
         <Grid.Col lg={8} md={12}>
           <Paper withBorder p="md" radius="md" style={{height: "50vh"}}>
-            <Map></Map>
+            <VoveMap></VoveMap>
           </Paper>
         </Grid.Col>
         <Grid.Col lg={4} md={12}>
