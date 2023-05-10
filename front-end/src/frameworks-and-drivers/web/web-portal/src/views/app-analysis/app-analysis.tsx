@@ -1,8 +1,9 @@
-import {Button, Container, Grid, Group, Paper, Select, SimpleGrid, Text, useMantineTheme} from "@mantine/core";
+import {Button, Container, Grid, Group, Paper, Select, SimpleGrid, Tabs, Text, useMantineTheme} from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import {useEffect, useState} from "react";
 import LineChart from "../../components/line-chart/line-chart";
 import BarChart from "../../components/bar-chart/bar-chart";
+import StyledTabs from "../../components/styled-tabs/styled-tabs";
 
 const AppAnalysisByPlace = () => {
   const [labels, setLabels] = useState<string[]>([]);
@@ -309,74 +310,79 @@ const AppAnalysisByTime = () => {
 }
 
 const AppAnalysis = () => {
-  const [isViewByPlace, setIsViewByPlace] = useState<boolean>(true)
+  const [viewBy, setViewBy] = useState<string | null>("place")
 
   return (
     <Container fluid>
-      <Grid>
-        <Grid.Col span={12}>
-          <Group position={"apart"}>
-            <PageTitle title={"App Analysis" + (isViewByPlace ? " - Places" : " - Time")}/>
-            <Button variant={"light"} size="lg" color="orange" w={280}
-                    onClick={() => {
-                      setIsViewByPlace(!isViewByPlace);
-                      console.log(isViewByPlace
-                      )
-                    }}>
-              {isViewByPlace ?
-                "Change to View by Time"
-                :
-                "Change to View by Place"
-              }
-            </Button>
-          </Group>
-        </Grid.Col>
-        <Grid.Col span={12}>
-          <Group position={"left"}>
-            <Select
-              placeholder="Choose time period"
-              data={[
-                {value: '1d', label: '1 day'},
-                {value: '1w', label: '1 week'},
-                {value: '1m', label: '1 month'},
-                {value: '3m', label: '3 months'},
-                {value: '6m', label: '6 months'},
-                {value: '1y', label: '1 year (default)', selected: true},
-                {value: 'all', label: 'All time'}
-              ]}
-            />
-            {isViewByPlace ?
+
+      <StyledTabs value={viewBy} onTabChange={setViewBy}>
+        <Grid>
+          <Grid.Col span={12}>
+            <Group position={"apart"}>
+              <PageTitle title={"App Analysis" + (viewBy === "Place" ? " - Places" : " - Time")}/>
+              <Tabs.List>
+                <Tabs.Tab value="place">
+                  <Text fw={700} size="md">
+                    By Places
+                  </Text>
+                </Tabs.Tab>
+                <Tabs.Tab value="time">
+                  <Text fw={700} size="md">
+                    By Time
+                  </Text>
+                </Tabs.Tab>
+              </Tabs.List>
+            </Group>
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Group position={"left"}>
               <Select
-                placeholder="Choose area"
+                placeholder="Choose time period"
                 data={[
-                  {value: '1', label: 'Quận 1', selected: true},
-                  {value: '2', label: 'Quận 3'},
-                  {value: '3', label: 'Quận 4'},
-                  {value: '4', label: 'Quận 5'},
-                  {value: '5', label: 'Quận 6'},
-                  {value: '6', label: 'Quận 7'},
-                  {value: '7', label: 'Quận 8'},
-                  {value: '8', label: 'Quận 10'},
-                  {value: '9', label: 'Quận 11'},
-                  {value: '10', label: 'Quận 12'},
-                  {value: '11', label: 'Huyện Hóc Môn'},
+                  {value: '1d', label: '1 day'},
+                  {value: '1w', label: '1 week'},
+                  {value: '1m', label: '1 month'},
+                  {value: '3m', label: '3 months'},
+                  {value: '6m', label: '6 months'},
+                  {value: '1y', label: '1 year (default)', selected: true},
+                  {value: 'all', label: 'All time'}
                 ]}
               />
-              :
-              null
-            }
-            <Button variant={"light"}>
-              Apply
-            </Button>
-          </Group>
-        </Grid.Col>
-        <Grid.Col span={12}>
-          {isViewByPlace ?
-            <AppAnalysisByPlace/>
-            :
-            <AppAnalysisByTime/>}
-        </Grid.Col>
-      </Grid>
+              {viewBy === "place" ?
+                <Select
+                  placeholder="Choose area"
+                  data={[
+                    {value: '1', label: 'Quận 1', selected: true},
+                    {value: '2', label: 'Quận 3'},
+                    {value: '3', label: 'Quận 4'},
+                    {value: '4', label: 'Quận 5'},
+                    {value: '5', label: 'Quận 6'},
+                    {value: '6', label: 'Quận 7'},
+                    {value: '7', label: 'Quận 8'},
+                    {value: '8', label: 'Quận 10'},
+                    {value: '9', label: 'Quận 11'},
+                    {value: '10', label: 'Quận 12'},
+                    {value: '11', label: 'Huyện Hóc Môn'},
+                  ]}
+                />
+                :
+                null
+              }
+              <Button variant={"light"}>
+                Apply
+              </Button>
+            </Group>
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Tabs.Panel value={"place"}>
+              <AppAnalysisByPlace/>
+            </Tabs.Panel>
+            <Tabs.Panel value={"time"}>
+              <AppAnalysisByTime/>
+            </Tabs.Panel>
+          </Grid.Col>
+        </Grid>
+      </StyledTabs>
     </Container>
   );
 };
