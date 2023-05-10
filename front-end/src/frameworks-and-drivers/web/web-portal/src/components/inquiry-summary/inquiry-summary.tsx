@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const inquirySummary = (props: InquirySummaryProps) => {
+export const InquirySummary = (props: InquirySummaryProps) => {
   const navigator = useNavigate();
   const {classes} = useStyles();
 
@@ -22,6 +22,7 @@ export const inquirySummary = (props: InquirySummaryProps) => {
 
     return (
       <Card
+        key={inquiry.id}
         withBorder
         radius="md"
         w="100%"
@@ -50,4 +51,4 @@ export const inquirySummary = (props: InquirySummaryProps) => {
   )
 }
 
-export default inquirySummary;
+export default InquirySummary;

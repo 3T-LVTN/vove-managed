@@ -9,6 +9,7 @@ import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
 import InquiryList from "../views/inquiry-list/inquiry-list";
 import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
+import DistrictSummary from "../views/district-summary/district-summary";
 
 export const routes = [
   {
@@ -46,6 +47,10 @@ export const routes = [
       {
         path: 'inquiries/:id',
         element: <InquiryDetail/>,
+      },
+      {
+        path: 'districts',
+        element: <DistrictSummary/>,
       }
     ],
     errorElement: <PageNotFound/>

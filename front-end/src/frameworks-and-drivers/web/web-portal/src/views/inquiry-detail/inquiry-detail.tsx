@@ -77,7 +77,8 @@ const InquiryDetail = () => {
   }
 
   const commentList = comments.map((comment) => {
-    return (<div>
+    return (
+      <>
         <Grid>
           <Grid.Col w={"200px"} span={"content"}>
             <Paper p="xs" bg={comment.isAdmin ? "rgb(21, 170, 191)" : theme.colors.gray[3]}>
@@ -98,12 +99,12 @@ const InquiryDetail = () => {
             {comment.content}
           </Text>
         </Paper>
-      </div>
+      </>
     )
   })
 
   return (
-    <Container fluid>
+    <Container>
       <PageTitle title={"Inquiry Detail"}/>
       <Paper withBorder p="md" radius="md">
         <Title order={1} mb="xs">{inquiryRequest?.title}</Title>
