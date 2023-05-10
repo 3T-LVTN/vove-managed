@@ -9,6 +9,8 @@ import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
 import InquiryList from "../views/inquiry-list/inquiry-list";
 import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
+import App from "./app";
+import AppAnalysis from "../views/app-analysis/app-analysis";
 import DistrictSummary from "../views/district-summary/district-summary";
 
 export const routes = [
@@ -47,6 +49,10 @@ export const routes = [
       {
         path: 'inquiries/:id',
         element: <InquiryDetail/>,
+      },
+      {
+        path: 'app-analysis',
+        element: <AppAnalysis/>,
       },
       {
         path: 'districts',
