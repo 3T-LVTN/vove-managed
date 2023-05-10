@@ -27,6 +27,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["layer:frameworks-and-drivers"],
   "implicitDependencies": ["web-portal"]
 }

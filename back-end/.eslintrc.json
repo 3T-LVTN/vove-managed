@@ -13,8 +13,32 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "layer:frameworks-and-drivers",
+                "onlyDependOnLibsWithTags": [
+                  "layer:application-business-rules",
+                  "layer:enterprise-business-rules",
+                  "layer:frameworks-and-drivers",
+                  "layer:interface-adapters"
+                ]
+              },
+              {
+                "sourceTag": "layer:interface-adapters",
+                "onlyDependOnLibsWithTags": [
+                  "layer:application-business-rules",
+                  "layer:enterprise-business-rules",
+                  "layer:interface-adapters"
+                ]
+              },
+              {
+                "sourceTag": "layer:application-business-rules",
+                "onlyDependOnLibsWithTags": [
+                  "layer:application-business-rules",
+                  "layer:enterprise-business-rules"
+                ]
+              },
+              {
+                "sourceTag": "layer:enterprise-business-rules",
+                "onlyDependOnLibsWithTags": ["layer:enterprise-business-rules"]
               }
             ]
           }
