@@ -17,7 +17,8 @@ export function SearchHeatmapModal() {
     libraries: ['visualization', 'places']
   });
 
-  const [selected, setSelected] = React.useState(null);
+  const [selected, setSelected] = React.useState<{ lat: number, lng: number } | null>(null);
+  const [isSelected, setIsSelected] = React.useState<boolean>(false);
 
   const renderHeatMap = () => {
     const heatmapData = [
@@ -42,14 +43,17 @@ export function SearchHeatmapModal() {
   return (
     <Grid>
       <Grid.Col xs={4} style={{position: "relative"}}>
-        <SearchBox setSelected={setSelected}></SearchBox>
+        <SearchBox setSelected={setSelected} setIsSelected={setIsSelected}></SearchBox>
         <Space h="xl"/>
-        <Title order={3} color="cyan">Name of the place</Title>
-        <Text color="dark.4">Last updated:</Text>
-        <Divider size="xs" color="dark.1"/>
-        <Space h="xl"/>
-        <Text color="dark.4">Mosquito Rate:</Text>
-        <Text color="dark.4">Dengue Rate:</Text>
+        {isSelected &&
+          <>
+            <Title order={3} color="cyan">Name of the place</Title>
+            <Text color="dark.4">Last updated:</Text>
+            <Divider size="xs" color="dark.1"/>
+            <Space h="xl"/>
+            <Text color="dark.4">Mosquito Rate:</Text>
+            <Text color="dark.4">Dengue Rate:</Text>
+          </>}
       </Grid.Col>
       <Grid.Col xs={8} style={{height: "80vh"}}>
         {isLoaded ? renderHeatMap() : "Loading..."}
