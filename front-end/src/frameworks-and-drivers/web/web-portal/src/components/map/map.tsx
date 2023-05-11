@@ -7,6 +7,8 @@ import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/g
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
+import { HeatMapData,HeatMapPointData } from "./map_data";
+import { initPoint } from "./init_state";
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -16,24 +18,7 @@ const containerStyle = {
   width: "100%",
   height: "100%",
 };
-type HeatMapPointData = {
-  long: number
-  lat: number
-  weight?: number
-  idx?: number
-}
-type HeatMapData = {
-  availableLocations?: Array<HeatMapPointData>
-  missingLocation?: Array<HeatMapPointData>
-}
 
-const initPointData: Map<number, HeatMapPointData> = new Map([
-  [1, {lat: 10.764, long: 106.702}],
-  [2, {lat: 10.764, long: 106.703}],
-  [3, {lat: 10.764, long: 106.701}],
-  [4, {lat: 10.764, long: 106.705}],
-  [5, {lat: 10.764, long: 106.704}],
-])
 
 const mockData: Array<HeatMapPointData> = [
   {
@@ -72,7 +57,7 @@ export const VoveMap = () => {
     libraries,
   });
 
-  const [stateData, setData] = useState(initPointData)
+  const [stateData, setData] = useState(initPoint)
   const [mapData, setMapData] = useState<HeatMapData>({})
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
 
@@ -85,7 +70,7 @@ export const VoveMap = () => {
   const fetchHeatmapData = () => {
     const data = mapData.availableLocations ?? mockData;
     data.forEach((value) => {
-      const val = initPointData.get(value.idx ? value.idx : 0)
+      const val = initPoint.get(value.idx ? value.idx : 0)
       const weightedLocation: google.maps.visualization.WeightedLocation = {
         location: new google.maps.LatLng((val ? val : value).lat, (val ? val : value).long),
         weight: value.weight ?? 0
