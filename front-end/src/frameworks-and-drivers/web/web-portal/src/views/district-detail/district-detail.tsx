@@ -17,6 +17,7 @@ import BarChart from "../../components/bar-chart/bar-chart";
 import StyledTabs from "../../components/styled-tabs/styled-tabs";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {IconChevronsLeft, IconRefresh} from "@tabler/icons-react";
 
 interface WardStatus {
   id: string;
@@ -160,10 +161,12 @@ const DistrictDetail = () => {
       <PageTitle title={"District 1"}/>
       <Group mb="md">
         <Button variant={"light"} color="yellow" onClick={() => navigate(-1)}>
+          <IconChevronsLeft size={20}/>
           Back to All places
         </Button>
         <Button variant={"light"} onClick={() => window.location.reload()}>
-          Reload
+          <IconRefresh size={20}/>
+           Reload
         </Button>
         <Text size="md">
           Last updated:<b> {time}</b>

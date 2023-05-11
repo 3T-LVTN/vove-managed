@@ -52,7 +52,7 @@ const LineChart = (props: LineChartProps) => {
     };
 
   return (
-    <Line data={data} options={options}/>
+    <Line data={data} options={options} width={500}/>
   )
 }
 
