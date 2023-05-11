@@ -82,7 +82,7 @@ export const VoveMap = () => {
   useEffect(() => {
     const requestBody = {
       predictDate: 1683444833,
-      location: stateData,
+      locations: stateData,
     }
     console.log(requestBody)
     axios.post("/prediction", stateData)
