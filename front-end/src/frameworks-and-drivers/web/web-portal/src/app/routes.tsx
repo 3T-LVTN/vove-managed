@@ -12,6 +12,7 @@ import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
 import AppAnalysis from "../views/app-analysis/app-analysis";
 import DistrictSummary from "../views/district-summary/district-summary";
 import DistrictDetail from "../views/district-detail/district-detail";
+import WardDetail from "../views/ward-detail/ward-detail";
 
 export const routes = [
   {
@@ -61,6 +62,10 @@ export const routes = [
       {
         path: 'districts/:id',
         element: <DistrictDetail/>,
+      },
+      {
+        path: 'districts/:id/wards/:wardId',
+        element: <WardDetail/>,
       }
     ],
     errorElement: <PageNotFound/>
