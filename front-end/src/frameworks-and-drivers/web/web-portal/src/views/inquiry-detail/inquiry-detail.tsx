@@ -81,7 +81,8 @@ const InquiryDetail = () => {
       <>
         <Grid>
           <Grid.Col w={"200px"} span={"content"}>
-            <Paper p="xs" bg={comment.isAdmin ? "rgb(21, 170, 191)" : theme.colors.gray[3]}>
+            <Paper p="xs" bg={comment.isAdmin ? "rgb(21, 170, 191)" : theme.colors.gray[3]}
+            sx={{borderRadius:"8px 8px 0 0"}}>
               <Text size="md" weight={500} color={comment.isAdmin ? "#FFF" : ""}>
                 {comment.isAdmin ? "Admin" : inquiryRequest?.author}
               </Text>
@@ -94,7 +95,7 @@ const InquiryDetail = () => {
           </Grid.Col>
         </Grid>
 
-        <Paper withBorder radius="md" mb="md">
+        <Paper withBorder sx={{borderRadius:"0 8px 8px 8px"}} mb="md">
           <Text size="md" align={"left"} p="md">
             {comment.content}
           </Text>
