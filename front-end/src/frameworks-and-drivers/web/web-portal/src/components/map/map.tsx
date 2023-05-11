@@ -7,8 +7,8 @@ import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/g
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
-import { HeatMapData,HeatMapPointData } from "./map_data";
-import { initPoint } from "./init_state";
+import {HeatMapData, HeatMapPointData} from "./map_data";
+import {initPoint} from "./init_state";
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -70,26 +70,25 @@ export const VoveMap = () => {
   const fetchHeatmapData = () => {
     const data = mapData.availableLocations ?? mockData;
     data.forEach((value) => {
-      const val = initPoint.get(value.idx ? value.idx : 0)
       const weightedLocation: google.maps.visualization.WeightedLocation = {
-        location: new google.maps.LatLng((val ? val : value).lat, (val ? val : value).long),
+        location: new google.maps.LatLng(value.lat, value.long),
         weight: value.weight ?? 0
       };
       heatmapData.push(weightedLocation);
-      setHeatmapData([...heatmapData])
     })
+    setHeatmapData([...heatmapData])
   }
 
   useEffect(() => {
-    // axios.post("/prediction", stateData)
-    //   .then((resp) => setMapData(resp.data))
-    //   .catch((e) => console.log(e))
+    axios.post("/prediction", stateData)
+      .then((resp) => setMapData(resp.data))
+      .catch((e) => console.log(e))
   }, [])
 
   useMemo(() => {
     if (!isLoaded) return;
     fetchHeatmapData();
-  }, [isLoaded])
+  }, [isLoaded, mapData])
 
   const renderMap = () => {
     return (
