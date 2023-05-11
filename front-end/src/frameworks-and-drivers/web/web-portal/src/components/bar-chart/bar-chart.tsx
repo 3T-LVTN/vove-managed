@@ -8,6 +8,7 @@ import {
   Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
+import {Stack} from "@mantine/core";
 
 ChartJS.register(
   CategoryScale,
@@ -53,7 +54,11 @@ const BarChart = (props: BarChartProps) => {
     },
   };
 
-  return <Bar data={data} options={options} width={500}/>;
+  return (
+    <Stack h="100%" align="center" justify="center">
+      <Bar data={data} options={options} width={500}/>
+    </Stack>
+  );
 }
 
 export default BarChart;
