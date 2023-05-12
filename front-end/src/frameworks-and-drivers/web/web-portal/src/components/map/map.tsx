@@ -59,6 +59,8 @@ export const VoveMap = () => {
     setTimeout(()=>setMapData(data), 100);
     axios.post("/prediction", requestBody)
       .then((resp) => {
+        console.log("data", resp.data)
+        console.log("data.data", resp.data.data)
         localStorage.setItem("mapData", JSON.stringify(resp.data.data));
         setMapData(resp.data.data)
       })
