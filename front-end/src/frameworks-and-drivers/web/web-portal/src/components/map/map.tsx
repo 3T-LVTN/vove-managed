@@ -54,8 +54,12 @@ export const VoveMap = () => {
       predictDate: 1683444833,
       locations: stateData,
     }
+    setMapData(JSON.parse(localStorage.getItem("mapData") ?? "{}"))
     axios.post("/prediction", requestBody)
-      .then((resp) => setMapData(resp.data))
+      .then((resp) => {
+        localStorage.setItem("mapData", JSON.stringify(resp.data));
+        setMapData(resp.data)
+      })
       .catch((e) => console.log(e))
   }, [])
 
@@ -82,7 +86,7 @@ export const VoveMap = () => {
         options={{streetViewControl: false, fullscreenControl: false}}
       >
         {(isLoadingHeatMap) ? null :
-          <HeatmapLayerF data={heatmapData} options={{radius: 100, opacity:0.2}}/>}
+          <HeatmapLayerF data={heatmapData} options={{radius: 100, opacity: 0.2}}/>}
         <div className={styles.buttonLayer}>
           <ActionIcon size="lg" variant="light" color="cyan"
                       onClick={() => searchHeatmapModalController.setIsModalOpened(true)}>
