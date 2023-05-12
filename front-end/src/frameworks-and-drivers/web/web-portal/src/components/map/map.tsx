@@ -19,35 +19,6 @@ const containerStyle = {
   height: "100%",
 };
 
-
-const mockData: Array<HeatMapPointData> = [
-  {
-    lat: 10.764,
-    long: 106.702,
-    weight: 5
-  },
-  {
-    lat: 10.764,
-    long: 106.703,
-    weight: 10
-  },
-  {
-    lat: 10.764,
-    long: 106.701,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.705,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.704,
-    weight: 15
-  },
-]
-
 const libraries: ("visualization" | "places" | "drawing" | "geometry" | "localContext")[] = ["visualization", "places"];
 
 export const VoveMap = () => {
@@ -60,6 +31,7 @@ export const VoveMap = () => {
   const [stateData, setData] = useState(initPoint)
   const [mapData, setMapData] = useState<HeatMapData>({})
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
+  const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
 
   const centerPoint = {lat: 10.7644912, lng: 106.702996};
 
@@ -68,8 +40,7 @@ export const VoveMap = () => {
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
   const fetchHeatmapData = () => {
-    const data = mapData.availableLocations ?? mockData;
-    data.forEach((value) => {
+    mapData.availableLocations?.forEach((value) => {
       const weightedLocation: google.maps.visualization.WeightedLocation = {
         location: new google.maps.LatLng(value.lat, value.long),
         weight: value.weight ?? 0
@@ -77,6 +48,7 @@ export const VoveMap = () => {
       heatmapData.push(weightedLocation);
     })
     setHeatmapData([...heatmapData])
+    if (isLoadingHeatMap && heatmapData.length > 0) setIsLoadingHeatMap(false);
   }
 
   useEffect(() => {
@@ -92,7 +64,11 @@ export const VoveMap = () => {
   useMemo(() => {
     if (!isLoaded) return;
     fetchHeatmapData();
-  }, [isLoaded, mapData])
+  }, [mapData])
+
+  useEffect(() => {
+    console.log(heatmapData)
+  }, [heatmapData])
 
   const renderMap = () => {
     return (
@@ -102,7 +78,8 @@ export const VoveMap = () => {
         zoom={15}
         options={{streetViewControl: false, fullscreenControl: false}}
       >
-        <HeatmapLayerF data={heatmapData}/>
+        {(isLoadingHeatMap) ? null :
+          <HeatmapLayerF data={heatmapData}/>}
         <div className={styles.buttonLayer}>
           <ActionIcon size="lg" variant="light" color="cyan"
                       onClick={() => searchHeatmapModalController.setIsModalOpened(true)}>
