@@ -39,14 +39,16 @@ export const VoveMap = () => {
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
-  const fetchHeatmapData = async () => {
-    return mapData.availableLocations?.map((value) => {
+  const fetchHeatmapData = () => {
+    mapData.availableLocations?.forEach((value) => {
       const weightedLocation: google.maps.visualization.WeightedLocation = {
         location: new google.maps.LatLng(value.lat, value.long),
-        weight: (value.weight ?? 10) / 500,
-      }
-      return weightedLocation;
+        weight: value.weight ?? 0
+      };
+      heatmapData.push(weightedLocation);
     })
+    setHeatmapData([...heatmapData])
+    if (isLoadingHeatMap && heatmapData.length > 0) setIsLoadingHeatMap(false);
   }
 
   useEffect(() => {
@@ -54,26 +56,18 @@ export const VoveMap = () => {
       predictDate: 1683444833,
       locations: stateData,
     }
-    setMapData(JSON.parse(localStorage.getItem("mapData") ?? ""))
     axios.post("/prediction", requestBody)
-      .then((resp) =>{
-        localStorage.setItem("mapData", JSON.stringify(resp.data))})
-      .then(() => {setMapData(JSON.parse(localStorage.getItem("mapData") ?? ""))})
+      .then((resp) => setMapData(resp.data))
       .catch((e) => console.log(e))
   }, [])
 
   useMemo(() => {
     if (!isLoaded) return;
-    fetchHeatmapData()
-      .then((locations) => {
-        setHeatmapData(locations ?? [])
-        setIsLoadingHeatMap(false)
-      })
+    fetchHeatmapData();
   }, [mapData])
 
   useEffect(() => {
     console.log(heatmapData)
-    console.log(isLoadingHeatMap)
   }, [heatmapData])
 
   const renderMap = () => {
@@ -85,7 +79,7 @@ export const VoveMap = () => {
         options={{streetViewControl: false, fullscreenControl: false}}
       >
         {(isLoadingHeatMap) ? null :
-          <HeatmapLayerF data={heatmapData} options={{radius: 100, opacity:0.2}}/>}
+          <HeatmapLayerF data={heatmapData}/>}
         <div className={styles.buttonLayer}>
           <ActionIcon size="lg" variant="light" color="cyan"
                       onClick={() => searchHeatmapModalController.setIsModalOpened(true)}>
