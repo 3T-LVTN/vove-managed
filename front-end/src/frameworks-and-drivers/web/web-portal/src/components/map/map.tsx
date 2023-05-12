@@ -9,6 +9,7 @@ import {SearchHeatmapModalController} from "@front-end/interface-adapters/contro
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
 import {HeatMapData, HeatMapPointData} from "./map_data";
 import {initPoint} from "./init_state";
+import {mockdata} from "./test";
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -54,17 +55,20 @@ export const VoveMap = () => {
       predictDate: 1683444833,
       locations: stateData,
     }
-    setMapData(JSON.parse(localStorage.getItem("mapData") ?? "{}"))
+    const data = JSON.parse(localStorage.getItem("mapData") ?? "{}")
+    setTimeout(()=>setMapData(data), 100);
     axios.post("/prediction", requestBody)
       .then((resp) => {
-        localStorage.setItem("mapData", JSON.stringify(resp.data));
-        setMapData(resp.data)
+        const data = resp.data
+        localStorage.setItem("mapData", JSON.stringify(data));
+        setMapData(data)
       })
       .catch((e) => console.log(e))
   }, [])
 
   useMemo(() => {
     if (!isLoaded) return;
+    console.log(mapData)
     fetchHeatmapData()
       .then((locations) => {
         setHeatmapData(locations ?? [])
