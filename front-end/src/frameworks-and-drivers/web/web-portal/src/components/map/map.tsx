@@ -84,8 +84,7 @@ export const VoveMap = () => {
       predictDate: 1683444833,
       locations: stateData,
     }
-    console.log(requestBody)
-    axios.post("/prediction", stateData)
+    axios.post("/prediction", requestBody)
       .then((resp) => setMapData(resp.data))
       .catch((e) => console.log(e))
   }, [])
