@@ -56,7 +56,7 @@ export const VoveMap = () => {
       locations: stateData,
     }
     const data = JSON.parse(localStorage.getItem("mapData") ?? "{}")
-    setTimeout(()=>setMapData(data), 100);
+    setTimeout(() => setMapData(data), 100);
     axios.post("/prediction", requestBody)
       .then((resp) => {
         console.log("data", resp.data)
@@ -67,20 +67,15 @@ export const VoveMap = () => {
       .catch((e) => console.log(e))
   }, [])
 
-  useMemo(() => {
-    if (!isLoaded) return;
-    console.log(mapData)
-    fetchHeatmapData()
-      .then((locations) => {
-        setHeatmapData(locations ?? [])
-        setIsLoadingHeatMap(false)
-      })
-  }, [mapData])
-
   useEffect(() => {
-    console.log(heatmapData)
-    console.log(isLoadingHeatMap)
-  }, [heatmapData])
+    if (isLoaded)
+      fetchHeatmapData()
+        .then((locations) => {
+          setHeatmapData(locations ?? [])
+          setIsLoadingHeatMap(false)
+          console.log("Load map done!")
+        })
+  }, [mapData])
 
   const renderMap = () => {
     return (
