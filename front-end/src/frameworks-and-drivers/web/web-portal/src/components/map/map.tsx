@@ -9,7 +9,6 @@ import {SearchHeatmapModalController} from "@front-end/interface-adapters/contro
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
 import {HeatMapData, HeatMapPointData} from "./map_data";
 import {initPoint} from "./init_state";
-import {mockdata} from "./test";
 
 export interface MapProps {
   fullScreenControl: boolean
