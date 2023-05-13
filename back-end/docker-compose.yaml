@@ -1,22 +1,18 @@
 version: "3.8"
 services:
   vove_managed_be:
-    environment:
-      - ENV=${ENV}
-    env_file:
-      - ${ENV_FILE}
-    image: vove_managed_be_${ENV}
-    container_name: vove_managed_be_${ENV}
+    image: vove_managed_be_dev
+    container_name: vove_managed_be_dev
     restart: always
     ports:
-      - ${APP_PORT}:3333
+      - 5001:3333
     networks:
       - vove
     logging:
       driver: awslogs
       options:
         awslogs-region: ap-southeast-1
-        awslogs-group: vove-web-${ENV}
+        awslogs-group: vove-web-dev
 networks:
   vove:
     name: vove
