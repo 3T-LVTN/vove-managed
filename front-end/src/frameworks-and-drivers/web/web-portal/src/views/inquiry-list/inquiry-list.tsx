@@ -161,12 +161,12 @@ const InquiryList = () => {
       {
         accessorKey: 'time',
         header: 'Time',
-        size: 100,
+        size: 130,
       },
       {
         accessorKey: 'author',
         header: 'Author',
-        size: 100,
+        size: 130,
       },
       {
         accessorKey: 'lastResponse',
@@ -217,7 +217,7 @@ const InquiryList = () => {
         state={{pagination, globalFilter, sorting}}
 
         renderRowActions={({row, table}) => (
-            <ActionIcon size="lg" color={"cyan"}
+            <ActionIcon color={"cyan"}
                         onClick={() => navigate(row.original.id)}>
               <IconArrowUpRight
                 size="2rem"/>

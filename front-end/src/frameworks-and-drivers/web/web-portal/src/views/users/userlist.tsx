@@ -156,12 +156,12 @@ const AppUserList = () => {
         accessorKey: 'id',
         header: 'ID',
         enableEditing: false, //disable editing on this column
-        size: 50,
+        size: 200,
       },
       {
         accessorKey: 'name',
         header: 'Name',
-        size: 140,
+        size: 130,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
         }),
@@ -178,7 +178,7 @@ const AppUserList = () => {
       {
         accessorKey: 'phoneNumber',
         header: 'Phone Number',
-        size: 50,
+        size: 10,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
           type: 'number',
@@ -187,7 +187,7 @@ const AppUserList = () => {
       {
         accessorKey: 'address',
         header: 'Address',
-        size: 180,
+        size: 400,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
         }),
