@@ -1,6 +1,6 @@
 import {
   Container,
-  Badge
+  Badge, Tooltip, ActionIcon, Box
 } from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useMemo, useState} from "react";
@@ -10,6 +10,8 @@ import {
   MRT_SortingState
 } from "mantine-react-table";
 import {Query} from "@front-end/shared/utils";
+import {IconArrowUpRight, IconId} from "@tabler/icons-react";
+import {useNavigate} from "react-router-dom";
 
 const data: RowData[] = [
   {
@@ -114,6 +116,8 @@ const InquiryList = () => {
 
   const [tableData, setTableData] = useState<RowData[]>([]);
 
+  const navigate = useNavigate();
+
   const sortingConvert = (sorting: MRT_SortingState): { sort?: string, order?: string } => {
     if (sorting.length === 0) return {};
     return {
@@ -185,7 +189,7 @@ const InquiryList = () => {
 
   return (
     <Container fluid>
-      <PageTitle title={"Users Management"}></PageTitle>
+      <PageTitle title={"Inquiry List"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}
@@ -211,6 +215,16 @@ const InquiryList = () => {
         onPaginationChange={setPagination}
 
         state={{pagination, globalFilter, sorting}}
+
+        renderRowActions={({row, table}) => (
+            <ActionIcon size="lg" color={"cyan"}
+                        onClick={() => navigate(row.original.id)}>
+              <IconArrowUpRight
+                size="2rem"/>
+            </ActionIcon>
+        )}
+        enableRowActions
+        positionActionsColumn="last"
       />
     </Container>
   );

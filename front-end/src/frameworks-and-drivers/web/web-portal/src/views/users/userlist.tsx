@@ -254,6 +254,8 @@ const AppUserList = () => {
             </Tooltip>
           </Box>
         )}
+
+        positionActionsColumn="last"
       />
     </Container>
   );
