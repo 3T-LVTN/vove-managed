@@ -35,55 +35,51 @@ export interface Accuracy {
 const mockDistricts: District[] = [
   {
     code: 1,
-    name: 'Quận 1'
+    name: 'Thu Duc City'
   },
   {
     code: 2,
-    name: 'Quận 2'
+    name: 'District 1'
   },
   {
     code: 3,
-    name: 'Quận 3'
+    name: 'District 3'
   },
   {
     code: 4,
-    name: 'Quận 4'
+    name: 'District 4'
   },
   {
     code: 5,
-    name: 'Quận 5'
+    name: 'District 5'
   },
   {
     code: 6,
-    name: 'Quận 6'
+    name: 'District 6'
   },
   {
     code: 7,
-    name: 'Quận 7'
+    name: 'District 7'
   },
   {
     code: 8,
-    name: 'Quận 8'
+    name: 'District 8'
   },
   {
     code: 9,
-    name: 'Quận 9'
+    name: 'District 10'
   },
   {
     code: 10,
-    name: 'Quận 10'
+    name: 'District 11'
   },
   {
     code: 11,
-    name: 'Quận 11'
+    name: 'District 12'
   },
   {
     code: 12,
-    name: 'Quận 12'
-  },
-  {
-    code: 13,
-    name: 'Huyện Hóc Môn'
+    name: 'Hoc Mon'
   }
 ];
 
@@ -145,15 +141,15 @@ const mockWards: Ward[] = [
 const mockAccuracy: Accuracy[] = [
   {
     name: 'Exactly',
-    value: 96
+    value: 8
   },
   {
     name: 'Normal',
-    value: 56
+    value: 9
   },
   {
     name: 'False',
-    value: 48
+    value: 3
   }
 ];
 
@@ -247,7 +243,7 @@ export const ModelManagement = () => {
               <Grid.Col span={5} ta="center">
                 <IconStar color={theme.colors.cyan[7]} size={200}/>
                 <Text fz="xl" fw={500}>Normal</Text>
-                <Text fz="sm" fw={500}>(200 rates)</Text>
+                <Text fz="sm" fw={500}>({mockAccuracy.reduce((sum, accuracy) => sum + accuracy.value, 0)} rates)</Text>
               </Grid.Col>
               <Grid.Col span={7}>
                 <Grid>

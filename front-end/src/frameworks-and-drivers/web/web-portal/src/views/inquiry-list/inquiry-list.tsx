@@ -103,73 +103,73 @@ const InquiryList = () => {
   const data: RowData[] = [
     {
       id: "001",
-      title: "Incorrect disease risk assessment",
-      time: "2023-04-30 10:30:00",
-      author: "JohnDoe",
-      lastResponse: "Admin",
-      status: "Opening",
+      title: "My app is slow",
+      time: "2023-05-01 5:51:00",
+      author: "Nguyen Mai Thy",
+      lastResponse: "User",
+      status: "Closed",
     },
     {
       id: "002",
-      title: "Add more diseases to the app",
-      time: "2023-05-01 14:45:00",
-      author: "JaneSmith",
-      lastResponse: "User",
-      status: "Waiting",
+      title: "Improve disease outbreak tracking",
+      time: "2023-05-02 09:15:00",
+      author: "Le Tran Hoang Thinh",
+      lastResponse: "Admin",
+      status: "Closed",
     },
     {
       id: "003",
-      title: "Improve disease outbreak tracking",
-      time: "2023-05-02 09:15:00",
-      author: "BobJohnson",
-      lastResponse: "Admin",
+      title: "Add vaccine availability information",
+      time: "2023-05-03 17:20:00",
+      author: "Ung Tuong Phat",
+      lastResponse: "User",
       status: "Closed",
     },
     {
       id: "004",
-      title: "Add vaccine availability information",
-      time: "2023-05-03 17:20:00",
-      author: "AliceLee",
-      lastResponse: "User",
-      status: "Opening",
+      title: "Improve symptom tracking",
+      time: "2023-05-04 11:00:00",
+      author: "Bui Hai Duong",
+      lastResponse: "Admin",
+      status: "Closed",
     },
     {
       id: "005",
-      title: "Improve symptom tracking",
-      time: "2023-05-04 11:00:00",
-      author: "SamWong",
-      lastResponse: "Admin",
-      status: "Opening",
-    },
-    {
-      id: "006",
       title: "Add personalized recommendations",
       time: "2023-05-05 15:30:00",
-      author: "EmilyChen",
-      lastResponse: "User",
-      status: "Waiting",
-    },
-    {
-      id: "007",
-      title: "Improve data accuracy",
-      time: "2023-05-06 08:00:00",
-      author: "DavidLin",
-      lastResponse: "Admin",
-      status: "Opening",
-    },
-    {
-      id: "008",
-      title: "Add support for multiple languages",
-      time: "2023-05-07 12:00:00",
-      author: "SophieZhang",
+      author: "Doan Thuy Ha",
       lastResponse: "User",
       status: "Closed",
     },
     {
-      id: "009",
+      id: "006",
+      title: "Improve data accuracy",
+      time: "2023-05-03 12:27:00",
+      author: "Le Tran Hoang Thinh",
+      lastResponse: "Admin",
+      status: "Closed",
+    },
+    {
+      id: "007",
+      title: "Add support for multiple languages",
+      time: "2023-05-03 12:35:00",
+      author: "Ung Binh Nguyen",
+      lastResponse: "User",
+      status: "Closed",
+    },
+    {
+      id: "008",
       title: "Improve app accessibility",
-      time: "2023-05-08 10:30:00",
-      author: "TomChang",
+      time: "2023-05-03 12:30:00",
+      author: "Thoa Ngoc Uyen",
+      lastResponse: "Admin",
+      status: "Opening",
+    },
+    {
+      id: "009",
+      title: "The predict results in my living area is incorrect",
+      time: "2023-05-06 19:00:00",
+      author: "Nguyen Mai Thy",
       lastResponse: "Admin",
       status: "Opening",
     },
@@ -177,7 +177,7 @@ const InquiryList = () => {
       id: "010",
       title: "Add travel advisories for disease outbreaks",
       time: "2023-05-09 14:45:00",
-      author: "LucyWu",
+      author: "Le Tran Hoang Thinh",
       lastResponse: "User",
       status: "Waiting",
     },
@@ -253,7 +253,7 @@ const InquiryList = () => {
                   reversed={reverseSortDirection}
                   onSort={() => setSorting('time')}
                 >
-                  Time
+                  Last Update
                 </Th>
                 <Th
                   sorted={sortBy === 'author'}
@@ -294,7 +294,7 @@ const InquiryList = () => {
             </Table>
           </ScrollArea>
         </Paper>
-        <Pagination total={10} withEdges position="center" variant="light"/>
+        <Pagination total={2} withEdges position="center" variant="light"/>
       </Paper>
     </Container>
   );

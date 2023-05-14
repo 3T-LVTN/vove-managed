@@ -25,119 +25,119 @@ import {NavLink} from "react-router-dom";
 interface DistrictStatus {
   districtId: number;
   districtName: string;
-  status: "Good" | "Low Risk" | "High Risk" | "Epidemic";
+  status: "Normal" | "Low Risk" | "High Risk" | "Epidemic";
 }
 
 const mockDistrictStatus: DistrictStatus[] = [
   {
     districtId: 1,
-    districtName: "Thủ Đức",
-    status: "Good"
+    districtName: "Thu Duc City",
+    status: "Low Risk"
   },
   {
     districtId: 2,
-    districtName: "Quận 1",
-    status: "Good"
+    districtName: "District 1",
+    status: "Normal"
   },
   {
     districtId: 3,
-    districtName: "Quận 3",
+    districtName: "District 3",
     status: "Low Risk"
   },
   {
     districtId: 4,
-    districtName: "Quận 4",
-    status: "High Risk"
+    districtName: "District 4",
+    status: "Normal"
   },
   {
     districtId: 5,
-    districtName: "Quận 5",
-    status: "Epidemic"
+    districtName: "District 5",
+    status: "Normal"
   },
   {
     districtId: 6,
-    districtName: "Quận 6",
-    status: "Good"
+    districtName: "District 6",
+    status: "Normal"
   },
   {
     districtId: 7,
-    districtName: "Quận 7",
-    status: "Good"
+    districtName: "District 7",
+    status: "Normal"
   },
   {
     districtId: 8,
-    districtName: "Quận 8",
-    status: "Good"
+    districtName: "District 8",
+    status: "Normal"
   },
   {
     districtId: 9,
-    districtName: "Quận 10",
-    status: "Good"
+    districtName: "District 10",
+    status: "Low Risk"
   },
   {
     districtId: 10,
-    districtName: "Quận 11",
-    status: "Good"
+    districtName: "District 11",
+    status: "Normal"
   },
   {
     districtId: 11,
-    districtName: "Quận 12",
-    status: "Good"
+    districtName: "District 12",
+    status: "High Risk"
   },
   {
     districtId: 12,
-    districtName: "Bình Thạnh",
-    status: "Good"
+    districtName: "Binh Thanh",
+    status: "Normal"
   },
   {
     districtId: 13,
-    districtName: "Gò Vấp",
-    status: "Good"
+    districtName: "Go Vap",
+    status: "Normal"
   },
   {
     districtId: 14,
-    districtName: "Phú Nhuận",
-    status: "Good"
+    districtName: "Phu Nhuan",
+    status: "Low Risk"
   },
   {
     districtId: 15,
-    districtName: "Tân Bình",
-    status: "Good"
+    districtName: "Tan Binh",
+    status: "Normal"
   },
   {
     districtId: 16,
-    districtName: "Tân Phú",
-    status: "Good"
+    districtName: "Tan Phu",
+    status: "Normal"
   },
   {
     districtId: 17,
-    districtName: "Bình Tân",
-    status: "Good"
+    districtName: "Binh Tan",
+    status: "Normal"
   },
   {
     districtId: 18,
-    districtName: "Củ Chi",
-    status: "Good"
+    districtName: "Cu Chi",
+    status: "Normal"
   },
   {
     districtId: 19,
-    districtName: "Nhà Bè",
-    status: "Good"
+    districtName: "Nha Be",
+    status: "Normal"
   },
   {
     districtId: 20,
-    districtName: "Cần Giờ",
-    status: "Good"
+    districtName: "Can Gio",
+    status: "Epidemic"
   },
   {
     districtId: 21,
-    districtName: "Bình Chánh",
-    status: "Good"
+    districtName: "Binh Chanh",
+    status: "High Risk"
   },
   {
     districtId: 22,
-    districtName: "Hóc Môn",
-    status: "Good"
+    districtName: "Hoc Mon",
+    status: "Low Risk"
   }
 ]
 
@@ -192,7 +192,7 @@ const DistrictSummary = () => {
   const [activeTab, setActiveTab] = useState<string | null>('all');
 
   const districtsStatusAll = mockDistrictStatus;
-  const districtsStatusGood = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Good");
+  const districtsStatusNormal = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Normal");
   const districtsStatusLowRisk = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Low Risk");
   const districtsStatusHighRisk = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "High Risk");
   const districtsStatusEpidemic = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Epidemic");
@@ -236,13 +236,13 @@ const DistrictSummary = () => {
                 All
               </Tabs.Tab>
 
-              <Tabs.Tab value="good" rightSection={
+              <Tabs.Tab value="normal" rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === "good" ? "" : "gray"}>
-                  {districtsStatusGood.length}
+                       variant="filled" color={activeTab === "normal" ? "" : "gray"}>
+                  {districtsStatusNormal.length}
                 </Badge>
               }>
-                Good
+                Normal
               </Tabs.Tab>
 
               <Tabs.Tab value={"low-risk"} rightSection={
@@ -277,8 +277,8 @@ const DistrictSummary = () => {
               <DistrictList districts={districtsStatusAll}/>
             </Tabs.Panel>
 
-            <Tabs.Panel value={"good"} pt="md">
-              <DistrictList districts={districtsStatusGood}/>
+            <Tabs.Panel value={"normal"} pt="md">
+              <DistrictList districts={districtsStatusNormal}/>
             </Tabs.Panel>
 
             <Tabs.Panel value={"low-risk"} pt="md">

@@ -31,63 +31,63 @@ interface WardStatus {
 const mockData: WardStatus[] = [
   {
     id: "1",
-    wardName: "Ward 1",
-    status: "Epidemic",
-    mosquitoAmount: 236,
-    rainMeter: 36,
+    wardName: "Tan Dinh",
+    status: "Low Risk",
+    mosquitoAmount: 163,
+    rainMeter: 67,
     temperature: 37,
   },
   {
     id: "2",
-    wardName: "Ward 2",
-    status: "Low Risk",
-    mosquitoAmount: 178,
+    wardName: "Da Kao",
+    status: "Normal",
+    mosquitoAmount: 128,
     rainMeter: 78,
     temperature: 36,
   },
   {
     id: "3",
-    wardName: "Ward 3",
-    status: "High Risk",
-    mosquitoAmount: 213,
+    wardName: "Ben Nghe",
+    status: "Low Risk",
+    mosquitoAmount: 172,
     rainMeter: 59,
     temperature: 29,
   },
   {
     id: "4",
-    wardName: "Ward 4",
-    status: "Good",
+    wardName: "Ben Thanh",
+    status: "Low Risk",
     mosquitoAmount: 153,
     rainMeter: 92,
     temperature: 32,
   },
   {
     id: "5",
-    wardName: "Ward 5",
-    status: "Good",
+    wardName: "Nguyen Thai Binh",
+    status: "Normal",
     mosquitoAmount: 98,
     rainMeter: 76,
     temperature: 35,
   },
   {
     id: "6",
-    wardName: "Ward 6",
-    status: "Good",
+    wardName: "Pham Ngu Lao",
+    status: "Normal",
     mosquitoAmount: 125,
     rainMeter: 89,
     temperature: 33,
   },
   {
     id: "7",
-    wardName: "Ward 7",
-    status: "Good",
+    wardName: "Cau Ong Lanh",
+    status: "Normal",
     mosquitoAmount: 142,
     rainMeter: 92,
     temperature: 39,
   },
   {
     id: "8",
-    wardName: "Ward 8",
+    wardName: "Co Giang",
     status: "High Risk",
     mosquitoAmount: 213,
     rainMeter: 46,
@@ -95,10 +95,18 @@ const mockData: WardStatus[] = [
   },
   {
     id: "9",
-    wardName: "Ward 9",
-    status: "Good",
+    wardName: "Nguyen Cu Trinh",
+    status: "Normal",
     mosquitoAmount: 129,
     rainMeter: 69,
+    temperature: 35,
+  },
+  {
+    id: "10",
+    wardName: "Cau Kho",
+    status: "Normal",
+    mosquitoAmount: 98,
+    rainMeter: 76,
     temperature: 35,
   }
 ];
@@ -175,8 +183,8 @@ const DistrictDetail = () => {
       <Grid>
         <Grid.Col sm={12} md={4}>
           <Paper withBorder radius="md" p="md" h="50vh">
-            <PieChart labels={["Good", "Low Risk", "High Risk", "Epidemic"]}
-                      data={[mockData.filter((ward) => ward.status === "Good").length,
+            <PieChart labels={["Normal", "Low Risk", "High Risk", "Epidemic"]}
+                      data={[mockData.filter((ward) => ward.status === "Normal").length,
                         mockData.filter((ward) => ward.status === "Low Risk").length,
                         mockData.filter((ward) => ward.status === "High Risk").length,
                         mockData.filter((ward) => ward.status === "Epidemic").length]}/>
@@ -210,7 +218,7 @@ const DistrictDetail = () => {
                   labels={labels}
                   datasets={[
                     {
-                      label: 'Rain meter',
+                      label: 'Rain Meter (mm)',
                       data: mockData.map((districtStatus) => districtStatus.rainMeter),
                       backgroundColor: theme.colors.cyan[3],
                     },
@@ -238,7 +246,7 @@ const DistrictDetail = () => {
                   labels={labels}
                   datasets={[
                     {
-                      label: 'Amount of mosquito',
+                      label: 'Amount of Mosquito',
                       data: mockData.map((districtStatus) => districtStatus.mosquitoAmount),
                       backgroundColor: theme.colors.cyan[3],
                     },

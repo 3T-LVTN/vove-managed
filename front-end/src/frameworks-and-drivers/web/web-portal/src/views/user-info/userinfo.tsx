@@ -32,6 +32,7 @@ import {InquiryRepository} from "@front-end/application/repositories/inquiry";
 import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
 import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
 import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
+import {PageTitle} from "../../components/page-title/page-title";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -65,7 +66,8 @@ const UserInfo = () => {
   const fetchDetails = async (id: string) => {
     appUserController.getUser(id!).then((user) => {
       setUser(user);
-    });
+    })
+      .catch((error) => console.log(error));
   }
 
   const fetchTrackingList = async (id: string) => {
@@ -73,16 +75,16 @@ const UserInfo = () => {
     setIsLoadingTracking(false);
     setLocations([
       {
-        id: "Thinh's house",
-        name: "Location 1",
-        address: "12 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
-        status: "Good"
+        id: "1",
+        name: "Thinh's house",
+        address: "Phường 13, Quận Tân Bình, Thành phố Hồ Chí Minh",
+        status: "Normal"
       },
       {
         id: "2",
         name: "School",
         address: "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh",
-        status: "More Mosquitoes"
+        status: "Low Risk"
       },
       {
         id: "3",
@@ -100,19 +102,19 @@ const UserInfo = () => {
         id: "5",
         name: "Khoa's house",
         address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
-        status: "Good"
+        status: "Normal"
       },
       {
         id: "6",
         name: "Phong's house",
         address: "Phường 2, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Good"
+        status: "Normal"
       },
       {
         id: "7",
         name: "Quang's house",
         address: "Phường 3, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Good"
+        status: "Normal"
       }
     ]);
   }
@@ -132,51 +134,51 @@ const UserInfo = () => {
       {
         id: "2",
         username: user?.name ?? "Nguyen Mai Thy",
-        timestamp: "03/05/2023 15:15",
+        timestamp: "01/05/2023 5:51",
         address: "Address 2",
         details: "My app is slow",
         status: "Closed"
       },
-    //   {
-    //     id: "3",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 3",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "4",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 4",
-    //     details: "I can't find my place on your map",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "5",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 5",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "6",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 6",
-    //     details: "I can't find my place on your map",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "7",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 7",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   }
+      //   {
+      //     id: "3",
+      //     username: user?.name ?? "",
+      //     timestamp: "03/05/2023 15:15",
+      //     address: "Address 3",
+      //     details: "The predict results at my living area is incorrect",
+      //     status: "Closed"
+      //   },
+      //   {
+      //     id: "4",
+      //     username: user?.name ?? "",
+      //     timestamp: "03/05/2023 15:15",
+      //     address: "Address 4",
+      //     details: "I can't find my place on your map",
+      //     status: "Closed"
+      //   },
+      //   {
+      //     id: "5",
+      //     username: user?.name ?? "",
+      //     timestamp: "03/05/2023 15:15",
+      //     address: "Address 5",
+      //     details: "The predict results at my living area is incorrect",
+      //     status: "Closed"
+      //   },
+      //   {
+      //     id: "6",
+      //     username: user?.name ?? "",
+      //     timestamp: "03/05/2023 15:15",
+      //     address: "Address 6",
+      //     details: "I can't find my place on your map",
+      //     status: "Closed"
+      //   },
+      //   {
+      //     id: "7",
+      //     username: user?.name ?? "",
+      //     timestamp: "03/05/2023 15:15",
+      //     address: "Address 7",
+      //     details: "The predict results at my living area is incorrect",
+      //     status: "Closed"
+      //   }
     ]);
   }
 
@@ -203,7 +205,7 @@ const UserInfo = () => {
           </Text>
           <Badge variant={"light"} size={"xs"} color={location.status === "Epidemic" ? "red" : (
             location.status === "High Risk" ? "orange" : (
-              location.status === "More Mosquitoes" ? "yellow" : ""
+              location.status === "Low Risk" ? "yellow" : ""
             ))}>
             {location.status}
           </Badge>
@@ -216,50 +218,52 @@ const UserInfo = () => {
   });
 
   return (
-    <Grid>
-      <Grid.Col span={12}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder p="md" radius="md">
-            <Title order={1} mb="xs">{user?.name}</Title>
-            <Text mb="xs"><b>Email:</b> {user?.email}</Text>
-            <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
-            <Text mb="xs"><b>Address:</b> {user?.address}</Text>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
+    <Container fluid>
+      <Grid>
+        <Grid.Col span={12}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder p="md" radius="md">
+              <Title order={1} mb="xs">{user?.name}</Title>
+              <Text mb="xs"><b>Email:</b> {user?.email}</Text>
+              <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
+              <Text mb="xs"><b>Address:</b> {user?.address}</Text>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
 
-      <Grid.Col xs={12} md={6}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder radius="md" py="md">
-            <Title order={2} mb="xs" mx="md">Tracking List</Title>
-            <ScrollArea h="58vh">
-              <Container px="md">
-                <Skeleton visible={isLoadingTracking}>
-                  <Stack spacing={10}>
-                    {trackingList}
-                  </Stack>
-                </Skeleton>
-              </Container>
-            </ScrollArea>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
+        <Grid.Col xs={12} md={6}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder radius="md" py="md">
+              <Title order={2} mb="xs" mx="md">Tracking List</Title>
+              <ScrollArea h="60vh">
+                <Container px="md">
+                  <Skeleton visible={isLoadingTracking}>
+                    <Stack spacing={10}>
+                      {trackingList}
+                    </Stack>
+                  </Skeleton>
+                </Container>
+              </ScrollArea>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
 
-      <Grid.Col xs={12} md={6}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder radius="md" py="md">
-            <Title order={2} mb="xs" mx="md">Inquiry List</Title>
-            <ScrollArea h="58vh">
-              <Container px="md">
-                <Skeleton visible={isLoadingInquiry}>
-                  <InquirySummary inquiries={inquiries}></InquirySummary>
-                </Skeleton>
-              </Container>
-            </ScrollArea>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
-    </Grid>
+        <Grid.Col xs={12} md={6}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder radius="md" py="md">
+              <Title order={2} mb="xs" mx="md">Inquiry List</Title>
+              <ScrollArea h="60vh">
+                <Container px="md">
+                  <Skeleton visible={isLoadingInquiry}>
+                    <InquirySummary inquiries={inquiries}></InquirySummary>
+                  </Skeleton>
+                </Container>
+              </ScrollArea>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
+      </Grid>
+    </Container>
   )
 }
 

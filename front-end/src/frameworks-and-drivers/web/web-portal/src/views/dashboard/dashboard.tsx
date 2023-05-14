@@ -36,11 +36,11 @@ export const Dashboard = () => {
     {
       id: "2",
       username: "Le Tran Hoang Thinh",
-      timestamp: "03/05/2023 15:15",
+      timestamp: "04/05/2023 16:16",
       address: "Address 2",
       details: "I can't find my place on your map",
       status: "Closed"
-    }
+    },
   ]
 
   const fetchInquiries = async () => {
@@ -63,7 +63,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "User", value: "1000", diff: 1}} nav={'users'}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "User", value: "15", diff: 100}} nav={'users'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -73,7 +73,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}}
+            <StatsGirdIcons data={{title: "Model feedback", value: "20", diff: 100}}
                             nav={'/model-management'}></StatsGirdIcons>
           </Paper>}
         />
@@ -84,7 +84,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <AppAnalysisSummary data={{access: 20, tracking: 200, inquiries: 20}}></AppAnalysisSummary>
+            <AppAnalysisSummary data={{access: 20, tracking: 30, inquiries: 6}}></AppAnalysisSummary>
           </Paper>}
         />
       </Grid.Col>
@@ -112,7 +112,7 @@ export const Dashboard = () => {
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
               <Stack justify="space-between" align="flex-start" h="100%">
-                <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>
+                <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (3 opening)</Title>
                 <InquirySummary inquiries={inquiries}></InquirySummary>
                 <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} onClick={()=>navigator("inquiries")}>Inquiries List</Button>
               </Stack>

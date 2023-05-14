@@ -9,8 +9,16 @@ import {useNavigate} from "react-router-dom";
 ChartJS.register(ArcElement, Tooltip, Legend, LinearScale);
 
 export const data = {
-  labels: ['OK', 'NG'], datasets: [{
-    data: [18, 6], backgroundColor: ["#61c0d0", "#FFA8A8"],
+  labels: ["Normal", "Low Risk", "High Risk", "Epidemic"],
+  datasets: [{
+    data: [14, 5, 2, 1],
+    backgroundColor: [
+      "#3BC9DB",
+      "#FFD43B",
+      "#FFA94D",
+      "#FF8787",
+    ],
+    borderWidth: 1,
   },],
 };
 
@@ -33,17 +41,25 @@ export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
     }}>
       <Stack h={"100%"} justify={"center"}>
         <div>
-          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>24</Text>
+          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>22</Text>
           <Text fz="xs" color="dimmed">Districts tracked</Text>
         </div>
         <Group mt={"lg"}>
           <div>
-            <Text fz="lg" fw={700} c={"dark.4"}>18</Text>
+            <Text fz="lg" fw={700} c={"dark.4"}>14</Text>
             <Text fz="xs" color="dimmed">Normal</Text>
           </div>
           <div>
-            <Text size="lg" fw={700} c={"dark.4"}>6</Text>
+            <Text fz="lg" fw={700} c={"dark.4"}>5</Text>
+            <Text fz="xs" color="dimmed">Low risk</Text>
+          </div>
+          <div>
+            <Text size="lg" fw={700} c={"dark.4"}>2</Text>
             <Text size="xs" color="dimmed">High risk</Text>
+          </div>
+          <div>
+            <Text fz="lg" fw={700} c={"dark.4"}>1</Text>
+            <Text fz="xs" color="dimmed">Epidemic</Text>
           </div>
         </Group>
       </Stack>
