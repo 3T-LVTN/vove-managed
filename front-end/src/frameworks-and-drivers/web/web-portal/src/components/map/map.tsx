@@ -1,5 +1,5 @@
-import React, {ReactElement, useEffect, useMemo, useState} from "react";
-import {GoogleMap, HeatmapLayerF, useGoogleMap, useJsApiLoader} from "@react-google-maps/api";
+import React, {useEffect, useState} from "react";
+import {GoogleMap, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
 import {ActionIcon} from "@mantine/core";
 import {IconArrowsMaximize} from "@tabler/icons-react";
 import styles from './map.module.css'
@@ -7,7 +7,7 @@ import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/g
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
-import {HeatMapData, HeatMapPointData} from "./map_data";
+import {HeatMapData} from "./map_data";
 import {initPoint} from "./init_state";
 
 export interface MapProps {

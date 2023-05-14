@@ -1,4 +1,4 @@
-import {AppShell, Header, Container, Group, Menu, ActionIcon, Avatar} from "@mantine/core";
+import {AppShell, Header, Container, Group, Menu, ActionIcon, Avatar, Text, Anchor} from "@mantine/core";
 import {createStyles, useMantineTheme} from "@mantine/core";
 import {Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from "react";
@@ -8,7 +8,7 @@ import {Logo} from "./logo";
 import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
-import { IconLogout } from "@tabler/icons-react";
+import {IconLogout} from "@tabler/icons-react";
 
 const authRoutes = [
   "/login",
@@ -59,7 +59,7 @@ export const Frame = () => {
           name: user.displayName,
           photoUrl: user.photoURL
         } as User);
-        if(isAuthRoutes())navigate("");
+        if (isAuthRoutes()) navigate("");
       } else {
         if (isAuthRoutes()) return;
         setCurrentUser(undefined);
@@ -83,31 +83,46 @@ export const Frame = () => {
         !isAuthRoutes() ?
           <Header height={60} mb={120} px="md">
             <Container className={classes.inner} fluid>
-              <Group>
                 <Logo/>
-              </Group>
-              <Group>
-                <span>{userEmail}</span>
-                <Menu
-                  transitionProps={{ transition: "pop" }}
-                  position="bottom-end"
-                  withinPortal
-                >
-                  <Menu.Target>
-                    <ActionIcon>
-                      <Avatar color="cyan" radius="xl" />
-                    </ActionIcon>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      onClick={() => userController.signOut()}
-                      icon={<IconLogout size="1rem" stroke={1.5} />}
-                    >
-                      Logout
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Group>
+                <Group spacing="xl">
+                  <Anchor href="users">
+                    User
+                  </Anchor>
+                  <Anchor href="model-management">
+                    Model
+                  </Anchor>
+                  <Anchor href="app-analysis">
+                    Analysis
+                  </Anchor>
+                  <Anchor href="districts">
+                    Places
+                  </Anchor>
+                  <Anchor href="inquiries">
+                    Inquiries
+                  </Anchor>
+                </Group>
+                <Group miw={290} position="right">
+                  <span>{userEmail}</span>
+                  <Menu
+                    transitionProps={{transition: "pop"}}
+                    position="bottom-end"
+                    withinPortal
+                  >
+                    <Menu.Target>
+                      <ActionIcon>
+                        <Avatar color="cyan" radius="xl"/>
+                      </ActionIcon>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Menu.Item
+                        onClick={() => userController.signOut()}
+                        icon={<IconLogout size="1rem" stroke={1.5}/>}
+                      >
+                        Logout
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                </Group>
             </Container>
           </Header>
           :
