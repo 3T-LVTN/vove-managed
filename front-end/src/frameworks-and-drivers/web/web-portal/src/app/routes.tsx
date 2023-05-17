@@ -16,20 +16,20 @@ import WardDetail from "../views/ward-detail/ward-detail";
 
 export const routes = [
   {
+    path: 'login',
+    element: <Login/>,
+  },
+  {
+    path: 'reset-password',
+    element: <ResetPassword/>,
+  },
+  {
     path: '',
     element: <Frame />,
     children: [
       {
         path: '',
         element: <Dashboard/>
-      },
-      {
-        path: 'login',
-        element: <Login/>,
-      },
-      {
-        path: 'reset-password',
-        element: <ResetPassword/>,
       },
       {
         path: 'users',

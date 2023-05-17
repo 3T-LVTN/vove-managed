@@ -15,6 +15,8 @@ import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
 import {IconArrowLeft} from "@tabler/icons-react";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   controls: {
@@ -38,6 +40,16 @@ export const ResetPassword = () => {
   const authRepository = new AuthFirebase();
   const userUseCase = new UserInteractor(authRepository);
   const userController = new UserController(userUseCase);
+
+  const navigate = useNavigate();
+
+  const [isNotAuthenticated, setIsNotAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    userController.getUser()
+      .then(() => navigate("/"))
+      .catch(() => setIsNotAuthenticated(true));
+  }, []);
 
   const form = useForm({
     initialValues: {
@@ -66,7 +78,7 @@ export const ResetPassword = () => {
     })
   };
 
-  return (
+  const renderResetPassword = () => (
     <Container size={460} my="5%">
       <Title color="dark.4" fw={900} fs="26rem" align="center">Reset Password</Title>
       <Text color="dimmed" fz="sm" ta="center">
@@ -101,6 +113,8 @@ export const ResetPassword = () => {
       </Paper>
     </Container>
   );
+
+  return isNotAuthenticated ? renderResetPassword() : null;
 };
 
 export default ResetPassword;
