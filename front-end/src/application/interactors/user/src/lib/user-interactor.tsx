@@ -7,27 +7,17 @@ export class UserInteractor implements UserUseCase {
   }
 
   async signIn(email: string, password: string): Promise<void> {
-    const currentSession = await this.userAuth.currentSession();
-    if (!currentSession) {
-      await Promise.all([
-        new Promise((resolve) => setTimeout(resolve, 10000)),
-        this.userAuth.signInWithEmailPassword(email, password),
-      ]).catch((error) => {
+    await this.userAuth.signInWithEmailPassword(email, password)
+      .catch((error) => {
         throw new Error(error)
       });
-    }
   }
 
   async resetPassword(email: string, homeUrl: string): Promise<void> {
-    const currentSession = await this.userAuth.currentSession();
-    if (!currentSession) {
-      await Promise.all([
-        new Promise((resolve) => setTimeout(resolve, 10000)),
-        this.userAuth.resetPassword(email, homeUrl),
-      ]).catch((error) => {
+    await this.userAuth.resetPassword(email, homeUrl)
+      .catch((error) => {
         throw new Error(error)
       });
-    }
   }
 
   signOut(): Promise<void> {
@@ -35,10 +25,19 @@ export class UserInteractor implements UserUseCase {
   }
 
   async getUserInfo(): Promise<User> {
-    return this.userAuth.currentAuthenticatedUser()
-      .then((user) => user)
-      .catch((error) => {
-        throw new Error(error)
-      });
+    return this.userAuth.currentSession()
+      .then((session) => {
+        if (!session) {
+          this.userAuth.signOut();
+          throw new Error("End of session");
+        } else {
+          return this.userAuth.currentAuthenticatedUser()
+            .then((user) => user)
+            .catch((error) => {
+              throw error
+            });
+        }
+      })
+      .catch((error) => {throw error});
   }
 }
