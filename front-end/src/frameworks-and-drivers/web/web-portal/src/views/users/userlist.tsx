@@ -41,6 +41,7 @@ const AppUserList = () => {
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const navigate = useNavigate();
 
@@ -89,7 +90,8 @@ const AppUserList = () => {
   useEffect(() => {
     if (pagination.pageIndex * pagination.pageSize > totalRows)
       setPagination({...pagination, pageIndex: 0});
-    fetchData();
+    fetchData()
+      .then(() => setIsLoaded(true));
   }, [columnFilters, pagination, globalFilter, sorting]);
 
   const handleSaveRowEdits: MantineReactTableProps<AppUserViewModel>['onEditingRowSave'] =
@@ -229,7 +231,7 @@ const AppUserList = () => {
         rowCount={totalRows}
         onPaginationChange={setPagination}
 
-        state={{pagination, globalFilter, columnFilters, sorting}}
+        state={{pagination, globalFilter, columnFilters, sorting, isLoading: !isLoaded}}
 
         renderRowActions={({row, table}) => (
           <Box sx={{display: 'flex', gap: '16px'}}>
