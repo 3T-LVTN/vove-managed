@@ -6,9 +6,11 @@ import styles from './map.module.css'
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
-import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
-import {HeatMapData} from "./map_data";
+import {HeatMapData} from "@front-end/domain/entities/map";
 import {initPoint} from "./init_state";
+import {MapApi} from "@front-end/frameworks-and-drivers/app-sync/map";
+import {MapInteractor} from "@front-end/application/interactors/map";
+import {MapControllers} from "@front-end/interface-adapters/controllers/map";
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -28,8 +30,6 @@ export const VoveMap = () => {
     libraries,
   });
 
-  const [stateData, setData] = useState(initPoint)
-  const [mapData, setMapData] = useState<HeatMapData>({})
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
   const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
 
@@ -39,8 +39,12 @@ export const VoveMap = () => {
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
-  const fetchHeatmapData = async () => {
-    return mapData.availableLocations?.map((value) => {
+  const mapRepository = new MapApi();
+  const mapUsecases = new MapInteractor(mapRepository);
+  const mapController = new MapControllers(mapUsecases);
+
+  const fetchHeatmapData = async (heatMapData: HeatMapData) => {
+    return heatMapData.availableLocations?.map((value) => {
       const weightedLocation: google.maps.visualization.WeightedLocation = {
         location: new google.maps.LatLng(value.lat, value.long),
         weight: (value.weight ?? 10) / 500,
@@ -50,29 +54,33 @@ export const VoveMap = () => {
   }
 
   useEffect(() => {
-    const requestBody = {
-      predictDate: 1683444833,
-      locations: stateData,
-    }
-    const data = JSON.parse(localStorage.getItem("mapData") ?? "{}")
-    setTimeout(() => setMapData(data), 100);
-    axios.post("/prediction", requestBody)
-      .then((resp) => {
-        localStorage.setItem("mapData", JSON.stringify(resp.data.data));
-        setMapData(resp.data.data)
+    mapController.getCachedHeatMapData()
+      .then((data) => {
+        if (isLoaded)
+          fetchHeatmapData(data)
+            .then((locations) => {
+              setHeatmapData(locations ?? [])
+              setIsLoadingHeatMap(false)
+              console.log("Load map done!")
+            })
       })
-      .catch((e) => console.log(e))
-  }, [])
+      .catch((e) => console.log(e));
 
-  useEffect(() => {
-    if (isLoaded)
-      fetchHeatmapData()
-        .then((locations) => {
-          setHeatmapData(locations ?? [])
-          setIsLoadingHeatMap(false)
-          console.log("Load map done!")
-        })
-  }, [mapData])
+    mapController.getHeatMapData(initPoint)
+      .then((data) => {
+        if (data && isLoaded) {
+          fetchHeatmapData(data)
+            .then((locations) => {
+              setHeatmapData(locations ?? [])
+              setIsLoadingHeatMap(false)
+              console.log("Load map done!")
+            })
+        } else {
+          throw new Error("No data")
+        }
+      })
+      .catch((e) => console.log(e));
+  }, [isLoaded])
 
   const renderMap = () => {
     return (

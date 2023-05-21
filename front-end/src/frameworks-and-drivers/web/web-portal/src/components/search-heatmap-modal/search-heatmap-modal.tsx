@@ -1,10 +1,12 @@
 import {Divider, Grid, Space, Text, Title} from "@mantine/core";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {GoogleMap, HeatmapLayerF, Marker} from "@react-google-maps/api";
 import SearchBox from "../search-box/search-box";
-import {HeatMapData, HeatMapPointData} from "../map/map_data";
+import {HeatMapData} from "../map/map_data";
 import {initPoint} from "../map/init_state";
-import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
+import {MapApi} from "@front-end/frameworks-and-drivers/app-sync/map";
+import {MapInteractor} from "@front-end/application/interactors/map";
+import {MapControllers} from "@front-end/interface-adapters/controllers/map";
 
 const containerStyle = {
   height: "100%",
@@ -12,41 +14,15 @@ const containerStyle = {
 
 const centerPoint = {lat: 10.7644912, lng: 106.702996};
 
-const mockData: Array<HeatMapPointData> = [
-  {
-    lat: 10.764,
-    long: 106.702,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.703,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.701,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.705,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.704,
-    weight: 15
-  },
-]
-
 export function SearchHeatmapModal() {
   const [selected, setSelected] = React.useState<{ lat: number, lng: number } | null>(null);
   const [isSelected, setIsSelected] = React.useState<boolean>(false);
-  const [stateData, setData] = useState(initPoint)
-  const [mapData, setMapData] = useState<HeatMapData>({})
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
   const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
+
+  const mapRepository = new MapApi();
+  const mapUsecases = new MapInteractor(mapRepository);
+  const mapController = new MapControllers(mapUsecases);
 
   const fetchHeatmapData = async (heatMapData: HeatMapData) => {
     return heatMapData.availableLocations?.map((value) => {
@@ -58,41 +34,32 @@ export function SearchHeatmapModal() {
     })
   }
 
-  const loadFromLocal = async () => {
-    const a = await JSON.parse(localStorage.getItem("mapData") ?? "{}");
-    return a;
-  }
-
   useEffect(() => {
-    const requestBody = {
-      predictDate: 1683444833,
-      locations: stateData,
-    }
-
-    loadFromLocal()
-      .then((data) => {
-        console.log(data)
+    mapController.getCachedHeatMapData()
+      .then((data) =>
         fetchHeatmapData(data)
           .then((locations) => {
             setHeatmapData(locations ?? [])
-            if (heatmapData.length > 0)
-              console.log(locations)
+            setIsLoadingHeatMap(false)
+            console.log("Load map done!")
           })
-          .then(() => setIsLoadingHeatMap(false))
+      )
+      .catch((e) => console.log(e));
+
+    mapController.getHeatMapData(initPoint)
+      .then((data) => {
+        if (data) {
+          fetchHeatmapData(data)
+            .then((locations) => {
+              setHeatmapData(locations ?? [])
+              setIsLoadingHeatMap(false)
+              console.log("Load map done!")
+            })
+        } else {
+          throw new Error("No data")
+        }
       })
-    axios.post("/prediction", requestBody)
-      .then((resp) => {
-        localStorage.setItem("mapData", JSON.stringify(resp.data.data));
-        setMapData(resp.data.data)
-        return resp.data.data
-      })
-      .then((data) => fetchHeatmapData(data))
-      .then((locations) => {
-        setHeatmapData(locations ?? [])
-        console.log("Load map done!")
-      })
-      .then(() => setIsLoadingHeatMap(false))
-      .catch((e) => console.log(e))
+      .catch((e) => console.log(e));
   }, [])
 
   const renderHeatMap = () => {
