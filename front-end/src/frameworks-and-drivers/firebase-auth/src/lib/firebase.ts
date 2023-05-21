@@ -3,6 +3,7 @@ import {getAuth, Auth} from "firebase/auth";
 import {signInWithEmailAndPassword, sendPasswordResetEmail, User as FirebaseUser} from "firebase/auth";
 import {UserRepository} from "@front-end/application/repositories/user";
 import {User} from "@front-end/domain/entities/user";
+import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
 
 const firebaseConfig = {
   apiKey: process.env["NX_FIREBASE_API_KEY"],
@@ -43,7 +44,10 @@ export class AuthFirebase implements UserRepository {
           throw new Error("User not authenticated");
         }
         user.getIdTokenResult(false)
-          .then((idTokenResult) => localStorage.setItem("token", idTokenResult.token))
+          .then((idTokenResult) => {
+            localStorage.setItem("token", idTokenResult.token)
+            axios.defaults.headers.common["Authorization"] = `Bearer ${idTokenResult.token}`;
+          })
         return {
           email: user.email,
           name: user.displayName,
