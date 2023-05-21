@@ -16,7 +16,7 @@ const AppAnalysis = () => {
         <Grid>
           <Grid.Col span={12}>
             <Group position={"apart"}>
-              <PageTitle title={"App Analysis" + (viewBy === "Place" ? " - Places" : " - Time")}/>
+              <PageTitle title={"App Analysis" + (viewBy === "place" ? " - Places" : " - Time")}/>
               <Tabs.List>
                 <Tabs.Tab value="place">
                   <Text fw={700} size="md">
