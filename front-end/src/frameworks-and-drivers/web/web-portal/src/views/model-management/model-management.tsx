@@ -8,135 +8,18 @@ import {
   Text,
   Title,
   useMantineTheme,
-  SelectItem,
 } from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import {DropzoneButton} from "../../components/dropzone/dropzone";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DatePickerInput} from "@mantine/dates";
 import {IconStar} from '@tabler/icons-react';
-
-export interface District {
-  code: number;
-  name: string;
-}
-
-export interface Ward {
-  code: number;
-  name: string;
-}
+import {getDistricts, getWards} from "@front-end/shared/administrative-division";
 
 export interface Accuracy {
   name: string;
   value: number;
 }
-
-//TODO: call province api from provinces.open-api.vn
-const mockDistricts: District[] = [
-  {
-    code: 1,
-    name: 'Thu Duc City'
-  },
-  {
-    code: 2,
-    name: 'District 1'
-  },
-  {
-    code: 3,
-    name: 'District 3'
-  },
-  {
-    code: 4,
-    name: 'District 4'
-  },
-  {
-    code: 5,
-    name: 'District 5'
-  },
-  {
-    code: 6,
-    name: 'District 6'
-  },
-  {
-    code: 7,
-    name: 'District 7'
-  },
-  {
-    code: 8,
-    name: 'District 8'
-  },
-  {
-    code: 9,
-    name: 'District 10'
-  },
-  {
-    code: 10,
-    name: 'District 11'
-  },
-  {
-    code: 11,
-    name: 'District 12'
-  },
-  {
-    code: 12,
-    name: 'Hoc Mon'
-  }
-];
-
-const mockWards: Ward[] = [
-  {
-    code: 1,
-    name: 'Xã Tân Hiệp'
-  },
-  {
-    code: 2,
-    name: 'Xã Tân Thới Nhì'
-  },
-  {
-    code: 3,
-    name: 'Xã Thới Tam Thôn'
-  },
-  {
-    code: 4,
-    name: 'Xã Xuân Thới Sơn'
-  },
-  {
-    code: 5,
-    name: 'Xã Xuân Thới Đông'
-  },
-  {
-    code: 6,
-    name: 'Xã Trung Chánh'
-  },
-  {
-    code: 7,
-    name: 'Xã Xuân Thới Thượng'
-  },
-  {
-    code: 8,
-    name: 'Xã Bà Điểm'
-  },
-  {
-    code: 9,
-    name: 'Xã Tân Xuân'
-  },
-  {
-    code: 10,
-    name: 'Xã Phạm Văn Hai'
-  },
-  {
-    code: 11,
-    name: 'Xã Vĩnh Lộc A'
-  },
-  {
-    code: 12,
-    name: 'Xã Vĩnh Lộc B'
-  },
-  {
-    code: 13,
-    name: 'Xã Tân Thạnh Tây'
-  }
-];
 
 const mockAccuracy: Accuracy[] = [
   {
@@ -158,8 +41,8 @@ export const ModelManagement = () => {
 
   const [inputDataDate, setInputDataDate] = useState<Date | null>(null);
   const [predictDate, setPredictDate] = useState<Date | null>(null);
-  const [district, setDistrict] = useState<number | null>(null);
-  const [ward, setWard] = useState<number | null>(null);
+  const [district, setDistrict] = useState<string | null>(null);
+  const [ward, setWard] = useState<string | null>(null);
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
 
@@ -254,7 +137,13 @@ export const ModelManagement = () => {
                       nothingFound="No options"
                       size="md"
                       radius="md"
-                      data={mockDistricts.map((district) => district.name)}
+                      data={getDistricts().map((district) => (
+                        {
+                          label: district.name,
+                          value: district.code
+                        }
+                      ))}
+                      onChange={setDistrict}
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
@@ -264,7 +153,16 @@ export const ModelManagement = () => {
                       nothingFound="No options"
                       size="md"
                       radius="md"
-                      data={mockWards.map((ward) => ward.name)}
+                      {...district && {disabled: false}}
+                      data={district != null ? getWards(district)
+                          .map((ward) => (
+                            {
+                              label: ward.name,
+                              value: ward.code
+                            }
+                          ))
+                        : []}
+                      onChange={setWard}
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>

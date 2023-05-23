@@ -144,6 +144,9 @@
       "@front-end/interface-adapters/view-models/user": [
         "src/interface-adapters/view-models/user/src/index.ts"
       ],
+      "@front-end/shared/administrative-division": [
+        "src/shared/administrative-division/src/index.ts"
+      ],
       "@front-end/shared/utils": ["src/shared/utils/src/index.ts"]
     }
   },
