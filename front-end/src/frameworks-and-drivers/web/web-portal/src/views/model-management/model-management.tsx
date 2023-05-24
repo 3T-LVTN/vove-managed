@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import {DropzoneButton} from "../../components/dropzone/dropzone";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {DatePickerInput} from "@mantine/dates";
 import {IconStar} from '@tabler/icons-react';
 import {getDistricts, getWards} from "@front-end/shared/administrative-division";
@@ -43,8 +43,26 @@ export const ModelManagement = () => {
   const [predictDate, setPredictDate] = useState<Date | null>(null);
   const [district, setDistrict] = useState<string | null>(null);
   const [ward, setWard] = useState<string | null>(null);
+  const [wardOptions, setWardOptions] = useState<{ code: string, name: string }[]>([]);
+  const [wardSearch, setWardSearch] = useState<string>('');
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
+
+  const fetchData = async () => {
+    //TODO: Call API here
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [district, ward, fromDate, toDate]);
+
+  useMemo(() => {
+    if (district != null) {
+      setWardOptions(getWards(district));
+      setWard(null);
+      setWardSearch('');
+    }
+  }, [district]);
 
   const highestAccuracyStat: number = mockAccuracy.reduce((prev, current) => (prev.value > current.value) ? prev : current).value;
 
@@ -151,17 +169,17 @@ export const ModelManagement = () => {
                       placeholder="Ward"
                       searchable
                       nothingFound="No options"
+                      searchValue={wardSearch}
+                      onSearchChange={setWardSearch}
                       size="md"
                       radius="md"
-                      {...district && {disabled: false}}
-                      data={district != null ? getWards(district)
-                          .map((ward) => (
-                            {
-                              label: ward.name,
-                              value: ward.code
-                            }
-                          ))
-                        : []}
+                      disabled={district === null}
+                      data={wardOptions.map((ward) => (
+                        {
+                          label: ward.name,
+                          value: ward.code
+                        }
+                      ))}
                       onChange={setWard}
                     />
                   </Grid.Col>

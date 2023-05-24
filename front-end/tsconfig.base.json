@@ -24,6 +24,9 @@
       "@front-end/application/interactors/map": [
         "src/application/interactors/map/src/index.ts"
       ],
+      "@front-end/application/interactors/model": [
+        "src/application/interactors/model/src/index.ts"
+      ],
       "@front-end/application/interactors/sreach-heatmap-modal": [
         "src/application/interactors/sreach-heatmap-modal/src/index.ts"
       ],
@@ -42,6 +45,9 @@
       "@front-end/application/repositories/map": [
         "src/application/repositories/map/src/index.ts"
       ],
+      "@front-end/application/repositories/model": [
+        "src/application/repositories/model/src/index.ts"
+      ],
       "@front-end/application/repositories/sreach-heatmap-modal": [
         "src/application/repositories/sreach-heatmap-modal/src/index.ts"
       ],
@@ -59,6 +65,9 @@
       ],
       "@front-end/application/usecases/map": [
         "src/application/usecases/map/src/index.ts"
+      ],
+      "@front-end/application/usecases/model": [
+        "src/application/usecases/model/src/index.ts"
       ],
       "@front-end/application/usecases/sreach-heatmap-modal": [
         "src/application/usecases/sreach-heatmap-modal/src/index.ts"
@@ -96,6 +105,9 @@
       "@front-end/frameworks-and-drivers/app-sync/map": [
         "src/frameworks-and-drivers/app-sync/map/src/index.ts"
       ],
+      "@front-end/frameworks-and-drivers/app-sync/model": [
+        "src/frameworks-and-drivers/app-sync/model/src/index.ts"
+      ],
       "@front-end/frameworks-and-drivers/app-sync/sreach-heatmap-modal": [
         "src/frameworks-and-drivers/app-sync/sreach-heatmap-modal/src/index.ts"
       ],
@@ -119,6 +131,9 @@
       ],
       "@front-end/interface-adapters/controllers/map": [
         "src/interface-adapters/controllers/map/src/index.ts"
+      ],
+      "@front-end/interface-adapters/controllers/model": [
+        "src/interface-adapters/controllers/model/src/index.ts"
       ],
       "@front-end/interface-adapters/controllers/sreach-heatmap-modal": [
         "src/interface-adapters/controllers/sreach-heatmap-modal/src/index.ts"
