@@ -1,7 +1,10 @@
-import { useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import { Text, Group, createStyles, rem } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
+import {ModelApi} from "@front-end/frameworks-and-drivers/app-sync/model";
+import {ModelInteractors} from "@front-end/application/interactors/model";
+import {ModelController} from "@front-end/interface-adapters/controllers/model";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -20,17 +23,28 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function DropzoneButton() {
+  const modelRepository = new ModelApi();
+  const modelUseCases = new ModelInteractors(modelRepository);
+  const modelController = new ModelController(modelUseCases);
+
   const { classes, theme } = useStyles();
   const openRef = useRef<() => void>(null);
+
+  const sendFile = async (file: File) => {
+    await modelController.uploadFile(file)
+      .catch((err) => {
+        console.log("invalid file");
+      });
+  }
 
   return (
     <div className={classes.wrapper}>
       <Dropzone
         openRef={openRef}
-        onDrop={() => {}}
+        onDrop={(files) => sendFile(files[0])}
         className={classes.dropzone}
         radius="md"
-        accept={[MIME_TYPES.pdf]}
+        accept={[MIME_TYPES.csv]}
         maxSize={30 * 1024 ** 2}
       >
         <div style={{ pointerEvents: 'none' }}>
