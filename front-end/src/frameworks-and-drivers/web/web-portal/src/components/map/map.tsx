@@ -64,8 +64,10 @@ export const VoveMap = () => {
               console.log("Load cache done!")
             })
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+  }, [isLoaded])
 
+  useEffect(() => {
     mapController.getHeatMapData(initPoint)
       .then((data) => {
         fetchHeatmapData(data)
