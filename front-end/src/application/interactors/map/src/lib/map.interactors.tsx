@@ -8,6 +8,11 @@ export class MapInteractor implements MapUsecases {
 
   async getHeatMapData(heatMapPoints: HeatMapPointData[]): Promise<HeatMapData> {
     return this.mapRepository.getHeatMapData(heatMapPoints)
+      .then((response) => {
+        console.log("Use-case")
+        console.log(response)
+        return response
+      })
       .catch((error) => {
         throw new Error(error);
       })
