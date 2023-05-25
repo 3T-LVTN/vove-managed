@@ -15,6 +15,10 @@ import React, {useEffect, useMemo, useState} from "react";
 import {DatePickerInput} from "@mantine/dates";
 import {IconStar} from '@tabler/icons-react';
 import {getDistricts, getWards} from "@front-end/shared/administrative-division";
+import {ModelApi} from "@front-end/frameworks-and-drivers/app-sync/model";
+import {ModelInteractors} from "@front-end/application/interactors/model";
+import {ModelController} from "@front-end/interface-adapters/controllers/model";
+import {notifications} from "@mantine/notifications";
 
 export interface Accuracy {
   name: string;
@@ -37,6 +41,10 @@ const mockAccuracy: Accuracy[] = [
 ];
 
 export const ModelManagement = () => {
+  const modelRepository = new ModelApi();
+  const modelUseCases = new ModelInteractors(modelRepository);
+  const modelController = new ModelController(modelUseCases);
+
   const theme = useMantineTheme();
 
   const [inputDataDate, setInputDataDate] = useState<Date | null>(null);
@@ -47,9 +55,33 @@ export const ModelManagement = () => {
   const [wardSearch, setWardSearch] = useState<string>('');
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
 
   const fetchData = async () => {
     //TODO: Call API here
+  }
+
+  const sendFile = async (file: File | null) => {
+    if (file == null) throw new Error("File is null");
+    else
+      await modelController.uploadFile(file!)
+        .catch((err) => {
+          console.log("invalid file");
+        });
+  }
+
+  const showWrongFileNotification = () => {
+    console.error("File is null");
+    notifications.show({
+      title: "File is null", message: 'You have not uploaded an valid file. Please try again', color: 'red',
+    });
+  }
+
+  const showUploadedNotification = () => {
+    console.info("Uploaded successfully");
+    notifications.show({
+      title: "Uploaded successfully", message: 'Your file have been uploaded successfully', color: 'green',
+    });
   }
 
   useEffect(() => {
@@ -209,8 +241,15 @@ export const ModelManagement = () => {
         </Grid.Col>
         <Grid.Col span={12}>
           <Paper withBorder p="md" radius="md" ta="center">
-            <DropzoneButton/>
-            <Button variant={"light"} w={250} size="md" radius="md">Upload data</Button>
+            <DropzoneButton uploadFile={uploadFile} setUploadFile={setUploadFile}/>
+            <Button variant={"light"} w={250} size="md" radius="md"
+                    disabled={uploadFile === null}
+                    onClick={() => sendFile(uploadFile)
+                      .then(() => showUploadedNotification())
+                      .catch(() => showWrongFileNotification())
+                    }>
+              Upload data
+            </Button>
           </Paper>
         </Grid.Col>
       </Grid>

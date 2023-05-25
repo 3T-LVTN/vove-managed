@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
-import { Text, Group, createStyles, rem } from '@mantine/core';
-import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
-import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
+import {Text, Group, createStyles, rem, Container, Space, Grid, ScrollArea, Flex, ActionIcon} from '@mantine/core';
+import {Dropzone, MIME_TYPES} from '@mantine/dropzone';
+import {IconCloudUpload, IconX, IconDownload, IconFileX} from '@tabler/icons-react';
 import {ModelApi} from "@front-end/frameworks-and-drivers/app-sync/model";
 import {ModelInteractors} from "@front-end/application/interactors/model";
 import {ModelController} from "@front-end/interface-adapters/controllers/model";
@@ -22,32 +22,54 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function DropzoneButton() {
-  const modelRepository = new ModelApi();
-  const modelUseCases = new ModelInteractors(modelRepository);
-  const modelController = new ModelController(modelUseCases);
+export interface DropzoneButtonProps {
+  uploadFile: File | null;
+  setUploadFile: (file: File | null) => void;
+}
 
-  const { classes, theme } = useStyles();
+export function DropzoneButton({uploadFile, setUploadFile}: DropzoneButtonProps) {
+  const {classes, theme} = useStyles();
   const openRef = useRef<() => void>(null);
 
-  const sendFile = async (file: File) => {
-    await modelController.uploadFile(file)
-      .catch((err) => {
-        console.log("invalid file");
-      });
-  }
+  const previews = (
+    <Container>
+      <Space h="xs"/>
+      <Flex
+        gap="md"
+        justify="center"
+        align="center"
+        direction="row"
+        wrap="wrap"
+      >
+        <Text fw={700}>
+          Uploaded file:
+        </Text>
+        <Text td="underline">
+          {uploadFile?.name}
+        </Text>
+        <ActionIcon
+          onClick={() => {
+            console.log("uploaded");
+            setUploadFile(null);
+          }}
+        >
+          <IconFileX size="1rem" stroke={1.5}/>
+        </ActionIcon>
+      </Flex>
+    </Container>
+  );
 
   return (
     <div className={classes.wrapper}>
       <Dropzone
         openRef={openRef}
-        onDrop={(files) => sendFile(files[0])}
+        onDrop={(files) => setUploadFile(files[0])}
         className={classes.dropzone}
         radius="md"
         accept={[MIME_TYPES.csv]}
         maxSize={30 * 1024 ** 2}
       >
-        <div style={{ pointerEvents: 'none' }}>
+        <div style={{pointerEvents: 'none'}}>
           <Group position="center">
             <Dropzone.Accept>
               <IconDownload
@@ -57,7 +79,7 @@ export function DropzoneButton() {
               />
             </Dropzone.Accept>
             <Dropzone.Reject>
-              <IconX size={rem(50)} color={theme.colors.red[6]} stroke={1.5} />
+              <IconX size={rem(50)} color={theme.colors.red[6]} stroke={1.5}/>
             </Dropzone.Reject>
             <Dropzone.Idle>
               <IconCloudUpload
@@ -79,6 +101,7 @@ export function DropzoneButton() {
           </Text>
         </div>
       </Dropzone>
+      {!!uploadFile && previews}
     </div>
   );
 }
