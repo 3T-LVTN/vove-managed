@@ -68,7 +68,7 @@ export const VoveMap = () => {
 
     mapController.getHeatMapData(initPoint)
       .then((data) => {
-        if (data && isLoaded) {
+        if (data) {
           fetchHeatmapData(data)
             .then((locations) => {
               setHeatmapData(locations ?? [])

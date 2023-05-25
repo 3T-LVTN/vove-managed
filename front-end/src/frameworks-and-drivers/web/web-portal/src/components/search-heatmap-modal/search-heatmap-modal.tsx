@@ -48,16 +48,12 @@ export function SearchHeatmapModal() {
 
     mapController.getHeatMapData(initPoint)
       .then((data) => {
-        if (data) {
-          fetchHeatmapData(data)
-            .then((locations) => {
-              setHeatmapData(locations ?? [])
-              setIsLoadingHeatMap(false)
-              console.log("Load map done!")
-            })
-        } else {
-          throw new Error("No data")
-        }
+        fetchHeatmapData(data)
+          .then((locations) => {
+            setHeatmapData(locations ?? [])
+            setIsLoadingHeatMap(false)
+            console.log("Load map done!")
+          })
       })
       .catch((e) => console.log(e));
   }, [])
