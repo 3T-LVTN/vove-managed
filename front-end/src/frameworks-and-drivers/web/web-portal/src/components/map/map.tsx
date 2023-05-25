@@ -56,31 +56,27 @@ export const VoveMap = () => {
   useEffect(() => {
     mapController.getCachedHeatMapData()
       .then((data) => {
-        if (isLoaded)
+        if (isLoaded && data.availableLocations?.length !== 0)
           fetchHeatmapData(data)
             .then((locations) => {
               setHeatmapData(locations ?? [])
               setIsLoadingHeatMap(false)
-              console.log("Load map done!")
+              console.log("Load cache done!")
             })
       })
       .catch((e) => console.log(e));
 
     mapController.getHeatMapData(initPoint)
       .then((data) => {
-        if (data) {
-          fetchHeatmapData(data)
-            .then((locations) => {
-              setHeatmapData(locations ?? [])
-              setIsLoadingHeatMap(false)
-              console.log("Load map done!")
-            })
-        } else {
-          throw new Error("No data")
-        }
+        fetchHeatmapData(data)
+          .then((locations) => {
+            setHeatmapData(locations ?? [])
+            setIsLoadingHeatMap(false)
+            console.log("Load map done!")
+          })
       })
       .catch((e) => console.log(e));
-  }, [isLoaded])
+  }, [])
 
   const renderMap = () => {
     return (

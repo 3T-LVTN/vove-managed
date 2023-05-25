@@ -41,7 +41,7 @@ export function SearchHeatmapModal() {
           .then((locations) => {
             setHeatmapData(locations ?? [])
             setIsLoadingHeatMap(false)
-            console.log("Load map done!")
+            console.log("Load cache done!")
           })
       )
       .catch((e) => console.log(e));

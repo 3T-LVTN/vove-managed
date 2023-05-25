@@ -7,11 +7,6 @@ export class MapControllers {
 
   async getHeatMapData(heatMapPoints: HeatMapPointData[]): Promise<HeatMapData> {
     return this.mapUseCase.getHeatMapData(heatMapPoints)
-      .then((response) => {
-        console.log("Controller")
-        console.log(response)
-        return response
-      })
       .catch((error) => {
         throw new Error(error);
       })
