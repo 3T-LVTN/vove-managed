@@ -56,7 +56,7 @@ export const VoveMap = () => {
   useEffect(() => {
     mapController.getCachedHeatMapData()
       .then((data) => {
-        if (isLoaded && data.availableLocations?.length !== 0)
+        if (isLoaded)
           fetchHeatmapData(data)
             .then((locations) => {
               setHeatmapData(locations ?? [])
