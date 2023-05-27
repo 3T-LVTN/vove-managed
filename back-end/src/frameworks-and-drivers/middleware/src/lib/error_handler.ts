@@ -1,19 +1,27 @@
-import { ExceptionFilter, Catch, ArgumentsHost, Inject } from '@nestjs/common';
-import { Request } from 'express';
+import {ExceptionFilter, Catch, ArgumentsHost, Inject, HttpException} from '@nestjs/common';
+import { Request, Response } from 'express';
 import {SlackService} from '@back-end/frameworks-and-drivers/adapter'
 
 
-@Catch()
+@Catch(HttpException)
 export class GlobalExceptionFilter implements ExceptionFilter {
   @Inject('SlackService')
   private readonly slackService: SlackService= new SlackService();
 
-  catch(error: Error, host: ArgumentsHost) {
+  catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    async () => {
-      this.slackService.SendErrorNotification(request.path, error) 
-    }
+    const status = exception.getStatus();
+
+    this.slackService.SendErrorNotification(request.path, exception)
+
+    response
+      .status(status)
+      .json({
+        statusCode: status,
+        message: exception.message,
+      });
   }
 }
 
