@@ -5,6 +5,7 @@ export interface User {
   phoneNumber?: string;
   address?: string;
   photoUrl?: string;
+  deleteAt?: Date;
 }
 
 export interface UserList {

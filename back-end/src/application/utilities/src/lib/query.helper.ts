@@ -45,7 +45,8 @@ export class QueryHelper {
     return {
       $and: [
         search,
-        result
+        result,
+        {deleteAt: null}
       ]
     };
   }

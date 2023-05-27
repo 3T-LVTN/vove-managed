@@ -7,5 +7,6 @@ export const UserSchema = new Schema<User>({
   name: {type: String, required: true},
   phoneNumber: String,
   address: String,
-  photoUrl: String
+  photoUrl: String,
+  deleteAt: Date,
 });

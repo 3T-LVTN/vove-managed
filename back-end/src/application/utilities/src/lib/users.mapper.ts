@@ -10,6 +10,7 @@ export class UsersMapper {
       phoneNumber: user.phoneNumber,
       address: user.address,
       photoUrl: user.photoUrl,
+      deleteAt: user.deleteAt,
     };
   }
 
@@ -21,6 +22,7 @@ export class UsersMapper {
       phoneNumber: userDTO.phoneNumber,
       address: userDTO.address,
       photoUrl: userDTO.photoUrl,
+      deleteAt: userDTO.deleteAt,
     };
   }
 

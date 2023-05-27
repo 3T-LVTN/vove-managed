@@ -5,5 +5,5 @@ export interface UserUseCase {
   getUserList(query: UserQuery): Promise<UserListDTO>;
   getUser(id: string): Promise<UserDTO>;
   updateUser(id: string, user: UserDTO): Promise<string>;
-  deleteUser(id: string): Promise<void>;
+  deleteUser(id: string): Promise<string>;
 }

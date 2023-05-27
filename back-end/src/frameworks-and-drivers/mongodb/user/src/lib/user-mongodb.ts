@@ -56,10 +56,14 @@ export class UserMongoDBRepository implements UserRepository {
       });
   }
 
-  deleteUser(id: string): Promise<void> {
-    return this.userModel.findByIdAndDelete(id).exec()
+  async deleteUser(id: string): Promise<string> {
+    return this.userModel.findById(id).exec()
       .then((user) => {
-        if (!user) {
+        if (user) {
+          user["deleteAt"] = new Date();
+          return user.save()
+            .then((user) => user.id);
+        } else {
           throw NotFoundException;
         }
       });

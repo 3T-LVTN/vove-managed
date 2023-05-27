@@ -16,7 +16,6 @@ async function bootstrap() {
     origin: process.env["NX_HOME_URL"],
   });
   app.useGlobalFilters(new GlobalExceptionFilter)
-  app.useGlobalGuards(app.get(AuthGuard));
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3333;

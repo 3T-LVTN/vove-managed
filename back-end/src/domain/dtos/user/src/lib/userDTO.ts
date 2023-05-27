@@ -5,6 +5,7 @@ export interface UserDTO {
   phoneNumber?: string;
   address?: string;
   photoUrl?: string;
+  deleteAt?: Date;
 }
 
 export interface UserListDTO {
