@@ -49,7 +49,7 @@ export class UserMongoDBRepository implements UserRepository {
     return this.userModel.findByIdAndUpdate(id, user).exec()
       .then((user) => {
         if (user) {
-          return user._id;
+          return user._id.toString();
         } else {
           throw NotFoundException;
         }
