@@ -12,13 +12,14 @@ const containerStyle = {
   height: "100%",
 };
 
-const centerPoint = {lat: 10.7644912, lng: 106.702996};
 
 export function SearchHeatmapModal() {
-  const [selected, setSelected] = React.useState<{ lat: number, lng: number } | null>(null);
+  const [centerPoint, setCenterPoint] = React.useState<{ lat: number, lng: number }>({lat: 10.7644912, lng: 106.702996})
+  const [selected, setSelected] = React.useState<google.maps.LatLngLiteral>();
   const [isSelected, setIsSelected] = React.useState<boolean>(false);
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
   const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
+  const [markerData, setMarkerData] = useState<google.maps.LatLng>()
 
   const mapRepository = new MapApi();
   const mapUsecases = new MapInteractor(mapRepository);
@@ -58,6 +59,13 @@ export function SearchHeatmapModal() {
       .catch((e) => console.log(e));
   }, [])
 
+  useEffect(() => {
+    if (selected) {
+      setMarkerData(new google.maps.LatLng(selected));
+      setCenterPoint(selected)
+    }
+  }, [selected])
+
   const renderHeatMap = () => {
     return (
       <GoogleMap
@@ -68,7 +76,7 @@ export function SearchHeatmapModal() {
       >
         {(isLoadingHeatMap) ? null :
           <HeatmapLayerF data={heatmapData} options={{radius: 100, opacity: 0.3}}/>}
-        {selected && <Marker position={selected}/>}
+        {markerData && <Marker position={markerData}/>}
       </GoogleMap>
     )
   }
