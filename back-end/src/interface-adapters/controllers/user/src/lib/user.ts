@@ -27,12 +27,18 @@ export class UserControllers {
   @Put(":id")
   @Roles("admin")
   async updateUser(@Param("id") id: string, @Body() userDTO: UserDTO) {
-    return this.userUseCase.updateUser(id, userDTO);
+    const updatedUserId = await this.userUseCase.updateUser(id, userDTO);
+    return {
+      userId: updatedUserId
+    };
   }
 
   @Delete(":id")
   @Roles("admin")
   async deleteUser(@Param("id") id: string) {
-    return this.userUseCase.deleteUser(id);
+    const deletedUserId = await this.userUseCase.deleteUser(id);
+    return {
+      userId: deletedUserId
+    };
   }
 }
