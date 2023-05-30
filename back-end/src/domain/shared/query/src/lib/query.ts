@@ -13,3 +13,9 @@ export interface UserQuery extends Query {
   phoneNumber?: string;
   address?: string;
 }
+
+export interface InquiryQuery extends Query {
+  id?: string;
+  title?: string;
+  author?: string;
+}
