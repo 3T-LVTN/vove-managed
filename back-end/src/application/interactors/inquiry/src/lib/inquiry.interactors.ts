@@ -1,7 +1,7 @@
 import {InquiryUseCase} from "@back-end/application/usecases/inquiry";
 import {Inject, Injectable} from "@nestjs/common";
 import {InquiryRepository} from "@back-end/application/repositories/inquiry";
-import {InquiryQuery} from "@back-end/domain/shared/query";
+import {InquiryQuery, Query} from "@back-end/domain/shared/query";
 import {InquiryDTO, InquiryListDTO} from "@back-end/domain/dtos/inquiry";
 import {InquiryMapper} from "@back-end/application/utilities";
 
@@ -14,6 +14,13 @@ export class InquiryInteractors implements InquiryUseCase {
 
   getInquiryList(query: InquiryQuery): Promise<InquiryListDTO> {
     return this.inquiryRepository.getInquiryList(query)
+      .then((inquiries) => {
+        return InquiryMapper.toDTOList(inquiries)
+      });
+  }
+
+  getUserInquiryList(id: string, query: Query): Promise<InquiryListDTO> {
+    return this.inquiryRepository.getUserInquiryList(id, query)
       .then((inquiries) => {
         return InquiryMapper.toDTOList(inquiries)
       });

@@ -3,7 +3,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Model, Types} from "mongoose";
 import {InquiryRepository} from "@back-end/application/repositories/inquiry";
 import {Inquiry, InquiryList} from "@back-end/domain/entities/inquiry";
-import {InquiryQuery} from "@back-end/domain/shared/query";
+import {InquiryQuery, Query} from "@back-end/domain/shared/query";
 import {QueryHelper} from "@back-end/application/utilities";
 
 @Injectable()
@@ -14,6 +14,31 @@ export class InquiryMongoDBRepository implements InquiryRepository {
   async getInquiryList(query: InquiryQuery): Promise<InquiryList> {
     const filter = QueryHelper.getInquiryFilter(query);
     const options = QueryHelper.getOptions(query);
+    const count = await this.inquiryModel.count(filter).exec()
+      .then((count) => {
+          if (count) {
+            return count;
+          } else {
+            throw NotFoundException;
+          }
+        }
+      );
+
+    const inquiryList = await this.inquiryModel.find(
+      filter,
+      null,
+      options
+    ).exec();
+    return {
+      inquiries: inquiryList,
+      page: query.page ? +query.page : 0,
+      total: count
+    }
+  }
+
+  async getUserInquiryList(id: string, query: Query): Promise<InquiryList> {
+    const options = QueryHelper.getOptions(query);
+    const filter = {userId: new Types.ObjectId(id)}
     const count = await this.inquiryModel.count(filter).exec()
       .then((count) => {
           if (count) {

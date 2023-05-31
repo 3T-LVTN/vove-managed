@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Inject, Query, Param, Put, Post} from "@nestjs/common";
 import {InquiryUseCase} from "@back-end/application/usecases/inquiry";
-import {InquiryQuery} from "@back-end/domain/shared/query";
+import {InquiryQuery, Query as OptionQuery} from "@back-end/domain/shared/query";
 import {InquiryDTO} from "@back-end/domain/dtos/inquiry";
 import {Roles} from "@back-end/application/utilities";
 
@@ -16,6 +16,12 @@ export class InquiryControllers {
   @Roles("admin")
   async getInquiryList(@Query() query: InquiryQuery) {
     return this.inquiryUseCase.getInquiryList(query);
+  }
+
+  @Get("users/:id")
+  @Roles("admin", "user")
+  async getUserInquiryList(@Param("id") id: string, @Query() query: OptionQuery) {
+    return this.inquiryUseCase.getUserInquiryList(id, query);
   }
 
   @Get(":id")
