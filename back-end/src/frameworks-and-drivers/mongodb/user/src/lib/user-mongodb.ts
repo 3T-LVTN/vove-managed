@@ -2,7 +2,7 @@ import {Injectable, NotFoundException} from "@nestjs/common";
 import {User, UserList} from "@back-end/domain/entities/user";
 import {UserRepository} from "@back-end/application/repositories/user";
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, Types} from "mongoose";
 import {UserQuery} from "@back-end/domain/shared/query";
 import {QueryHelper} from "@back-end/application/utilities";
 
@@ -35,7 +35,7 @@ export class UserMongoDBRepository implements UserRepository {
   }
 
   getUser(id: string): Promise<User> {
-    return this.userModel.findById(id).exec()
+    return this.userModel.findById(new Types.ObjectId(id)).exec()
       .then(user => {
         if (user) {
           return user;
@@ -46,20 +46,24 @@ export class UserMongoDBRepository implements UserRepository {
   }
 
   updateUser(id: string, user: User): Promise<string> {
-    return this.userModel.findByIdAndUpdate(id, user).exec()
+    return this.userModel.findByIdAndUpdate(new Types.ObjectId(id), user).exec()
       .then((user) => {
         if (user) {
-          return user._id;
+          return user._id.toString();
         } else {
           throw NotFoundException;
         }
       });
   }
 
-  deleteUser(id: string): Promise<void> {
-    return this.userModel.findByIdAndDelete(id).exec()
+  async deleteUser(id: string): Promise<string> {
+    return this.userModel.findById(new Types.ObjectId(id)).exec()
       .then((user) => {
-        if (!user) {
+        if (user) {
+          user["deleteAt"] = new Date();
+          return user.save()
+            .then((user) => user.id);
+        } else {
           throw NotFoundException;
         }
       });

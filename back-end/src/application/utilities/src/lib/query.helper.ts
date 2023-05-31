@@ -1,4 +1,4 @@
-import {Query, UserQuery} from "@back-end/domain/shared/query";
+import {InquiryQuery, Query, UserQuery} from "@back-end/domain/shared/query";
 
 export class QueryHelper {
   static getOptions(query: Query) {
@@ -45,8 +45,37 @@ export class QueryHelper {
     return {
       $and: [
         search,
-        result
+        result,
+        {deleteAt: null}
       ]
     };
+  }
+
+  static getInquiryFilter(inquiryQuery: InquiryQuery) {
+    const search: { [key: string]: object } = {};
+    if (inquiryQuery.search) {
+      search["$or"] = [
+        {_id: new RegExp(inquiryQuery.search, "ig")},
+        {title: new RegExp(inquiryQuery.search, "ig")},
+        {author: new RegExp(inquiryQuery.search, "ig")},
+      ]
+    }
+
+    const result: { [key: string]: RegExp | number } = {};
+    if (inquiryQuery.id) {
+      result._id = new RegExp(inquiryQuery.id, "ig");
+    }
+    if (inquiryQuery.title) {
+      result.title = new RegExp(inquiryQuery.title, "ig");
+    }
+    if (inquiryQuery.author) {
+      result.author = new RegExp(inquiryQuery.author, "ig");
+    }
+    return {
+      $and: [
+        search,
+        result
+      ]
+    }
   }
 }

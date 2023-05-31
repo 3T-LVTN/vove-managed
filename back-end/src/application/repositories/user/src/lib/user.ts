@@ -5,5 +5,5 @@ export interface UserRepository {
   getUserList(query: UserQuery): Promise<UserList>;
   getUser(id: string): Promise<User>;
   updateUser(id: string, user: User): Promise<string>;
-  deleteUser(id: string): Promise<void>;
+  deleteUser(id: string): Promise<string>;
 }

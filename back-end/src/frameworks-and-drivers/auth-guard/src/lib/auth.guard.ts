@@ -2,6 +2,7 @@ import {CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException
 import {getAuth} from "firebase-admin/auth";
 import * as admin from "firebase-admin";
 import {Request} from "express";
+import {Reflector} from "@nestjs/core";
 
 const firebaseConfig = {
   type: process.env["NX_FIREBASE_TYPE"],
@@ -22,9 +23,17 @@ admin.initializeApp({
 
 @Injectable()
 export class AuthGuard implements CanActivate{
+  constructor(private reflector: Reflector) {}
+
   async canActivate(
     context: ExecutionContext
   ): Promise<boolean> {
+    const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
+    //TODO: Define user auth
+    if (!requiredRoles || requiredRoles.includes("user")) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
