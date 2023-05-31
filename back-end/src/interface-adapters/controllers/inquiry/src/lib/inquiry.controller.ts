@@ -19,11 +19,13 @@ export class InquiryControllers {
   }
 
   @Get(":id")
+  @Roles("admin", "user")
   async getInquiry(@Param("id") id: string) {
     return this.inquiryUseCase.getInquiry(id);
   }
 
   @Post()
+  @Roles("admin", "user")
   async createInquiry(@Param("id") id: string, @Body() inquiry: InquiryDTO) {
     const createdInquiryId = await this.inquiryUseCase.createInquiry(inquiry);
     return {
@@ -32,15 +34,17 @@ export class InquiryControllers {
   }
 
   @Put(":id")
-  async updateInquiry(@Param("id") id: string, @Body() inquiryDTO: InquiryDTO) {
-    const updatedInquiryId = await this.inquiryUseCase.updateInquiry(id, inquiryDTO);
+  @Roles("admin", "user")
+  async updateInquiry(@Param("id") id: string, @Body() req: { status: string }) {
+    const updatedInquiryId = await this.inquiryUseCase.updateInquiry(id, req.status);
     return {
       inquiryId: updatedInquiryId
     };
   }
 
   @Post(":id/comment")
-  async addComment(@Param("id") id: string, @Body() {comment, isUser}: {comment: string, isUser: boolean}) {
+  @Roles("admin", "user")
+  async addComment(@Param("id") id: string, @Body() {comment, isUser}: { comment: string, isUser: boolean }) {
     const updatedInquiryId = await this.inquiryUseCase.addComment(id, comment, isUser);
     return {
       inquiryId: updatedInquiryId

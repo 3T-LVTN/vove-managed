@@ -29,7 +29,8 @@ export class AuthGuard implements CanActivate{
     context: ExecutionContext
   ): Promise<boolean> {
     const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
-    if (!requiredRoles) {
+    //TODO: Define user auth
+    if (!requiredRoles || requiredRoles.includes("user")) {
       return true;
     }
 

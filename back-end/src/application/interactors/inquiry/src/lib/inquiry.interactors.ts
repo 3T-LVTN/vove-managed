@@ -28,8 +28,8 @@ export class InquiryInteractors implements InquiryUseCase {
     return this.inquiryRepository.createInquiry(InquiryMapper.toEntity(inquiry));
   }
 
-  updateInquiry(id: string, inquiry: InquiryDTO): Promise<string> {
-    return this.inquiryRepository.updateInquiry(id, InquiryMapper.toEntity(inquiry));
+  updateInquiry(id: string, status: string): Promise<string> {
+    return this.inquiryRepository.updateInquiry(id, status);
   }
 
   addComment(id: string, comment: string, isUser: boolean): Promise<string> {

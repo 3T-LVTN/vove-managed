@@ -54,9 +54,9 @@ export class InquiryMongoDBRepository implements InquiryRepository {
       .then((inquiry) => inquiry._id.toString());
   }
 
-  async updateInquiry(id: string, inquiry: Inquiry): Promise<string> {
+  async updateInquiry(id: string, status: string): Promise<string> {
     const objectId = new Types.ObjectId(id);
-    return this.inquiryModel.findByIdAndUpdate(objectId, inquiry).exec()
+    return this.inquiryModel.findByIdAndUpdate(objectId, {status}).exec()
       .then((inquiry) => {
           if (inquiry) {
             return inquiry._id.toString();

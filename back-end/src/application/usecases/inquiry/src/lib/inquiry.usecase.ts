@@ -5,6 +5,6 @@ export interface InquiryUseCase {
   getInquiryList(query: InquiryQuery): Promise<InquiryListDTO>;
   getInquiry(id: string): Promise<InquiryDTO>;
   createInquiry(inquiry: InquiryDTO): Promise<string>;
-  updateInquiry(id: string, user: InquiryDTO): Promise<string>;
+  updateInquiry(id: string, status: string): Promise<string>;
   addComment(id: string, comment: string, isUser: boolean): Promise<string>;
 }
