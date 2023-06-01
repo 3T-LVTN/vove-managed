@@ -15,129 +15,186 @@ import {
 import {PageTitle} from "../../components/page-title/page-title";
 import {VoveMap} from "../../components/map/map";
 import SearchHeatmapModal from "../../components/search-heatmap-modal/search-heatmap-modal";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 import DistrictStatusSummary from "../../components/district-status-summary/district-status-summary";
 import {NavLink} from "react-router-dom";
+import { Interface } from "readline";
+import axios from "axios";
 
+enum DistrictSummaryStatus  {
+  Safe = "SAFE",
+  Normal = "NORMAL", 
+  LowRisk = "LOW RISK", 
+  HighRisk = "HIGH RISK",
+}
 interface DistrictStatus {
   districtId: number;
   districtName: string;
-  status: "Normal" | "Low Risk" | "High Risk" | "Epidemic";
+  status: DistrictSummaryStatus;
 }
+
+interface DistrictLocation {
+  lat?: number, 
+  lng?: number, 
+  locationCode: string
+}
+interface DistrictSummaryApiRequest { 
+  locations: Array<DistrictLocation>,  
+  // NOTE: currently not support filter with time interval, default 7 
+  // timeInterval: number
+}
+
+interface DistrictSummaryApiResponseData { 
+  locationCode: string, 
+  lat: number, 
+  lng: number, 
+  value: number, 
+  precip: number, 
+  temperature: number, 
+  rate: DistrictSummaryStatus,
+}
+interface DistrictSummaryApiResponse {
+  code: number, 
+  message: string, 
+  data: Array<DistrictSummaryApiResponseData>
+}
+
+const  getSummary = async (inp: DistrictLocation[]): Promise<DistrictStatus[]> => {
+  const body: DistrictSummaryApiRequest = {
+    locations: inp
+  } 
+
+  return axios.post<DistrictSummaryApiResponse>("/prediction/summary", body)
+    .then((response) => {
+      const newData : DistrictStatus[] = []
+      response.data.data.forEach((val,index, _) => {
+        newData.push({
+          districtId: index, 
+          districtName: val.locationCode, 
+          status: val.rate,
+        })
+      })
+      return newData
+    })
+    .catch((error) => {
+      throw new Error(error)
+    });
+}
+
 
 const mockDistrictStatus: DistrictStatus[] = [
   {
     districtId: 1,
     districtName: "Thu Duc City",
-    status: "Low Risk"
+    status: DistrictSummaryStatus.Normal
   },
   {
     districtId: 2,
     districtName: "District 1",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 3,
     districtName: "District 3",
-    status: "Low Risk"
+    status: DistrictSummaryStatus.Normal
   },
   {
     districtId: 4,
     districtName: "District 4",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 5,
     districtName: "District 5",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 6,
     districtName: "District 6",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 7,
     districtName: "District 7",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 8,
     districtName: "District 8",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 9,
     districtName: "District 10",
-    status: "Low Risk"
+    status: DistrictSummaryStatus.Normal
   },
   {
     districtId: 10,
     districtName: "District 11",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 11,
     districtName: "District 12",
-    status: "High Risk"
+    status: DistrictSummaryStatus.LowRisk
   },
   {
     districtId: 12,
     districtName: "Binh Thanh",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 13,
     districtName: "Go Vap",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 14,
     districtName: "Phu Nhuan",
-    status: "Low Risk"
+    status: DistrictSummaryStatus.Normal
   },
   {
     districtId: 15,
     districtName: "Tan Binh",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 16,
     districtName: "Tan Phu",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 17,
     districtName: "Binh Tan",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 18,
     districtName: "Cu Chi",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 19,
     districtName: "Nha Be",
-    status: "Normal"
+    status: DistrictSummaryStatus.Safe
   },
   {
     districtId: 20,
     districtName: "Can Gio",
-    status: "Epidemic"
+    status: DistrictSummaryStatus.HighRisk
   },
   {
     districtId: 21,
     districtName: "Binh Chanh",
-    status: "High Risk"
+    status: DistrictSummaryStatus.LowRisk
   },
   {
     districtId: 22,
     districtName: "Hoc Mon",
-    status: "Low Risk"
+    status: DistrictSummaryStatus.Normal
   }
 ]
 
@@ -149,17 +206,17 @@ const DistrictList = ({districts}: { districts: DistrictStatus[] }) => {
           <Group position="apart">
             <Group>
               <ThemeIcon radius="50%" size="lg"
-                         color={districtStatus.status === "Epidemic" ? "red" : (
-                           districtStatus.status === "High Risk" ? "orange" : (
-                             districtStatus.status === "Low Risk" ? "yellow" : ""
+                         color={districtStatus.status === DistrictSummaryStatus.HighRisk ? "red" : (
+                           districtStatus.status === DistrictSummaryStatus.LowRisk ? "orange" : (
+                             districtStatus.status === DistrictSummaryStatus.Normal ? "yellow" : ""
                            ))}
               >
               </ThemeIcon>
               <Text fw={700} size="lg">{districtStatus.districtName}</Text>
             </Group>
-            <Badge variant="light" size="lg" color={districtStatus.status === "Epidemic" ? "red" : (
-              districtStatus.status === "High Risk" ? "orange" : (
-                districtStatus.status === "Low Risk" ? "yellow" : ""
+            <Badge variant="light" size="lg" color={districtStatus.status === DistrictSummaryStatus.HighRisk ? "red" : (
+              districtStatus.status === DistrictSummaryStatus.LowRisk ? "orange" : (
+                districtStatus.status === DistrictSummaryStatus.Normal ? "yellow" : ""
               ))}>
               {districtStatus.status}
             </Badge>
@@ -191,11 +248,30 @@ const DistrictSummary = () => {
 
   const [activeTab, setActiveTab] = useState<string | null>('all');
 
-  const districtsStatusAll = mockDistrictStatus;
-  const districtsStatusNormal = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Normal");
-  const districtsStatusLowRisk = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Low Risk");
-  const districtsStatusHighRisk = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "High Risk");
-  const districtsStatusEpidemic = mockDistrictStatus.filter((districtStatus) => districtStatus.status === "Epidemic");
+  const [districtsStatusAll, setStatus] = useState<DistrictStatus[]>(mockDistrictStatus);
+  const [districtsStatusSafe, setStatusSafe] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe));
+  const [districtsStatusNormal, setStatusNormal] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal));
+  const [districtsStatusLowRisk, setStatusLowRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk));
+  const [districtsStatusHighRisk, setStatusHighRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk));
+
+  useEffect(()=>{
+    const districtInp : DistrictLocation[] = []
+    mockDistrictStatus.forEach((value, _, __)=> {
+      districtInp.push(
+        {
+          locationCode: value.districtName
+        }
+      )
+    }) 
+    getSummary(districtInp).then((value)=>{
+      setStatus(value)
+      setStatusSafe(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe))
+      setStatusNormal(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal))
+      setStatusLowRisk(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk))
+      setStatusHighRisk(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk))
+    }).catch((e)=> console.log(e))
+  })
+
 
   return (
     <Container fluid>
@@ -236,40 +312,40 @@ const DistrictSummary = () => {
                 All
               </Tabs.Tab>
 
-              <Tabs.Tab value="normal" rightSection={
+              <Tabs.Tab value={DistrictSummaryStatus.Safe} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === "normal" ? "" : "gray"}>
+                       variant="filled" color={activeTab === DistrictSummaryStatus.Safe ? "" : "gray"}>
+                  {districtsStatusSafe.length}
+                </Badge>
+              }>
+                Safe
+              </Tabs.Tab>
+              
+              <Tabs.Tab value={DistrictSummaryStatus.Normal} rightSection={
+                <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
+                       variant="filled" color={activeTab === DistrictSummaryStatus.Normal? "" : "gray"}>
                   {districtsStatusNormal.length}
                 </Badge>
               }>
                 Normal
               </Tabs.Tab>
 
-              <Tabs.Tab value={"low-risk"} rightSection={
+              <Tabs.Tab value={DistrictSummaryStatus.LowRisk} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === "low-risk" ? "" : "gray"}>
+                       variant="filled" color={activeTab === DistrictSummaryStatus.LowRisk ? "" : "gray"}>
                   {districtsStatusLowRisk.length}
                 </Badge>
               }>
                 Low Risk
               </Tabs.Tab>
 
-              <Tabs.Tab value={"high-risk"} rightSection={
+              <Tabs.Tab value={DistrictSummaryStatus.HighRisk} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === "high-risk" ? "" : "gray"}>
+                       variant="filled" color={activeTab === DistrictSummaryStatus.HighRisk ? "" : "gray"}>
                   {districtsStatusHighRisk.length}
                 </Badge>
               }>
                 High Risk
-              </Tabs.Tab>
-
-              <Tabs.Tab value={"epidemic"} rightSection={
-                <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === "epidemic" ? "" : "gray"}>
-                  {districtsStatusEpidemic.length}
-                </Badge>
-              }>
-                Epidemic
               </Tabs.Tab>
             </Tabs.List>
 
@@ -277,20 +353,20 @@ const DistrictSummary = () => {
               <DistrictList districts={districtsStatusAll}/>
             </Tabs.Panel>
 
-            <Tabs.Panel value={"normal"} pt="md">
+            <Tabs.Panel value={DistrictSummaryStatus.Safe} pt="md">
+              <DistrictList districts={districtsStatusSafe}/>
+            </Tabs.Panel>
+
+            <Tabs.Panel value={DistrictSummaryStatus.Normal} pt="md">
               <DistrictList districts={districtsStatusNormal}/>
             </Tabs.Panel>
 
-            <Tabs.Panel value={"low-risk"} pt="md">
+            <Tabs.Panel value={DistrictSummaryStatus.LowRisk} pt="md">
               <DistrictList districts={districtsStatusLowRisk}/>
             </Tabs.Panel>
 
-            <Tabs.Panel value={"high-risk"} pt="md">
+            <Tabs.Panel value={DistrictSummaryStatus.HighRisk} pt="md">
               <DistrictList districts={districtsStatusHighRisk}/>
-            </Tabs.Panel>
-
-            <Tabs.Panel value={"epidemic"} pt="md">
-              <DistrictList districts={districtsStatusEpidemic}/>
             </Tabs.Panel>
           </Tabs>
         </Grid.Col>
