@@ -23,17 +23,18 @@ import DistrictStatusSummary from "../../components/district-status-summary/dist
 import {NavLink} from "react-router-dom";
 import { Interface } from "readline";
 import axios from "axios";
+import { getDistricts } from "@front-end/shared/administrative-division";
 
 enum DistrictSummaryStatus  {
   Safe = "SAFE",
-  Normal = "NORMAL", 
-  LowRisk = "LOW RISK", 
-  HighRisk = "HIGH RISK",
+  Normal = "SAFE", 
+  LowRisk = "NORMAL", 
+  HighRisk = "LOW RISK",
 }
 interface DistrictStatus {
   districtId: number;
   districtName: string;
-  status: DistrictSummaryStatus;
+  status: DistrictSummaryStatus; 
 }
 
 interface DistrictLocation {
@@ -201,7 +202,7 @@ const mockDistrictStatus: DistrictStatus[] = [
 const DistrictList = ({districts}: { districts: DistrictStatus[] }) => {
   const districtList = districts.map((districtStatus) => {
     return (
-      <NavLink to={`${districtStatus.districtId}`} style={{textDecoration: "none"}}>
+      <NavLink to={`${districtStatus.districtName}`} style={{textDecoration: "none"}}>
         <Paper withBorder p="md" radius="md">
           <Group position="apart">
             <Group>
@@ -247,30 +248,26 @@ const DistrictSummary = () => {
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
   const [activeTab, setActiveTab] = useState<string | null>('all');
-
   const [districtsStatusAll, setStatus] = useState<DistrictStatus[]>(mockDistrictStatus);
   const [districtsStatusSafe, setStatusSafe] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe));
   const [districtsStatusNormal, setStatusNormal] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal));
   const [districtsStatusLowRisk, setStatusLowRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk));
   const [districtsStatusHighRisk, setStatusHighRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk));
-
+  const districtInp = getDistricts()
+  
   useEffect(()=>{
-    const districtInp : DistrictLocation[] = []
-    mockDistrictStatus.forEach((value, _, __)=> {
-      districtInp.push(
-        {
-          locationCode: value.districtName
-        }
-      )
-    }) 
+    console.log(districtInp)
     getSummary(districtInp).then((value)=>{
       setStatus(value)
-      setStatusSafe(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe))
-      setStatusNormal(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal))
-      setStatusLowRisk(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk))
-      setStatusHighRisk(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk))
     }).catch((e)=> console.log(e))
-  })
+  },[districtInp])
+  
+  useEffect(() => {
+    setStatusSafe(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe))
+    setStatusNormal(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal))
+    setStatusLowRisk(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk))
+    setStatusHighRisk(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk))
+  },  [districtInp, districtsStatusAll])
 
 
   return (

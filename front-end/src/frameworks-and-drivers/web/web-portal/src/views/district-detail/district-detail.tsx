@@ -15,101 +15,154 @@ import {PageTitle} from "../../components/page-title/page-title";
 import {PieChart} from "../../components/pie-chart/pie-chart";
 import BarChart from "../../components/bar-chart/bar-chart";
 import StyledTabs from "../../components/styled-tabs/styled-tabs";
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import {IconChevronsLeft, IconRefresh} from "@tabler/icons-react";
+import axios from "axios";
+import { getWards } from "@front-end/shared/administrative-division";
 
 interface WardStatus {
-  id: string;
-  wardName: string;
+  id: number;
+  locationCode: string;
   status: string;
   mosquitoAmount: number;
   rainMeter: number;
   temperature: number;
 }
 
+interface WardLocation {
+  lat?: number, 
+  lng?: number, 
+  locationCode: string
+}
+interface WardSummaryApiRequest { 
+  locations: Array<WardLocation>,  
+  // NOTE: currently not support filter with time interval, default 7 
+  // timeInterval: number
+}
+
+interface WardSummaryApiResponseData { 
+  locationCode: string, 
+  lat: number, 
+  lng: number, 
+  value: number, 
+  precip: number, 
+  temperature: number, 
+  rate: string,
+}
+interface WardSummaryApiResponse {
+  code: number, 
+  message: string, 
+  data: Array<WardSummaryApiResponseData>
+}
+
 const mockData: WardStatus[] = [
   {
-    id: "1",
-    wardName: "Tan Dinh",
-    status: "Low Risk",
+    id: 1,
+    locationCode: "Tan Dinh",
+    status: "NORMAL",
     mosquitoAmount: 163,
     rainMeter: 67,
     temperature: 37,
   },
   {
-    id: "2",
-    wardName: "Da Kao",
-    status: "Normal",
+    id: 2,
+    locationCode: "Da Kao",
+    status: "SAFE",
     mosquitoAmount: 128,
     rainMeter: 78,
     temperature: 36,
   },
   {
-    id: "3",
-    wardName: "Ben Nghe",
-    status: "Low Risk",
+    id: 3,
+    locationCode: "Ben Nghe",
+    status: "NORMAL",
     mosquitoAmount: 172,
     rainMeter: 59,
     temperature: 29,
   },
   {
-    id: "4",
-    wardName: "Ben Thanh",
-    status: "Low Risk",
+    id: 4,
+    locationCode: "Ben Thanh",
+    status: "NORMAL",
     mosquitoAmount: 153,
     rainMeter: 92,
     temperature: 32,
   },
   {
-    id: "5",
-    wardName: "Nguyen Thai Binh",
-    status: "Normal",
+    id: 5,
+    locationCode: "Nguyen Thai Binh",
+    status: "SAFE",
     mosquitoAmount: 98,
     rainMeter: 76,
     temperature: 35,
   },
   {
-    id: "6",
-    wardName: "Pham Ngu Lao",
-    status: "Normal",
+    id: 6,
+    locationCode: "Pham Ngu Lao",
+    status: "SAFE",
     mosquitoAmount: 125,
     rainMeter: 89,
     temperature: 33,
   },
   {
-    id: "7",
-    wardName: "Cau Ong Lanh",
-    status: "Normal",
+    id: 7,
+    locationCode: "Cau Ong Lanh",
+    status: "SAFE",
     mosquitoAmount: 142,
     rainMeter: 92,
     temperature: 39,
   },
   {
-    id: "8",
-    wardName: "Co Giang",
-    status: "High Risk",
+    id: 8,
+    locationCode: "Co Giang",
+    status: "LOW RISK",
     mosquitoAmount: 213,
     rainMeter: 46,
     temperature: 32,
   },
   {
-    id: "9",
-    wardName: "Nguyen Cu Trinh",
-    status: "Normal",
+    id: 9,
+    locationCode: "Nguyen Cu Trinh",
+    status: "SAFE",
     mosquitoAmount: 129,
     rainMeter: 69,
     temperature: 35,
   },
   {
-    id: "10",
-    wardName: "Cau Kho",
-    status: "Normal",
+    id: 10,
+    locationCode: "Cau Kho",
+    status: "SAFE",
     mosquitoAmount: 98,
     rainMeter: 76,
     temperature: 35,
   }
 ];
+
+const  getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
+  const body: WardSummaryApiRequest = {
+    locations: inp
+  } 
+
+  return axios.post<WardSummaryApiResponse>("/prediction/summary", body)
+    .then((response) => {
+      const newData : WardStatus[] = []
+      response.data.data.forEach((val,index, _) => {
+        newData.push({
+          id: index,
+          locationCode: val.locationCode, 
+          status: val.rate,
+          temperature: val.temperature, 
+          rainMeter: val.precip, 
+          mosquitoAmount: val.value,
+        })
+      })
+      return newData
+    })
+    .catch((error) => {
+      throw new Error(error)
+    });
+}
 const useStyles = createStyles((theme) => ({
   header: {
     position: 'sticky',
@@ -137,22 +190,30 @@ const useStyles = createStyles((theme) => ({
 const DistrictDetail = () => {
   const theme = useMantineTheme();
   const {classes, cx} = useStyles();
-
+  const { districtName} = useParams()
   const [scrolled, setScrolled] = useState(false);
+  const inpData = getWards(districtName?districtName:"")
+  const [data, setData] = useState<WardStatus[]>(mockData)
+
+  useEffect (()=> {
+    getSummary(inpData).then((value)=> {
+      setData(value)
+    }).catch((e)=> console.log(e))
+  })
 
   const navigate = useNavigate();
 
-  const rows = mockData.map((row) => (
-    <tr key={row.id} onClick={() => navigate(`wards/${row.id}`)} style={{cursor: "pointer"}}>
+  const rows = data.map((row) => (
+    <tr key={row.id} onClick={() => navigate(`wards/${row.locationCode}`)} style={{cursor: "pointer"}}>
       <td>{row.id}</td>
-      <td>{row.wardName}</td>
+      <td>{row.locationCode}</td>
       <td>{row.mosquitoAmount}</td>
       <td>{row.rainMeter}</td>
       <td>{row.temperature}</td>
       <td>
-        <Badge variant="light" size="lg" color={row.status === "Epidemic" ? "red" : (
-          row.status === "High Risk" ? "orange" : (
-            row.status === "Low Risk" ? "yellow" : ""
+        <Badge variant="light" size="lg" color={row.status === "HIGH RISK" ? "red" : (
+          row.status === "LOW RISK" ? "orange" : (
+            row.status === "NORMAL" ? "yellow" : ""
           ))}>
           {row.status}
         </Badge>
@@ -160,13 +221,13 @@ const DistrictDetail = () => {
     </tr>
   ));
 
-  const labels = mockData.map((districtStatus) => districtStatus.wardName);
+  const labels = data.map((districtStatus) => districtStatus.locationCode);
   const date = new Date();
   const time = date.toLocaleTimeString() + " - " + date.toLocaleDateString();
 
   return (
     <Container fluid>
-      <PageTitle title={"District 1"}/>
+      <PageTitle title={districtName?districtName:""}/>
       <Group mb="md">
         <Button variant={"light"} color="yellow" onClick={() => navigate(-1)}>
           <IconChevronsLeft size={20}/>
@@ -183,11 +244,11 @@ const DistrictDetail = () => {
       <Grid>
         <Grid.Col sm={12} md={4}>
           <Paper withBorder radius="md" p="md" h="50vh">
-            <PieChart labels={["Normal", "Low Risk", "High Risk", "Epidemic"]}
-                      data={[mockData.filter((ward) => ward.status === "Normal").length,
-                        mockData.filter((ward) => ward.status === "Low Risk").length,
-                        mockData.filter((ward) => ward.status === "High Risk").length,
-                        mockData.filter((ward) => ward.status === "Epidemic").length]}/>
+            <PieChart labels={["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"]}
+                      data={[data.filter((ward) => ward.status === "SAFE").length,
+                        data.filter((ward) => ward.status === "NORMAL").length,
+                        data.filter((ward) => ward.status === "LOW RISK").length,
+                        data.filter((ward) => ward.status === "HIGH RISK").length]}/>
           </Paper>
         </Grid.Col>
 
@@ -219,7 +280,7 @@ const DistrictDetail = () => {
                   datasets={[
                     {
                       label: 'Rain Meter (mm)',
-                      data: mockData.map((districtStatus) => districtStatus.rainMeter),
+                      data: data.map((districtStatus) => districtStatus.rainMeter),
                       backgroundColor: theme.colors.cyan[3],
                     },
                   ]}
@@ -233,7 +294,7 @@ const DistrictDetail = () => {
                   datasets={[
                     {
                       label: 'Temperature',
-                      data: mockData.map((districtStatus) => districtStatus.temperature),
+                      data: data.map((districtStatus) => districtStatus.temperature),
                       backgroundColor: theme.colors.cyan[3],
                     },
                   ]}
@@ -247,7 +308,7 @@ const DistrictDetail = () => {
                   datasets={[
                     {
                       label: 'Amount of Mosquito',
-                      data: mockData.map((districtStatus) => districtStatus.mosquitoAmount),
+                      data: data.map((districtStatus) => districtStatus.mosquitoAmount),
                       backgroundColor: theme.colors.cyan[3],
                     },
                   ]}
@@ -276,7 +337,7 @@ const DistrictDetail = () => {
                   rows
                 ) : (
                   <tr>
-                    <td colSpan={Object.keys(mockData[0]).length}>
+                    <td colSpan={Object.keys(data[0]).length}>
                       <Text weight={500} align="center">
                         Nothing found
                       </Text>

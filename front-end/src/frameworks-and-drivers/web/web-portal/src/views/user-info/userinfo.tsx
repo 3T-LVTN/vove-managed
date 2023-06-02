@@ -78,43 +78,43 @@ const UserInfo = () => {
         id: "1",
         name: "Thinh's house",
         address: "Phường 13, Quận Tân Bình, Thành phố Hồ Chí Minh",
-        status: "Normal"
+        status: "SAFE"
       },
       {
         id: "2",
         name: "School",
         address: "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh",
-        status: "Low Risk"
+        status: "NORMAL"
       },
       {
         id: "3",
         name: "Company",
         address: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
-        status: "Epidemic"
+        status: "HIGH RISK"
       },
       {
         id: "4",
         name: "Ngoc's house",
         address: "Phường 5, Quận 11, Thành phố Hồ Chí Minh",
-        status: "High Risk"
+        status: "LOW RISK"
       },
       {
         id: "5",
         name: "Khoa's house",
         address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
-        status: "Normal"
+        status: "SAFE"
       },
       {
         id: "6",
         name: "Phong's house",
         address: "Phường 2, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Normal"
+        status: "SAFE"
       },
       {
         id: "7",
         name: "Quang's house",
         address: "Phường 3, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Normal"
+        status: "SAFE"
       }
     ]);
   }
@@ -203,9 +203,9 @@ const UserInfo = () => {
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
             {location.address}
           </Text>
-          <Badge variant={"light"} size={"xs"} color={location.status === "Epidemic" ? "red" : (
-            location.status === "High Risk" ? "orange" : (
-              location.status === "Low Risk" ? "yellow" : ""
+          <Badge variant={"light"} size={"xs"} color={location.status === "HIGH RISK" ? "red" : (
+            location.status === "LOW RISK" ? "orange" : (
+              location.status === "NORMAL" ? "yellow" : ""
             ))}>
             {location.status}
           </Badge>

@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 ChartJS.register(ArcElement, Tooltip, Legend, LinearScale);
 
 export const data = {
-  labels: ["Normal", "Low Risk", "High Risk", "Epidemic"],
+  labels: ["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"],
   datasets: [{
     data: [14, 5, 2, 1],
     backgroundColor: [

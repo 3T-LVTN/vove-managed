@@ -1,3 +1,5 @@
+import { validateHeaderName } from "http";
+
 export interface District {
   district_code: string;
   district_name: string;
@@ -2645,12 +2647,7 @@ export const administrativeDivision: District[] = [
 ]
 
 export const getDistricts = () => {
-  return administrativeDivision.map(district => (
-    {
-      code: district.district_code,
-      name: district.district_name
-    }
-  ));
+  return administrativeDivision.map((val, _, __) => {return {...val, locationCode: val.wards[0].ward_code, lat: val.wards[0].ward_location.lat, lng: val.wards[0].ward_location.lng} });
 }
 
 export const getWards = (districtCode: string) => {
@@ -2660,7 +2657,20 @@ export const getWards = (districtCode: string) => {
   return district.wards.map(ward => (
     {
       code: ward.ward_code,
-      name: ward.ward_name
+      name: ward.ward_name,
+      lat: ward.ward_location.lat, 
+      lng: ward.ward_location.lng,
+      locationCode: ward.ward_code,
     }
   ));
+}
+
+export const getWard = (districtCode: string, wardCode: string) => {
+  const wards = getWards(districtCode) 
+  const ward =  wards.find(ward => ward.code === wardCode);
+  if (!ward)  throw new Error('Ward not found');
+  return {
+    ...ward, 
+    locationCode: ward.code, 
+  }
 }

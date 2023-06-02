@@ -60,11 +60,11 @@ export const routes = [
         element: <DistrictSummary/>,
       },
       {
-        path: 'districts/:id',
+        path: 'districts/:districtName',
         element: <DistrictDetail/>,
       },
       {
-        path: 'districts/:id/wards/:wardId',
+        path: 'districts/:districtName/wards/:wardName',
         element: <WardDetail/>,
       }
     ],
