@@ -21,60 +21,62 @@ import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/s
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
 import DistrictStatusSummary from "../../components/district-status-summary/district-status-summary";
 import {NavLink} from "react-router-dom";
-import { Interface } from "readline";
 import axios from "axios";
-import { getDistricts } from "@front-end/shared/administrative-division";
+import {getDistricts} from "@front-end/shared/administrative-division";
 
-enum DistrictSummaryStatus  {
+enum DistrictSummaryStatus {
   Safe = "SAFE",
-  Normal = "SAFE", 
-  LowRisk = "NORMAL", 
-  HighRisk = "LOW RISK",
+  Normal = "NORMAL",
+  LowRisk = "LOW RISK",
+  HighRisk = "HIGH RISK",
 }
+
 interface DistrictStatus {
   districtId: number;
   districtName: string;
-  status: DistrictSummaryStatus; 
+  status: DistrictSummaryStatus;
 }
 
 interface DistrictLocation {
-  lat?: number, 
-  lng?: number, 
+  lat?: number,
+  lng?: number,
   locationCode: string
 }
-interface DistrictSummaryApiRequest { 
-  locations: Array<DistrictLocation>,  
-  // NOTE: currently not support filter with time interval, default 7 
+
+interface DistrictSummaryApiRequest {
+  locations: Array<DistrictLocation>,
+  // NOTE: currently not support filter with time interval, default 7
   // timeInterval: number
 }
 
-interface DistrictSummaryApiResponseData { 
-  locationCode: string, 
-  lat: number, 
-  lng: number, 
-  value: number, 
-  precip: number, 
-  temperature: number, 
+interface DistrictSummaryApiResponseData {
+  locationCode: string,
+  lat: number,
+  lng: number,
+  value: number,
+  precip: number,
+  temperature: number,
   rate: DistrictSummaryStatus,
 }
+
 interface DistrictSummaryApiResponse {
-  code: number, 
-  message: string, 
+  code: number,
+  message: string,
   data: Array<DistrictSummaryApiResponseData>
 }
 
-const  getSummary = async (inp: DistrictLocation[]): Promise<DistrictStatus[]> => {
+const getSummary = async (inp: DistrictLocation[]): Promise<DistrictStatus[]> => {
   const body: DistrictSummaryApiRequest = {
     locations: inp
-  } 
+  }
 
   return axios.post<DistrictSummaryApiResponse>("/prediction/summary", body)
     .then((response) => {
-      const newData : DistrictStatus[] = []
-      response.data.data.forEach((val,index, _) => {
+      const newData: DistrictStatus[] = []
+      response.data.data.forEach((val, index, _) => {
         newData.push({
-          districtId: index, 
-          districtName: val.locationCode, 
+          districtId: index,
+          districtName: val.locationCode,
           status: val.rate,
         })
       })
@@ -253,21 +255,21 @@ const DistrictSummary = () => {
   const [districtsStatusNormal, setStatusNormal] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal));
   const [districtsStatusLowRisk, setStatusLowRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk));
   const [districtsStatusHighRisk, setStatusHighRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk));
-  const districtInp = getDistricts()
-  
-  useEffect(()=>{
+
+  useEffect(() => {
+    const districtInp = getDistricts()
     console.log(districtInp)
-    getSummary(districtInp).then((value)=>{
+    getSummary(districtInp).then((value) => {
       setStatus(value)
-    }).catch((e)=> console.log(e))
-  },[districtInp])
-  
+    }).catch((e) => console.log(e))
+  }, [])
+
   useEffect(() => {
     setStatusSafe(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe))
     setStatusNormal(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal))
     setStatusLowRisk(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk))
     setStatusHighRisk(districtsStatusAll.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk))
-  },  [districtInp, districtsStatusAll])
+  }, [districtsStatusAll])
 
 
   return (
@@ -317,10 +319,10 @@ const DistrictSummary = () => {
               }>
                 Safe
               </Tabs.Tab>
-              
+
               <Tabs.Tab value={DistrictSummaryStatus.Normal} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
-                       variant="filled" color={activeTab === DistrictSummaryStatus.Normal? "" : "gray"}>
+                       variant="filled" color={activeTab === DistrictSummaryStatus.Normal ? "" : "gray"}>
                   {districtsStatusNormal.length}
                 </Badge>
               }>
