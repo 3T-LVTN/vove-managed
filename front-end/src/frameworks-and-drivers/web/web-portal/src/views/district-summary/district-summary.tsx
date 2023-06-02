@@ -27,8 +27,8 @@ import {getDistricts} from "@front-end/shared/administrative-division";
 enum DistrictSummaryStatus {
   Safe = "SAFE",
   Normal = "NORMAL",
-  LowRisk = "LOW RISK",
-  HighRisk = "HIGH RISK",
+  LowRisk = "LOW_RISK",
+  HighRisk = "HIGH_RISK",
 }
 
 interface DistrictStatus {
@@ -204,7 +204,7 @@ const mockDistrictStatus: DistrictStatus[] = [
 const DistrictList = ({districts}: { districts: DistrictStatus[] }) => {
   const districtList = districts.map((districtStatus) => {
     return (
-      <NavLink to={`${districtStatus.districtName}`} style={{textDecoration: "none"}}>
+      <NavLink to={`${districtStatus.districtName}`} style={{textDecoration: "none"}} key={districtStatus.districtId}>
         <Paper withBorder p="md" radius="md">
           <Group position="apart">
             <Group>

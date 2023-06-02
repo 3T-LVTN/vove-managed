@@ -197,7 +197,6 @@ const DistrictDetail = () => {
   const [data, setData] = useState<WardStatus[]>(mockData)
 
   useEffect(() => {
-    console.log(districtName)
     getSummary(getWards(districtName ?? "")).then((value) => {
       setData(value)
     }).catch((e) => console.log(e))
