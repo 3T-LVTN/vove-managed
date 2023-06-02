@@ -258,7 +258,6 @@ const DistrictSummary = () => {
 
   useEffect(() => {
     const districtInp = getDistricts()
-    console.log(districtInp)
     getSummary(districtInp).then((value) => {
       setStatus(value)
     }).catch((e) => console.log(e))

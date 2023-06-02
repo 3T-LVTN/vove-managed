@@ -19,7 +19,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {IconChevronsLeft, IconRefresh} from "@tabler/icons-react";
 import axios from "axios";
-import { getWards } from "@front-end/shared/administrative-division";
+import {getWards} from "@front-end/shared/administrative-division";
 
 interface WardStatus {
   id: number;
@@ -31,28 +31,30 @@ interface WardStatus {
 }
 
 interface WardLocation {
-  lat?: number, 
-  lng?: number, 
+  lat?: number,
+  lng?: number,
   locationCode: string
 }
-interface WardSummaryApiRequest { 
-  locations: Array<WardLocation>,  
-  // NOTE: currently not support filter with time interval, default 7 
+
+interface WardSummaryApiRequest {
+  locations: Array<WardLocation>,
+  // NOTE: currently not support filter with time interval, default 7
   // timeInterval: number
 }
 
-interface WardSummaryApiResponseData { 
-  locationCode: string, 
-  lat: number, 
-  lng: number, 
-  value: number, 
-  precip: number, 
-  temperature: number, 
+interface WardSummaryApiResponseData {
+  locationCode: string,
+  lat: number,
+  lng: number,
+  value: number,
+  precip: number,
+  temperature: number,
   rate: string,
 }
+
 interface WardSummaryApiResponse {
-  code: number, 
-  message: string, 
+  code: number,
+  message: string,
   data: Array<WardSummaryApiResponseData>
 }
 
@@ -139,21 +141,21 @@ const mockData: WardStatus[] = [
   }
 ];
 
-const  getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
+const getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
   const body: WardSummaryApiRequest = {
     locations: inp
-  } 
+  }
 
   return axios.post<WardSummaryApiResponse>("/prediction/summary", body)
     .then((response) => {
-      const newData : WardStatus[] = []
-      response.data.data.forEach((val,index, _) => {
+      const newData: WardStatus[] = []
+      response.data.data.forEach((val, index, _) => {
         newData.push({
           id: index,
-          locationCode: val.locationCode, 
+          locationCode: val.locationCode,
           status: val.rate,
-          temperature: val.temperature, 
-          rainMeter: val.precip, 
+          temperature: val.temperature,
+          rainMeter: val.precip,
           mosquitoAmount: val.value,
         })
       })
@@ -190,16 +192,16 @@ const useStyles = createStyles((theme) => ({
 const DistrictDetail = () => {
   const theme = useMantineTheme();
   const {classes, cx} = useStyles();
-  const { districtName} = useParams()
+  const {districtName} = useParams()
   const [scrolled, setScrolled] = useState(false);
-  const inpData = getWards(districtName?districtName:"")
   const [data, setData] = useState<WardStatus[]>(mockData)
 
-  useEffect (()=> {
-    getSummary(inpData).then((value)=> {
+  useEffect(() => {
+    console.log(districtName)
+    getSummary(getWards(districtName ?? "")).then((value) => {
       setData(value)
-    }).catch((e)=> console.log(e))
-  })
+    }).catch((e) => console.log(e))
+  }, [])
 
   const navigate = useNavigate();
 
@@ -227,7 +229,7 @@ const DistrictDetail = () => {
 
   return (
     <Container fluid>
-      <PageTitle title={districtName?districtName:""}/>
+      <PageTitle title={districtName ? districtName : ""}/>
       <Group mb="md">
         <Button variant={"light"} color="yellow" onClick={() => navigate(-1)}>
           <IconChevronsLeft size={20}/>
@@ -235,7 +237,7 @@ const DistrictDetail = () => {
         </Button>
         <Button variant={"light"} onClick={() => window.location.reload()}>
           <IconRefresh size={20}/>
-           Reload
+          Reload
         </Button>
         <Text size="md">
           Last updated:<b> {time}</b>

@@ -18,7 +18,7 @@ export interface Ward {
 export const administrativeDivision: District[] = [
   {
     district_code: "787",
-    district_name: "Huyện Cần Giờ",
+    district_name: "Can Gio",
     wards: [
       {
         ward_code: "27682",
@@ -80,7 +80,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "786",
-    district_name: "Huyện Nhà Bè",
+    district_name: "Nha Be",
     wards: [
       {
         ward_code: "27661",
@@ -142,7 +142,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "785",
-    district_name: "Huyện Bình Chánh",
+    district_name: "Binh Chanh",
     wards: [
       {
         ward_code: "27640",
@@ -276,7 +276,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "784",
-    district_name: "Huyện Hóc Môn",
+    district_name: "Hoc Mon",
     wards: [
       {
         ward_code: "27592",
@@ -378,7 +378,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "783",
-    district_name: "Huyện Củ Chi",
+    district_name: "Cu Chi",
     wards: [
       {
         ward_code: "27556",
@@ -552,7 +552,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "778",
-    district_name: "Quận 7",
+    district_name: "District 7",
     wards: [
       {
         ward_code: "27493",
@@ -638,7 +638,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "777",
-    district_name: "Quận Bình Tân",
+    district_name: "Binh Tan",
     wards: [
       {
         ward_code: "27463",
@@ -724,7 +724,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "776",
-    district_name: "Quận 8",
+    district_name: "District 8",
     wards: [
       {
         ward_code: "27433",
@@ -858,7 +858,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "775",
-    district_name: "Quận 6",
+    district_name: "District 6",
     wards: [
       {
         ward_code: "27385",
@@ -976,7 +976,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "774",
-    district_name: "Quận 5",
+    district_name: "District 5",
     wards: [
       {
         ward_code: "27343",
@@ -1094,7 +1094,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "773",
-    district_name: "Quận 4",
+    district_name: "District 4",
     wards: [
       {
         ward_code: "27298",
@@ -1204,7 +1204,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "772",
-    district_name: "Quận 11",
+    district_name: "District 11",
     wards: [
       {
         ward_code: "27253",
@@ -1338,7 +1338,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "771",
-    district_name: "Quận 10",
+    district_name: "District 10",
     wards: [
       {
         ward_code: "27202",
@@ -1456,7 +1456,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "770",
-    district_name: "Quận 3",
+    district_name: "District 3",
     wards: [
       {
         ward_code: "27160",
@@ -1558,7 +1558,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "769",
-    district_name: "Thành phố Thủ Đức",
+    district_name: "Thu Duc City",
     wards: [
       {
         ward_code: "27118",
@@ -1836,7 +1836,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "768",
-    district_name: "Quận Phú Nhuận",
+    district_name: "Phu Nhuan",
     wards: [
       {
         ward_code: "27085",
@@ -1946,7 +1946,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "767",
-    district_name: "Quận Tân Phú",
+    district_name: "Tan Phu",
     wards: [
       {
         ward_code: "27040",
@@ -2040,7 +2040,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "766",
-    district_name: "Quận Tân Bình",
+    district_name: "Tan Binh",
     wards: [
       {
         ward_code: "27007",
@@ -2166,7 +2166,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "765",
-    district_name: "Quận Bình Thạnh",
+    district_name: "Binh Thanh",
     wards: [
       {
         ward_code: "26962",
@@ -2332,7 +2332,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "764",
-    district_name: "Quận Gò Vấp",
+    district_name: "Go Vap",
     wards: [
       {
         ward_code: "26902",
@@ -2466,7 +2466,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "761",
-    district_name: "Quận 12",
+    district_name: "District 12",
     wards: [
       {
         ward_code: "26791",
@@ -2560,7 +2560,7 @@ export const administrativeDivision: District[] = [
   },
   {
     district_code: "760",
-    district_name: "Quận 1",
+    district_name: "District 1",
     wards: [
       {
         ward_code: "26761",
@@ -2650,15 +2650,15 @@ export const getDistricts = () => {
   return administrativeDivision.map((val, _, __) => {return {...val, locationCode: val.wards[0].ward_code, lat: val.wards[0].ward_location.lat, lng: val.wards[0].ward_location.lng} });
 }
 
-export const getWards = (districtCode: string) => {
+export const getWards = (districtName: string) => {
   const district = administrativeDivision
-    .find(district => district.district_code === districtCode);
+    .find(district => district.district_name === districtName);
   if (!district) throw new Error('District not found');
   return district.wards.map(ward => (
     {
       code: ward.ward_code,
       name: ward.ward_name,
-      lat: ward.ward_location.lat, 
+      lat: ward.ward_location.lat,
       lng: ward.ward_location.lng,
       locationCode: ward.ward_code,
     }
@@ -2666,11 +2666,11 @@ export const getWards = (districtCode: string) => {
 }
 
 export const getWard = (districtCode: string, wardCode: string) => {
-  const wards = getWards(districtCode) 
+  const wards = getWards(districtCode)
   const ward =  wards.find(ward => ward.code === wardCode);
   if (!ward)  throw new Error('Ward not found');
   return {
-    ...ward, 
-    locationCode: ward.code, 
+    ...ward,
+    locationCode: ward.code,
   }
 }
