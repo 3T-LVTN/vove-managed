@@ -28,6 +28,7 @@ interface WardStatus {
   mosquitoAmount: number;
   rainMeter: number;
   temperature: number;
+  wardName?: string;
 }
 
 interface WardLocation {
@@ -197,17 +198,24 @@ const DistrictDetail = () => {
   const [data, setData] = useState<WardStatus[]>(mockData)
 
   useEffect(() => {
-    getSummary(getWards(districtName ?? "")).then((value) => {
-      setData(value)
-    }).catch((e) => console.log(e))
+    const wards = getWards(districtName ?? "")
+    const out: WardStatus[] = []
+    getSummary(wards).then((value) => {
+      value.forEach((value, idx, _) => {
+        out.push({
+          ...value, 
+          wardName: wards[idx].name
+        })
+      setData(out)
+    })}).catch((e) => console.log(e))
   }, [])
 
   const navigate = useNavigate();
 
   const rows = data.map((row) => (
-    <tr key={row.id} onClick={() => navigate(`wards/${row.locationCode}`)} style={{cursor: "pointer"}}>
+    <tr key={row.id} onClick={() => navigate(`wards/${row.wardName??row.locationCode}`)} style={{cursor: "pointer"}}>
       <td>{row.id}</td>
-      <td>{row.locationCode}</td>
+      <td>{row.wardName}</td>
       <td>{row.mosquitoAmount}</td>
       <td>{row.rainMeter}</td>
       <td>{row.temperature}</td>

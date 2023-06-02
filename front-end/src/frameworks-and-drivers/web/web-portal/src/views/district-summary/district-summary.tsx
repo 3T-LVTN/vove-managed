@@ -258,8 +258,10 @@ const DistrictSummary = () => {
 
   useEffect(() => {
     const districtInp = getDistricts()
+    const outPut : DistrictStatus[]= []
     getSummary(districtInp).then((value) => {
-      setStatus(value)
+      value.forEach((value, idx)=>{outPut.push({...value, districtName: districtInp[idx].district_name})})
+      setStatus(outPut)
     }).catch((e) => console.log(e))
   }, [])
 

@@ -117,8 +117,8 @@ const WardDetail = () => {
   useEffect(() => {
     getDetail(
       getWard(districtName ? districtName : '', wardName ? wardName : ''),
-      firstDate.getSeconds(),
-      currentDate.getSeconds()
+      firstDate.getTime()/1000,
+      currentDate.getTime()/1000,
     ).then((value) => {
       const data: ChartData = {
         values: [],
