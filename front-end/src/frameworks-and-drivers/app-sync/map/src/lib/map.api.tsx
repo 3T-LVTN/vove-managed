@@ -5,7 +5,7 @@ import {HeatMapData, HeatMapPointData} from "@front-end/domain/entities/map";
 export class MapApi implements MapRepository {
   async getHeatMapData(heatMapPoints: HeatMapPointData[]): Promise<HeatMapData> {
     const requestBody = {
-      predictDate: Date.now() / 1000,
+      predictDate: Date.now() / 1000 - 60*60*24,
       locations: heatMapPoints,
     }
     return axios.post("/prediction", requestBody)
