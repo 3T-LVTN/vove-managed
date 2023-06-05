@@ -304,7 +304,7 @@ const DistrictSummary = () => {
           <Tabs value={activeTab} onTabChange={setActiveTab}>
             <Tabs.List>
               <Tabs.Tab value="all" rightSection={
-                <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
+                <Badge  w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
                        variant="filled" color={activeTab === "all" ? "" : "gray"}>
                   {districtsStatusAll.length}
                 </Badge>
@@ -330,7 +330,7 @@ const DistrictSummary = () => {
                 Normal
               </Tabs.Tab>
 
-              <Tabs.Tab value={DistrictSummaryStatus.LowRisk} rightSection={
+              <Tabs.Tab value={"50% giá trị trong ngày"} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
                        variant="filled" color={activeTab === DistrictSummaryStatus.LowRisk ? "" : "gray"}>
                   {districtsStatusLowRisk.length}

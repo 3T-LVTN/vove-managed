@@ -199,15 +199,16 @@ const DistrictDetail = () => {
 
   useEffect(() => {
     const wards = getWards(districtName ?? "")
-    const out: WardStatus[] = []
     getSummary(wards).then((value) => {
-      value.forEach((value, idx, _) => {
-        out.push({
-          ...value, 
-          wardName: wards[idx].name
-        })
+      const out = value.map(
+        (value, idx, _) => {
+            return {
+              ...value, 
+              wardName: wards[idx].name
+            };
+      })
       setData(out)
-    })}).catch((e) => console.log(e))
+    }).catch((e) => console.log(e))
   }, [])
 
   const navigate = useNavigate();
