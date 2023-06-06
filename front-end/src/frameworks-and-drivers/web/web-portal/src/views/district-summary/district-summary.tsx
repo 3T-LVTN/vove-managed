@@ -2,14 +2,17 @@ import {
   Badge,
   Button,
   Container,
+  createStyles,
   Grid,
   Group,
   Modal,
   Paper,
+  rem,
   ScrollArea,
   Select,
   SimpleGrid,
   Stack,
+  Table,
   Tabs,
   Text,
   ThemeIcon,
@@ -23,9 +26,10 @@ import { SearchHeatmapModalInteractor } from '@front-end/application/interactors
 import { SearchHeatmapModalController } from '@front-end/interface-adapters/controllers/sreach-heatmap-modal';
 import { DistrictStatusSummary } from '../../components/district-status-summary/district-status-summary';
 import { TDashboardDataMap } from '../dashboard/dashboard';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getDistricts } from '@front-end/shared/administrative-division';
+import { string } from 'prop-types';
 
 enum DistrictSummaryStatus {
   Safe = 'SAFE',
@@ -34,20 +38,29 @@ enum DistrictSummaryStatus {
   HighRisk = 'HIGH_RISK',
 }
 
-interface DistrictStatus {
+interface DistrictSummary {
   districtId: number;
   districtName: string;
-  status: DistrictSummaryStatus;
+  number: Record<string, number>;
 }
 
 interface DistrictLocation {
-  lat?: number;
-  lng?: number;
-  locationCode: string;
+  // lat?: number;
+  // lng?: number;
+  district_name: string;
+  wards: {
+    lat: number;
+    lng: number;
+    locationCode: string;
+  }[]
 }
 
 interface DistrictSummaryApiRequest {
-  locations: Array<DistrictLocation>;
+  locations: {
+    lat: number,
+    lng: number,
+    locationCode: string
+  }[];
   // NOTE: currently not support filter with time interval, default 7
   // timeInterval: number
 }
@@ -68,207 +81,242 @@ interface DistrictSummaryApiResponse {
   data: Array<DistrictSummaryApiResponseData>;
 }
 
+type MapWardRate2Number = Record<string, number>
+
 const getSummary = async (
   inp: DistrictLocation[]
-): Promise<DistrictStatus[]> => {
+): Promise<[DistrictSummary[], MapWardRate2Number]> => {
   const body: DistrictSummaryApiRequest = {
     locations: [],
   };
-  inp.forEach((val)=> {
-    body.locations.push(val)
+  let mapWard2District: Record<string, string>
+  let mapDistrict2Id: Record<string, number>
+  let mapRate2Number: Record<string, number> = {}
+  inp.forEach((val, index) => {
+    mapDistrict2Id = {
+      ...mapDistrict2Id, [val.district_name]: index
+    }
+    val.wards.forEach((ward) => {
+      body.locations.push(ward)
+      mapWard2District = {
+        ...mapWard2District,
+        [ward.locationCode]: val.district_name
+      }
+    })
   })
-
-  return axios
+  let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
+  await axios
     .post<DistrictSummaryApiResponse>('/prediction/summary', body)
     .then((response) => {
-      const newData: DistrictStatus[] = [];
-      response.data.data.forEach((val, index, _) => {
-        newData.push({
-          districtId: index,
-          districtName: val.locationCode,
-          status: val.rate,
-        });
+      response.data.data.forEach((ward, index, _) => {
+        const district = mapWard2District[ward.locationCode]
+        const numberOfStatus = mapDist2NumberOfRecord[district][ward.rate] ? mapDist2NumberOfRecord[district][ward.rate] + 1 : 1
+        mapDist2NumberOfRecord = {
+          ...mapDist2NumberOfRecord,
+          [district]: { ...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus }
+        }
+        mapRate2Number = {
+          ...mapRate2Number,
+          [ward.rate]: mapRate2Number[ward.rate] ? mapRate2Number[ward.rate] + 1 : 1
+        }
       });
-      return newData;
+      console.log("query done")
+      console.log(mapDist2NumberOfRecord)
+      console.log(mapRate2Number)
+      console.log("before return")
+      return [Object.entries(mapDist2NumberOfRecord).map((val) => {
+        return { districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1] }
+      }), mapRate2Number]
     })
     .catch((error) => {
       throw new Error(error);
     });
+
+  return [[],{}]
 };
 
-const mockDistrictStatus: DistrictStatus[] = [
+const mockDistrictStatus: DistrictSummary[] = [
   {
     districtId: 1,
     districtName: 'Thu Duc City',
-    status: DistrictSummaryStatus.Normal,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 2,
     districtName: 'District 1',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 3,
     districtName: 'District 3',
-    status: DistrictSummaryStatus.Normal,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 4,
     districtName: 'District 4',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 5,
     districtName: 'District 5',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 6,
     districtName: 'District 6',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 7,
     districtName: 'District 7',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 8,
     districtName: 'District 8',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 9,
     districtName: 'District 10',
-    status: DistrictSummaryStatus.Normal,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 10,
     districtName: 'District 11',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 11,
     districtName: 'District 12',
-    status: DistrictSummaryStatus.LowRisk,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 12,
     districtName: 'Binh Thanh',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 13,
     districtName: 'Go Vap',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 14,
     districtName: 'Phu Nhuan',
-    status: DistrictSummaryStatus.Normal,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 15,
     districtName: 'Tan Binh',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 16,
     districtName: 'Tan Phu',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 17,
     districtName: 'Binh Tan',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 18,
     districtName: 'Cu Chi',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 19,
     districtName: 'Nha Be',
-    status: DistrictSummaryStatus.Safe,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 20,
     districtName: 'Can Gio',
-    status: DistrictSummaryStatus.HighRisk,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 21,
     districtName: 'Binh Chanh',
-    status: DistrictSummaryStatus.LowRisk,
+    number: {
+      SAFE: 0,
+    },
   },
   {
     districtId: 22,
     districtName: 'Hoc Mon',
-    status: DistrictSummaryStatus.Normal,
+    number: {
+      SAFE: 0,
+    },
   },
 ];
 
-const DistrictList = ({ districts }: { districts: DistrictStatus[] }) => {
-  const districtList = districts.map((districtStatus) => {
-    return (
-      <NavLink
-        to={`${districtStatus.districtName}`}
-        style={{ textDecoration: 'none' }}
-        key={districtStatus.districtId}
-      >
-        <Paper withBorder p="md" radius="md">
-          <Group position="apart">
-            <Group>
-              <ThemeIcon
-                radius="50%"
-                size="lg"
-                color={districtStatus.status === DistrictSummaryStatus.HighRisk
-                  ? 'red'
-                  : districtStatus.status === DistrictSummaryStatus.LowRisk
-                    ? 'orange'
-                    : districtStatus.status === DistrictSummaryStatus.Normal
-                      ? 'yellow'
-                      : ''} children={undefined}              ></ThemeIcon>
-              <Text fw={700} size="lg">
-                {districtStatus.districtName}
-              </Text>
-            </Group>
-            <Badge
-              variant="light"
-              size="lg"
-              color={
-                districtStatus.status === DistrictSummaryStatus.HighRisk
-                  ? 'red'
-                  : districtStatus.status === DistrictSummaryStatus.LowRisk
-                  ? 'orange'
-                  : districtStatus.status === DistrictSummaryStatus.Normal
-                  ? 'yellow'
-                  : ''
-              }
-            >
-              {districtStatus.status}
-            </Badge>
-          </Group>
-        </Paper>
-      </NavLink>
-    );
-  });
-  return (
-    <ScrollArea h={250}>
-      <SimpleGrid
-        cols={4}
-        breakpoints={[
-          { maxWidth: 'lg', cols: 3, spacing: 'md' },
-          { maxWidth: 'md', cols: 2, spacing: 'sm' },
-          { maxWidth: 'sm', cols: 1, spacing: 'sm' },
-        ]}
-      >
-        {districtList}
-      </SimpleGrid>
-    </ScrollArea>
-  );
-};
+
+
+const useStyles = createStyles((theme) => ({
+  header: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[2]
+        }`,
+    },
+  },
+
+  scrolled: {
+    boxShadow: theme.shadows.sm,
+  },
+}));
+
 
 const DistrictSummary = () => {
   const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState();
@@ -278,34 +326,11 @@ const DistrictSummary = () => {
   const searchHeatmapModalController = new SearchHeatmapModalController(
     searchHeatmapModalUsecase
   );
-
-  const [activeTab, setActiveTab] = useState<string | null>('all');
-  const [districtsStatusAll, setStatus] =
-    useState<DistrictStatus[]>(mockDistrictStatus);
-  const [districtsStatusSafe, setStatusSafe] = useState<DistrictStatus[]>(
-    mockDistrictStatus.filter(
-      (districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe
-    )
-  );
-  const [districtsStatusNormal, setStatusNormal] = useState<DistrictStatus[]>(
-    mockDistrictStatus.filter(
-      (districtStatus) => districtStatus.status === DistrictSummaryStatus.Normal
-    )
-  );
-  const [districtsStatusLowRisk, setStatusLowRisk] = useState<DistrictStatus[]>(
-    mockDistrictStatus.filter(
-      (districtStatus) =>
-        districtStatus.status === DistrictSummaryStatus.LowRisk
-    )
-  );
-  const [districtsStatusHighRisk, setStatusHighRisk] = useState<
-    DistrictStatus[]
-  >(
-    mockDistrictStatus.filter(
-      (districtStatus) =>
-        districtStatus.status === DistrictSummaryStatus.HighRisk
-    )
-  );
+  const { classes, cx } = useStyles();
+  const [scrolled, setScrolled] = useState(false);
+  const [districtSummary, setSummary] =
+    useState<DistrictSummary[]>(mockDistrictStatus);
+  const navigate = useNavigate();
 
   const [dashboardData, setDashboardData] = useState<{
     labels: string[];
@@ -319,63 +344,24 @@ const DistrictSummary = () => {
 
   useEffect(() => {
     const districtInp = getDistricts();
-    const outPut: DistrictStatus[] = [];
-    let dashboardDataMap: TDashboardDataMap = {};
-    getSummary(districtInp)
-      .then((value) => {
-        value.forEach((value, idx) => {
-          outPut.push({
-            ...value,
-            districtName: districtInp[idx].district_name,
-          });
-          console.log(dashboardDataMap)
-          dashboardDataMap = {
-            ...dashboardDataMap,
-            [value.status]:dashboardDataMap[value.status]?dashboardDataMap[value.status] + 1: 1
-          }
-        });
-        setStatus(outPut);
+
+    getSummary(districtInp).then((tmp) => {
+      console.log(tmp)
+      setSummary(tmp[0])
+      const labels: string[] = []
+      const datasets: number[] = []
+      Object.entries(tmp[1]).forEach((val) => {
+        labels.push(val[0]);
+        datasets.push(val[1]);
+      });
+      setDashboardData({
+        labels: labels,
+        datasets: [{ data: datasets }]
       })
-      .catch((e) => console.log(e));
-    const labels : string[]= []
-    const datasets :number[] = []
-    Object.entries(dashboardDataMap).forEach((val) => {
-      labels.push(val[0]);
-      datasets.push(val[1]);
-    });
-    setDashboardData({
-      labels: labels,
-      datasets: [{data: datasets}]
-    })
-    console.log(dashboardDataMap)
-    console.log(dashboardData);
+      console.log(dashboardData);
+    }).catch((e) => console.log(e))
   }, []);
 
-  useEffect(() => {
-    setStatusSafe(
-      districtsStatusAll.filter(
-        (districtStatus) => districtStatus.status === DistrictSummaryStatus.Safe
-      )
-    );
-    setStatusNormal(
-      districtsStatusAll.filter(
-        (districtStatus) =>
-          districtStatus.status === DistrictSummaryStatus.Normal
-      )
-    );
-    setStatusLowRisk(
-      districtsStatusAll.filter(
-        (districtStatus) =>
-          districtStatus.status === DistrictSummaryStatus.LowRisk
-      )
-    );
-    setStatusHighRisk(
-      districtsStatusAll.filter(
-        (districtStatus) =>
-          districtStatus.status === DistrictSummaryStatus.HighRisk
-      )
-    );
-  }, [districtsStatusAll]);
 
   return (
     <Container fluid>
@@ -415,136 +401,45 @@ const DistrictSummary = () => {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          <Tabs value={activeTab} onTabChange={setActiveTab}>
-            <Tabs.List>
-              <Tabs.Tab
-                value="all"
-                rightSection={
-                  <Badge
-                    w={16}
-                    h={16}
-                    size="xs"
-                    p={0}
-                    sx={{ pointerEvents: 'none' }}
-                    variant="filled"
-                    color={activeTab === 'all' ? '' : 'gray'}
-                  >
-                    {districtsStatusAll.length}
-                  </Badge>
-                }
-              >
-                All
-              </Tabs.Tab>
-
-              <Tabs.Tab
-                value={DistrictSummaryStatus.Safe}
-                rightSection={
-                  <Badge
-                    w={16}
-                    h={16}
-                    size="xs"
-                    p={0}
-                    sx={{ pointerEvents: 'none' }}
-                    variant="filled"
-                    color={
-                      activeTab === DistrictSummaryStatus.Safe ? '' : 'gray'
-                    }
-                  >
-                    {districtsStatusSafe.length}
-                  </Badge>
-                }
-              >
-                khoảng thấp nhất
-              </Tabs.Tab>
-
-              <Tabs.Tab
-                value={DistrictSummaryStatus.Normal}
-                rightSection={
-                  <Badge
-                    w={16}
-                    h={16}
-                    size="xs"
-                    p={0}
-                    sx={{ pointerEvents: 'none' }}
-                    variant="filled"
-                    color={
-                      activeTab === DistrictSummaryStatus.Normal ? '' : 'gray'
-                    }
-                  >
-                    {districtsStatusNormal.length}
-                  </Badge>
-                }
-              >
-                top 75% giá trị trong ngày
-              </Tabs.Tab>
-
-              <Tabs.Tab
-                value={DistrictSummaryStatus.LowRisk}
-                rightSection={
-                  <Badge
-                    w={16}
-                    h={16}
-                    size="xs"
-                    p={0}
-                    sx={{ pointerEvents: 'none' }}
-                    variant="filled"
-                    color={
-                      activeTab === DistrictSummaryStatus.LowRisk ? '' : 'gray'
-                    }
-                  >
-                    {districtsStatusLowRisk.length}
-                  </Badge>
-                }
-              >
-                top 50% giá trị trong ngày
-              </Tabs.Tab>
-
-              <Tabs.Tab
-                value={DistrictSummaryStatus.HighRisk}
-                rightSection={
-                  <Badge
-                    w={16}
-                    h={16}
-                    size="xs"
-                    p={0}
-                    sx={{ pointerEvents: 'none' }}
-                    variant="filled"
-                    color={
-                      activeTab === DistrictSummaryStatus.HighRisk ? '' : 'gray'
-                    }
-                  >
-                    {districtsStatusHighRisk.length}
-                  </Badge>
-                }
-              >
-                top 25% giá trị trong ngày
-              </Tabs.Tab>
-            </Tabs.List>
-
-            <Tabs.Panel value={'all'} pt="md">
-              <DistrictList districts={districtsStatusAll} />
-            </Tabs.Panel>
-
-            <Tabs.Panel value={DistrictSummaryStatus.Safe} pt="md">
-              <DistrictList districts={districtsStatusSafe} />
-            </Tabs.Panel>
-
-            <Tabs.Panel value={DistrictSummaryStatus.Normal} pt="md">
-              <DistrictList districts={districtsStatusNormal} />
-            </Tabs.Panel>
-
-            <Tabs.Panel value={DistrictSummaryStatus.LowRisk} pt="md">
-              <DistrictList districts={districtsStatusLowRisk} />
-            </Tabs.Panel>
-
-            <Tabs.Panel value={DistrictSummaryStatus.HighRisk} pt="md">
-              <DistrictList districts={districtsStatusHighRisk} />
-            </Tabs.Panel>
-          </Tabs>
-        </Grid.Col>
+          <Paper withBorder radius="md">
+            <ScrollArea h={250} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+              <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} highlightOnHover>
+                <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+                  <tr>
+                    <th>Id</th>
+                    <th>Tên huyện</th>
+                    <th>Số lượng xã</th>
+                    <th>Số lượng xã thuộc top 25%</th>
+                    <th>Số lượng xã thuộc top 50%</th>
+                    <th>Số lượng xã thuộc top 75%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {districtSummary.length > 0 ? (
+                    districtSummary.map((row) => (
+                      <tr key={row.districtId} onClick={() => navigate(`districts/${row.districtId}`)} style={{ cursor: "pointer" }}>
+                        <td>{row.districtId}</td>
+                        <td>{row.districtName}</td>
+                        <td>{row.number["HIGH_RISK"] ?? 0}</td>
+                        <td>{row.number["LOW_RISK"] ?? 0}</td>
+                        <td>{row.number["NORMAL"]??0}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <Text weight={500} align="center">
+                        Nothing found
+                      </Text>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </ScrollArea>
+          </Paper>        </Grid.Col>
       </Grid>
     </Container>
   );
 };
 
 export default DistrictSummary;
+
