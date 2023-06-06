@@ -19,7 +19,8 @@ import React, {useEffect, useState} from "react";
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
-import DistrictStatusSummary from "../../components/district-status-summary/district-status-summary";
+import {DistrictStatusSummary} from "../../components/district-status-summary/district-status-summary";
+import { TDashboardDataMap } from "../dashboard/dashboard";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {getDistricts} from "@front-end/shared/administrative-division";
@@ -201,6 +202,10 @@ const mockDistrictStatus: DistrictStatus[] = [
   }
 ]
 
+const onTabHover = (description: string) => {
+  return <div> {description}</div>
+}
+
 const DistrictList = ({districts}: { districts: DistrictStatus[] }) => {
   const districtList = districts.map((districtStatus) => {
     return (
@@ -256,13 +261,33 @@ const DistrictSummary = () => {
   const [districtsStatusLowRisk, setStatusLowRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.LowRisk));
   const [districtsStatusHighRisk, setStatusHighRisk] = useState<DistrictStatus[]>(mockDistrictStatus.filter((districtStatus) => districtStatus.status === DistrictSummaryStatus.HighRisk));
 
+  const dashboardDataMap: TDashboardDataMap = {}
+  const dashBoardData: {
+    labels: string[],
+    datasets: {
+      data: number[]
+    }[],
+  } = {
+    labels: [],
+    datasets: [{data:[]}]
+  }
+
+
   useEffect(() => {
     const districtInp = getDistricts()
     const outPut : DistrictStatus[]= []
     getSummary(districtInp).then((value) => {
-      value.forEach((value, idx)=>{outPut.push({...value, districtName: districtInp[idx].district_name})})
+      value.forEach((value, idx)=>{
+        outPut.push({...value, districtName: districtInp[idx].district_name})
+        dashboardDataMap[value.status]= dashboardDataMap[value.status]?dashboardDataMap[value.status]+1:1
+      })
       setStatus(outPut)
     }).catch((e) => console.log(e))
+
+    Object.entries(dashboardDataMap).forEach((val) => {
+      dashBoardData.labels.push(val[0]);
+      dashBoardData.datasets[0].data.push(val[1])
+    })
   }, [])
 
   useEffect(() => {
@@ -295,7 +320,7 @@ const DistrictSummary = () => {
         <Grid.Col lg={4} md={12}>
           <Paper withBorder p="md" radius="md" style={{height: "50vh"}}>
             <Stack justify="center" h="100%">
-              <DistrictStatusSummary isForDashboard={false}></DistrictStatusSummary>
+              <DistrictStatusSummary data={dashBoardData} isForDashboard={false}></DistrictStatusSummary>
             </Stack>
           </Paper>
         </Grid.Col>
@@ -312,8 +337,8 @@ const DistrictSummary = () => {
                 All
               </Tabs.Tab>
 
-              <Tabs.Tab value={DistrictSummaryStatus.Safe} rightSection={
-                <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
+              <Tabs.Tab value={"25% giá trị trong ngày"}  rightSection={
+                <Badge  w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
                        variant="filled" color={activeTab === DistrictSummaryStatus.Safe ? "" : "gray"}>
                   {districtsStatusSafe.length}
                 </Badge>
@@ -339,7 +364,7 @@ const DistrictSummary = () => {
                 Low Risk
               </Tabs.Tab>
 
-              <Tabs.Tab value={DistrictSummaryStatus.HighRisk} rightSection={
+              <Tabs.Tab value={"75% giá trị trong ngày"} rightSection={
                 <Badge w={16} h={16} size="xs" p={0} sx={{pointerEvents: 'none'}}
                        variant="filled" color={activeTab === DistrictSummaryStatus.HighRisk ? "" : "gray"}>
                   {districtsStatusHighRisk.length}

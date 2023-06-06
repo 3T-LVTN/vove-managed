@@ -18,7 +18,7 @@ interface PieChartVisualizableData  {
   datasets: PieChartDataSet[]
 }
 
-export const data: PieChartVisualizableData = {
+const data: PieChartVisualizableData = {
   labels: ["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"],
   datasets: [{
     data: [14, 5, 2, 1],

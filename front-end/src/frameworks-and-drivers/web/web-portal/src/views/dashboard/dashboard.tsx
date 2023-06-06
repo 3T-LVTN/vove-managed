@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { setLabels } from 'react-chartjs-2/dist/utils';
 
 
-type TDashboardDataMap = Record<string, number>
+export type TDashboardDataMap = Record<string, number>
 
 export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
