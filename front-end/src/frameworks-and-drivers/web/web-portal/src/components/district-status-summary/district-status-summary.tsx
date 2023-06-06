@@ -8,7 +8,17 @@ import {useNavigate} from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend, LinearScale);
 
-export const data = {
+interface PieChartDataSet {
+  data: number[]
+  backgroundColor?: string[]
+  borderWidth?: number
+}
+interface PieChartVisualizableData  {
+  labels: string [] 
+  datasets: PieChartDataSet[]
+}
+
+const data: PieChartVisualizableData = {
   labels: ["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"],
   datasets: [{
     data: [14, 5, 2, 1],
@@ -24,10 +34,25 @@ export const data = {
 
 interface DistrictStatusSummaryProps {
   isForDashboard: boolean
+  data: PieChartVisualizableData 
+}
+
+export function PieChart(data: PieChartVisualizableData) {
+  return <Pie
+  data={data}
+  options={{
+    plugins: {
+      legend: {
+        position: "bottom",
+      }
+    }
+  }}
+/>
 }
 
 export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
   const navigator = useNavigate();
+  const pieChartData = props.data?? data
   return (<>
     {props.isForDashboard ? <div className={styles.buttonLayer}>
       <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/districts')}>
@@ -63,16 +88,7 @@ export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
           </div>
         </Group>
       </Stack>
-      <Pie
-        data={data}
-        options={{
-          plugins: {
-            legend: {
-              position: "bottom",
-            }
-          }
-        }}
-      />
+      <PieChart {...pieChartData}/>
     </div>
   </>)
 }

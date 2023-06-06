@@ -178,13 +178,13 @@ const WardDetail = () => {
               <Title order={2}>{rate}</Title>
             </Group>
             <Text size="lg">
-              <b>Predict mosquito amount:</b> 163
+              <b>Predict mosquito amount:</b> {data?.values?.slice(-1)[0]}
             </Text>
             <Text size="lg">
-              <b>Temperature:</b> 37
+              <b>Temperature:</b> {data?.temp?.slice(-1)[0]}
             </Text>
             <Text size="lg">
-              <b>Rain meter:</b> 67
+              <b>Rain meter:</b> {data?.rain?.slice(-1)[0]}
             </Text>
             <Text size="lg">
               <b>User response:</b> Normal
