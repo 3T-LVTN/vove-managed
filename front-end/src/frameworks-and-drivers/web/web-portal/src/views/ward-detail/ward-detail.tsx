@@ -136,7 +136,7 @@ const WardDetail = () => {
       setData(data)
       setRate(value[0].rate)
     });
-  });
+  },[]);
 
   return (
     <Container fluid>

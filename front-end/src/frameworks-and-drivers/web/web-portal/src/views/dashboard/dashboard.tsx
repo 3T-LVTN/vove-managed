@@ -53,15 +53,15 @@ export const Dashboard = () => {
   mockInquiries.forEach((val) => {
     dashboardDataMap[val.status] = dashboardDataMap[val.status] ?? 0 + 1
   })
-  const dashBoardData: {
+  const [dashBoardData, _] = useState<{
     labels: string[],
     datasets: {
       data: number[]
     }[],
-  } = {
+  }>({
     labels: [],
     datasets: [{data:[]}]
-  }
+  })
   Object.entries(dashboardDataMap).forEach((val) => {
     dashBoardData.labels.push(val[0]);
     dashBoardData.datasets[0].data.push(val[1])
