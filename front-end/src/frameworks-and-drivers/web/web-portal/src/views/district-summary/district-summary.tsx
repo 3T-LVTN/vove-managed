@@ -105,12 +105,17 @@ const getSummary = async (
     })
   })
   let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
-  await axios
+  return  axios
     .post<DistrictSummaryApiResponse>('/prediction/summary', body)
     .then((response) => {
       response.data.data.forEach((ward, index, _) => {
         const district = mapWard2District[ward.locationCode]
-        const numberOfStatus = mapDist2NumberOfRecord[district][ward.rate] ? mapDist2NumberOfRecord[district][ward.rate] + 1 : 1
+        const mapState2Number = mapDist2NumberOfRecord[district]??{[ward.rate]:0}
+        const numberOfStatus = mapState2Number[ward.rate]?mapState2Number[ward.rate]+1:1
+        console.log("map dist 2 number of record", mapDist2NumberOfRecord)
+        console.log(ward.rate)
+        console.log(mapState2Number)
+        console.log(numberOfStatus)
         mapDist2NumberOfRecord = {
           ...mapDist2NumberOfRecord,
           [district]: { ...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus }
@@ -128,11 +133,6 @@ const getSummary = async (
         return { districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1] }
       }), mapRate2Number]
     })
-    .catch((error) => {
-      throw new Error(error);
-    });
-
-  return [[],{}]
 };
 
 const mockDistrictStatus: DistrictSummary[] = [
@@ -344,8 +344,8 @@ const DistrictSummary = () => {
 
   useEffect(() => {
     const districtInp = getDistricts();
-
     getSummary(districtInp).then((tmp) => {
+      console.log("get summary done")
       console.log(tmp)
       setSummary(tmp[0])
       const labels: string[] = []
@@ -417,12 +417,13 @@ const DistrictSummary = () => {
                 <tbody>
                   {districtSummary.length > 0 ? (
                     districtSummary.map((row) => (
-                      <tr key={row.districtId} onClick={() => navigate(`districts/${row.districtId}`)} style={{ cursor: "pointer" }}>
+                      <tr key={row.districtId} onClick={() => navigate(`/districts/${row.districtName}`)} style={{ cursor: "pointer" }}>
                         <td>{row.districtId}</td>
                         <td>{row.districtName}</td>
                         <td>{row.number["HIGH_RISK"] ?? 0}</td>
                         <td>{row.number["LOW_RISK"] ?? 0}</td>
                         <td>{row.number["NORMAL"]??0}</td>
+                        <td>{row.number["SAFE"]??0}</td>
                       </tr>
                     ))
                   ) : (
