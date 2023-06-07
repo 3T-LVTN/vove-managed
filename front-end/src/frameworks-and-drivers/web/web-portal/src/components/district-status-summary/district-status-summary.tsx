@@ -18,19 +18,22 @@ interface PieChartVisualizableData {
   datasets: PieChartDataSet[]
 }
 
+const DefaultColors =  [
+  "#3BC9DB",
+  "#FFD43B",
+  "#FFA94D",
+  "#FF8787",
+]
 const data: PieChartVisualizableData = {
   labels: ["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"],
   datasets: [{
     data: [14, 5, 2, 1],
-    backgroundColor: [
-      "#3BC9DB",
-      "#FFD43B",
-      "#FFA94D",
-      "#FF8787",
-    ],
+    backgroundColor: DefaultColors,
     borderWidth: 1,
   },],
 };
+
+
 
 interface DistrictStatusSummaryProps {
   isForDashboard: boolean
@@ -38,6 +41,13 @@ interface DistrictStatusSummaryProps {
 }
 
 export function PieChart(data: PieChartVisualizableData) {
+  data.datasets = data.datasets.map(
+    (val) => {
+      const ret = val
+      const colors = DefaultColors.slice(0, ret.data.length) 
+      ret.backgroundColor = ret.backgroundColor ?? colors
+      return ret
+    })
   return <Pie
     data={data}
     options={{
@@ -52,7 +62,7 @@ export function PieChart(data: PieChartVisualizableData) {
 
 
 
-const GroupTrackingData = ({labels, datasets}: PieChartVisualizableData) => {
+const GroupTrackingData = ({ labels, datasets }: PieChartVisualizableData) => {
   return <Group mt={"lg"}>
     {labels.map((val, idx) => <div>
       <Text fz="lg" fw={700} c={"dark.4"}>{val}</Text>
@@ -66,7 +76,7 @@ export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
   const navigator = useNavigate();
   console.log("render summary")
   console.log(props)
-  const pieChartData =props.data ?? data
+  const pieChartData = props.data ?? data
   return (<>
     {props.isForDashboard ? <div className={styles.buttonLayer}>
       <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/districts')}>

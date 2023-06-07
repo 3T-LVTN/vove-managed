@@ -409,9 +409,9 @@ const DistrictSummary = () => {
                     <th>Id</th>
                     <th>Tên huyện</th>
                     <th>Số lượng xã</th>
-                    <th>Số lượng xã thuộc top 25%</th>
-                    <th>Số lượng xã thuộc top 50%</th>
                     <th>Số lượng xã thuộc top 75%</th>
+                    <th>Số lượng xã thuộc top 50%</th>
+                    <th>Số lượng xã thuộc top 25%</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -420,10 +420,10 @@ const DistrictSummary = () => {
                       <tr key={row.districtId} onClick={() => navigate(`/districts/${row.districtName}`)} style={{ cursor: "pointer" }}>
                         <td>{row.districtId}</td>
                         <td>{row.districtName}</td>
-                        <td>{row.number["HIGH_RISK"] ?? 0}</td>
-                        <td>{row.number["LOW_RISK"] ?? 0}</td>
-                        <td>{row.number["NORMAL"]??0}</td>
+                        <td>{(row.number["LOW_RISK"] ?? 0) + (row.number["NORMAL"] ?? 0)+ (row.number["SAFE"] ?? 0)+(row.number["HIGH_RISK"] ?? 0)}</td>
                         <td>{row.number["SAFE"]??0}</td>
+                        <td>{row.number["NORMAL"]??0}</td>
+                        <td>{row.number["LOW_RISK"]??0}</td>                        
                       </tr>
                     ))
                   ) : (
