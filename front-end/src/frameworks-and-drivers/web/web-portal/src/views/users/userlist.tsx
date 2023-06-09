@@ -162,7 +162,7 @@ const AppUserList = () => {
       },
       {
         accessorKey: 'name',
-        header: 'Name',
+        header: 'Tên người dùng',
         size: 130,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
@@ -179,7 +179,7 @@ const AppUserList = () => {
       },
       {
         accessorKey: 'phoneNumber',
-        header: 'Phone Number',
+        header: 'Số điện thoại',
         size: 10,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
@@ -188,7 +188,7 @@ const AppUserList = () => {
       },
       {
         accessorKey: 'address',
-        header: 'Address',
+        header: 'Địa chỉ',
         size: 400,
         mantineEditTextInputProps: ({cell}) => ({
           ...getCommonEditTextInputProps(cell),
@@ -200,7 +200,7 @@ const AppUserList = () => {
 
   return (
     <Container fluid>
-      <PageTitle title={"Users Management"}></PageTitle>
+      <PageTitle title={"Quản lý người dùng"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}
@@ -235,19 +235,19 @@ const AppUserList = () => {
 
         renderRowActions={({row, table}) => (
           <Box sx={{display: 'flex', gap: '16px'}}>
-            <Tooltip withArrow position="right" label="Info">
+            <Tooltip withArrow position="right" label="Chi tiết">
               <ActionIcon color="blue" onClick={() => {
                 navigate(row.original.id)
               }}>
                 <IconId/>
               </ActionIcon>
             </Tooltip>
-            <Tooltip withArrow position="left" label="Edit">
+            <Tooltip withArrow position="left" label="Cập nhật">
               <ActionIcon color="teal" onClick={() => table.setEditingRow(row)}>
                 <IconEdit/>
               </ActionIcon>
             </Tooltip>
-            <Tooltip withArrow position="right" label="Delete">
+            <Tooltip withArrow position="right" label="Xoá">
               <ActionIcon color="red" onClick={() => {
                 handleDeleteRow(row)
               }}>

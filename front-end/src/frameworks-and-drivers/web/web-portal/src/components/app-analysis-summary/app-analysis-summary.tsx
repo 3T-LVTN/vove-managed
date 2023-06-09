@@ -22,19 +22,19 @@ export function AppAnalysisSummary({data}: AppAnalysisSummaryProps) {
             <Text component="span" c={'cyan'} fw={700}>
               {data.access}
             </Text>{' '}
-            accesses today
+            lượt truy cập hôm nay
           </Text>
           <Text c="dimmed" fz="sm" mt="sm">
             <Text component="span" c={'cyan'} fw={700}>
               {data.tracking}
             </Text>{' '}
-            tracking points registered
+            điểm theo dõi
           </Text>
           <Text c="dimmed" fz="sm" mt="sm">
             <Text component="span" c={'cyan'} fw={700}>
               {data.inquiries}
             </Text>{' '}
-            inquiries created
+            yêu cầu hỗ trợ
           </Text>
         </div>
         <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/app-analysis')}>
