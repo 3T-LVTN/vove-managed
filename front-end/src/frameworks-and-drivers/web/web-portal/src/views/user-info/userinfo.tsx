@@ -3,25 +3,12 @@ import {AppUserApi} from "@front-end/frameworks-and-drivers/app-sync/user";
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
-import {
-  Badge,
-  Card,
-  Container,
-  createStyles,
-  Grid,
-  Paper,
-  ScrollArea,
-  Skeleton,
-  Stack,
-  Text,
-  Title
-} from "@mantine/core";
+import {Card, Container, createStyles, Grid, Paper, ScrollArea, Skeleton, Stack, Text, Title} from "@mantine/core";
 import {useParams} from "react-router-dom";
-import {AppUser} from "@front-end/domain/entities/app-user";
+import {AppUserDetail, TrackingPlace} from "@front-end/domain/entities/app-user";
 import {useEffect, useState} from "react";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
-import {TrackingViewModel} from "@front-end/interface-adapters/view-models/tracking";
 import {TrackingApi} from "@front-end/frameworks-and-drivers/app-sync/tracking";
 import {TrackingRepository} from "@front-end/application/repositories/tracking";
 import {TrackingInteractors} from "@front-end/application/interactors/tracking";
@@ -32,7 +19,6 @@ import {InquiryRepository} from "@front-end/application/repositories/inquiry";
 import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
 import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
 import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
-import {PageTitle} from "../../components/page-title/page-title";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -56,67 +42,29 @@ const UserInfo = () => {
   const {id} = useParams();
   const {classes} = useStyles();
 
-  const [user, setUser] = useState<AppUser | null>(null);
-  const [locations, setLocations] = useState<TrackingViewModel[]>([]);
+  const [user, setUser] = useState<AppUserDetail | null>(null);
+  const [locations, setLocations] = useState<TrackingPlace[]>([]);
   const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [isLoadingTracking, setIsLoadingTracking] = useState<boolean>(true);
   const [isLoadingInquiry, setIsLoadingInquiry] = useState<boolean>(true);
 
   const fetchDetails = async (id: string) => {
-    appUserController.getUser(id!).then((user) => {
-      setUser(user);
-    })
-      .catch((error) => console.log(error));
+    try {
+      const userDetail = await appUserController.getUser(id);
+      setUser(userDetail);
+      return userDetail;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  const fetchTrackingList = async (id: string) => {
+  const fetchTrackingList = async (trackingPlaces: TrackingPlace[]) => {
     //TODO: Fetch tracking list from API
-    setIsLoadingTracking(false);
-    setLocations([
-      {
-        id: "1",
-        name: "Thinh's house",
-        address: "Phường 13, Quận Tân Bình, Thành phố Hồ Chí Minh",
-        status: "SAFE"
-      },
-      {
-        id: "2",
-        name: "School",
-        address: "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh",
-        status: "NORMAL"
-      },
-      {
-        id: "3",
-        name: "Company",
-        address: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
-        status: "HIGH RISK"
-      },
-      {
-        id: "4",
-        name: "Ngoc's house",
-        address: "Phường 5, Quận 11, Thành phố Hồ Chí Minh",
-        status: "LOW RISK"
-      },
-      {
-        id: "5",
-        name: "Khoa's house",
-        address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
-        status: "SAFE"
-      },
-      {
-        id: "6",
-        name: "Phong's house",
-        address: "Phường 2, Quận 9, Thành phố Hồ Chí Minh",
-        status: "SAFE"
-      },
-      {
-        id: "7",
-        name: "Quang's house",
-        address: "Phường 3, Quận 9, Thành phố Hồ Chí Minh",
-        status: "SAFE"
-      }
-    ]);
+    if (trackingPlaces.length === 0) return;
+    else {
+      setLocations(trackingPlaces);
+    }
   }
 
   const fetchInquiryList = async (id: string) => {
@@ -184,12 +132,19 @@ const UserInfo = () => {
 
   useEffect(() => {
     fetchDetails(id!)
-      .then(() => {
+      .then((user) => {
         setIsLoadingUser(false);
-        fetchTrackingList(id!);
+        fetchTrackingList(user?.trackingPlaces ?? []);
         fetchInquiryList(id!);
       });
   }, []);
+
+  useEffect(() => {
+    if (locations.length !== 0) {
+      console.log(locations)
+      setIsLoadingTracking(false)
+    }
+  }, [locations])
 
   const trackingList = locations.map((location) => {
     return (
@@ -201,17 +156,17 @@ const UserInfo = () => {
       >
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            {location.address}
+            {location.addressName}
           </Text>
-          <Badge variant={"light"} size={"xs"} color={location.status === "HIGH RISK" ? "red" : (
-            location.status === "LOW RISK" ? "orange" : (
-              location.status === "NORMAL" ? "yellow" : ""
-            ))}>
-            {location.status}
-          </Badge>
+          {/*<Badge variant={"light"} size={"xs"} color={location.status === "HIGH RISK" ? "red" : (*/}
+          {/*  location.status === "LOW RISK" ? "orange" : (*/}
+          {/*    location.status === "NORMAL" ? "yellow" : ""*/}
+          {/*  ))}>*/}
+          {/*  {location.status}*/}
+          {/*</Badge>*/}
         </div>
         <Text fz="lg" fw={500} c={"dark.4"}>
-          {location.name}
+          {location.title}
         </Text>
       </Card>
     )

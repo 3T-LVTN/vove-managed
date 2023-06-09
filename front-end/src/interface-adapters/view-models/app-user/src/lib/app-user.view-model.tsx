@@ -11,3 +11,19 @@ export interface AppUserViewModel {
   avatar: string;
   addressName: string;
 }
+
+export interface AppUserDetailViewModel extends AppUserViewModel {
+  trackingPlaces: TrackingPlaceViewModel[];
+}
+
+export interface TrackingPlaceViewModel {
+  id: string;
+  addressName: string;
+  title: string;
+  address: LatLngViewModel;
+}
+
+export interface LatLngViewModel {
+  lat: number;
+  lng: number;
+}

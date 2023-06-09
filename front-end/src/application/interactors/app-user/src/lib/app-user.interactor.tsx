@@ -1,6 +1,6 @@
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserRepository} from "@front-end/application/repositories/app-user";
-import {AppUser, AppUserList} from "@front-end/domain/entities/app-user";
+import {AppUser, AppUserDetail, AppUserList} from "@front-end/domain/entities/app-user";
 import {Query} from "@front-end/shared/utils";
 
 export class AppUserInteractor implements AppUserUseCase {
@@ -15,7 +15,7 @@ export class AppUserInteractor implements AppUserUseCase {
       });
   }
 
-  async getUser(id: string): Promise<AppUser> {
+  async getUser(id: string): Promise<AppUserDetail> {
     return this.appUserRepository.getUser(id)
       .then((user) => user)
       .catch((error) => {
