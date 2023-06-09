@@ -67,19 +67,19 @@ export const Frame = () => {
             <Logo/>
             <Group spacing="xl" className={classes.navigation}>
               <Anchor underline={false} onClick={() => navigate("users")}>
-                User
+                Người dùng
               </Anchor>
               <Anchor underline={false} onClick={() => navigate("model-management")}>
-                Model
+                Mô hình
               </Anchor>
               <Anchor underline={false} onClick={() => navigate("app-analysis")}>
-                Analysis
+                Thống kê
               </Anchor>
               <Anchor underline={false} onClick={() => navigate("districts")}>
-                Places
+                Địa điểm
               </Anchor>
               <Anchor underline={false} onClick={() => navigate("inquiries")}>
-                Inquiries
+                Yêu cầu hỗ trợ
               </Anchor>
             </Group>
             <Group miw={290} position="right">

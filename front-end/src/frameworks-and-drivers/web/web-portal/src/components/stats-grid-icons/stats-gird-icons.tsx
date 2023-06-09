@@ -3,12 +3,6 @@ import {IconArrowUpRight} from '@tabler/icons-react';
 import React from "react";
 import {useNavigate} from "react-router-dom";
 
-const useStyles = createStyles((theme) => ({
-  label: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-  },
-}));
-
 interface StatsGridIconsProps {
   data: { title: string; value: string; diff: number };
   nav: string;
@@ -16,12 +10,11 @@ interface StatsGridIconsProps {
 
 export function StatsGridIcons({data, nav}: StatsGridIconsProps) {
   const navigator = useNavigate();
-  const {classes} = useStyles();
 
   return (<>
       <Group position="apart" align="top">
         <div>
-          <Text c="dimmed" tt="uppercase" fw={700} fz="xs" className={classes.label}>
+          <Text c="dimmed" tt="uppercase" fw={700} fz="xs">
             {data.title}
           </Text>
           <Text fw={700} fz="xl">
@@ -37,7 +30,7 @@ export function StatsGridIcons({data, nav}: StatsGridIconsProps) {
         <Text component="span" c={data.diff > 0 ? 'cyan' : 'red'} fw={700}>
           {data.diff}%
         </Text>{' '}
-        {data.diff > 0 ? 'increase' : 'decrease'} compared to last month
+        {data.diff > 0 ? 'tăng' : 'giảm'} so với tháng trước
       </Text>
     </>
   );
