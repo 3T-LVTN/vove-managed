@@ -6,8 +6,8 @@ export interface AppUserListViewModel {
 
 export interface AppUserViewModel {
   id: string;
-  email: string;
+  phone: string;
   name: string;
-  phoneNumber: string;
-  address: string;
+  avatar: string;
+  addressName: string;
 }

@@ -224,9 +224,8 @@ const UserInfo = () => {
           <Skeleton visible={isLoadingUser}>
             <Paper withBorder p="md" radius="md">
               <Title order={1} mb="xs">{user?.name}</Title>
-              <Text mb="xs"><b>Email:</b> {user?.email}</Text>
-              <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
-              <Text mb="xs"><b>Address:</b> {user?.address}</Text>
+              <Text mb="xs"><b>Phone:</b> {user?.phone}</Text>
+              <Text mb="xs"><b>Address:</b> {user?.addressName}</Text>
             </Paper>
           </Skeleton>
         </Grid.Col>

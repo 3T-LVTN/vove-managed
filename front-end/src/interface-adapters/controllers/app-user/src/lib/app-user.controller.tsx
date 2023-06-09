@@ -22,17 +22,6 @@ export class AppUserController {
       });
   }
 
-  async updateUser(user: AppUserViewModel): Promise<number> {
-    const userEntity: AppUser = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      phoneNumber: user.phoneNumber,
-      address: user.address
-    };
-    return this.appUserUseCase.updateUser(userEntity);
-  }
-
   async deleteUser(id: string): Promise<void> {
     return this.appUserUseCase.deleteUser(id);
   }

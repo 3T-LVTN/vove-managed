@@ -1,9 +1,9 @@
 export interface AppUser {
   id: string;
-  email: string;
+  phone: string;
   name: string;
-  phoneNumber: string;
-  address: string;
+  avatar: string;
+  addressName: string;
 }
 
 export interface AppUserList {
