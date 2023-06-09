@@ -189,8 +189,8 @@ export const ModelManagement = () => {
                       radius="md"
                       data={getDistricts().map((district) => (
                         {
-                          label: district.name,
-                          value: district.code
+                          label: district.district_code,
+                          value: district.district_name
                         }
                       ))}
                       onChange={setDistrict}

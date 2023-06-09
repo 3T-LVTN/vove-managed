@@ -6,7 +6,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 
 export interface SearchBoxProps {
-  readonly setSelected: (place: { lat: number, lng: number } | null) => void;
+  readonly setSelected: (place: google.maps.LatLngLiteral) => void;
   readonly setIsSelected: (isSelected: boolean) => void;
 }
 
