@@ -1,13 +1,22 @@
-import { Types } from 'mongoose';
+import {Types} from 'mongoose';
+import {LatLng} from "@back-end/domain/shared/location";
 
 export interface User {
   _id?: Types.ObjectId;
-  email: string;
+  phone?: string;
   name: string;
-  phoneNumber?: string;
-  address?: string;
-  photoUrl?: string;
+  avatar?: string;
+  password?: string;
+  trackingPlaces?: TrackingPlace[];
+  addressName?: string;
   deleteAt?: Date;
+}
+
+export interface TrackingPlace {
+  id?: string;
+  title: string;
+  addressName: string;
+  address: LatLng;
 }
 
 export interface UserList {

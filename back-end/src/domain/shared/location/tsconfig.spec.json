@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "module": "commonjs",
+    "types": ["jest", "node"]
+  },
+  "include": [
+    "jest.config.ts",
+    "query/src/**/*.test.ts",
+    "query/src/**/*.spec.ts",
+    "query/src/**/*.test.tsx",
+    "query/src/**/*.spec.tsx",
+    "query/src/**/*.test.js",
+    "query/src/**/*.spec.js",
+    "query/src/**/*.test.jsx",
+    "query/src/**/*.spec.jsx",
+    "query/src/**/*.d.ts"
+  ]
+}

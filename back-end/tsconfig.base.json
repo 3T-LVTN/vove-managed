@@ -54,6 +54,9 @@
       "@back-end/domain/entities/user": [
         "src/domain/entities/user/src/index.ts"
       ],
+      "@back-end/domain/shared/location": [
+        "src/domain/shared/location/src/index.ts"
+      ],
       "@back-end/domain/shared/query": [
         "src/domain/shared/query/src/index.ts"
       ],

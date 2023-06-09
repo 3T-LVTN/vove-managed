@@ -4,24 +4,22 @@ import {UserDTO, UserListDTO} from "@back-end/domain/dtos/user";
 export class UsersMapper {
   static toDTO(user: User): UserDTO {
     return {
-      id: user._id?.toString() ?? "",
-      email: user.email,
+      id: user._id?.toString(),
+      phone: user.phone,
       name: user.name,
-      phoneNumber: user.phoneNumber,
-      address: user.address,
-      photoUrl: user.photoUrl,
-      deleteAt: user.deleteAt,
+      avatar: user.avatar,
+      trackingPlaces: user.trackingPlaces,
+      addressName: user.addressName,
     };
   }
 
   static toEntity(userDTO: UserDTO): User {
     return {
-      email: userDTO.email,
+      phone: userDTO.phone,
       name: userDTO.name,
-      phoneNumber: userDTO.phoneNumber,
-      address: userDTO.address,
-      photoUrl: userDTO.photoUrl,
-      deleteAt: userDTO.deleteAt,
+      avatar: userDTO.avatar,
+      trackingPlaces: userDTO.trackingPlaces,
+      addressName: userDTO.addressName,
     };
   }
 
