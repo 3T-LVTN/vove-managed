@@ -18,6 +18,12 @@ const useStyles = createStyles((theme) => ({
   },
 
   navigation: {
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+  },
+
+  username: {
     [theme.fn.smallerThan("sm")]: {
       display: "none",
     },
@@ -59,7 +65,7 @@ export const Frame = () => {
         <Header height={60} mb={120} px="md">
           <Container className={classes.inner} fluid>
             <Logo/>
-            <Group spacing="xl">
+            <Group spacing="xl" className={classes.navigation}>
               <Anchor underline={false} onClick={() => navigate("users")}>
                 User
               </Anchor>
@@ -77,7 +83,7 @@ export const Frame = () => {
               </Anchor>
             </Group>
             <Group miw={290} position="right">
-              <span>{currentUser?.email}</span>
+              <span className={classes.username}>{currentUser?.email}</span>
               <Menu
                 transitionProps={{transition: "pop"}}
                 position="bottom-end"
