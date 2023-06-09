@@ -14,6 +14,112 @@ import AppAnalysisSummary from "../../components/app-analysis-summary/app-analys
 import { InquiryViewModel } from "@front-end/interface-adapters/view-models/inquiry";
 import { useNavigate } from "react-router-dom";
 import { setLabels } from 'react-chartjs-2/dist/utils';
+import { getDistricts } from '@front-end/shared/administrative-division';
+import axios from 'axios';
+
+enum DistrictSummaryStatus {
+  Safe = 'SAFE',
+  Normal = 'NORMAL',
+  LowRisk = 'LOW_RISK',
+  HighRisk = 'HIGH_RISK',
+}
+
+interface DistrictSummary {
+  districtId: number;
+  districtName: string;
+  number: Record<string, number>;
+}
+
+interface DistrictLocation {
+  // lat?: number;
+  // lng?: number;
+  district_name: string;
+  wards: {
+    lat: number;
+    lng: number;
+    locationCode: string;
+  }[]
+}
+
+interface DistrictSummaryApiRequest {
+  locations: {
+    lat: number,
+    lng: number,
+    locationCode: string
+  }[];
+  // NOTE: currently not support filter with time interval, default 7
+  // timeInterval: number
+}
+
+interface DistrictSummaryApiResponseData {
+  locationCode: string;
+  lat: number;
+  lng: number;
+  value: number;
+  precip: number;
+  temperature: number;
+  rate: DistrictSummaryStatus;
+}
+
+interface DistrictSummaryApiResponse {
+  code: number;
+  message: string;
+  data: Array<DistrictSummaryApiResponseData>;
+}
+
+type MapWardRate2Number = Record<string, number>
+
+const getSummary = async (
+  inp: DistrictLocation[]
+): Promise<[DistrictSummary[], MapWardRate2Number]> => {
+  const body: DistrictSummaryApiRequest = {
+    locations: [],
+  };
+  let mapWard2District: Record<string, string>
+  let mapDistrict2Id: Record<string, number>
+  let mapRate2Number: Record<string, number> = {}
+  inp.forEach((val, index) => {
+    mapDistrict2Id = {
+      ...mapDistrict2Id, [val.district_name]: index
+    }
+    val.wards.forEach((ward) => {
+      body.locations.push(ward)
+      mapWard2District = {
+        ...mapWard2District,
+        [ward.locationCode]: val.district_name
+      }
+    })
+  })
+  let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
+  return  axios
+    .post<DistrictSummaryApiResponse>('/prediction/summary', body)
+    .then((response) => {
+      response.data.data.forEach((ward, index, _) => {
+        const district = mapWard2District[ward.locationCode]
+        const mapState2Number = mapDist2NumberOfRecord[district]??{[ward.rate]:0}
+        const numberOfStatus = mapState2Number[ward.rate]?mapState2Number[ward.rate]+1:1
+        console.log("map dist 2 number of record", mapDist2NumberOfRecord)
+        console.log(ward.rate)
+        console.log(mapState2Number)
+        console.log(numberOfStatus)
+        mapDist2NumberOfRecord = {
+          ...mapDist2NumberOfRecord,
+          [district]: { ...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus }
+        }
+        mapRate2Number = {
+          ...mapRate2Number,
+          [ward.rate]: mapRate2Number[ward.rate] ? mapRate2Number[ward.rate] + 1 : 1
+        }
+      });
+      console.log("query done")
+      console.log(mapDist2NumberOfRecord)
+      console.log(mapRate2Number)
+      console.log("before return")
+      return [Object.entries(mapDist2NumberOfRecord).map((val) => {
+        return { districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1] }
+      }), mapRate2Number]
+    })
+};
 
 
 export type TDashboardDataMap = Record<string, number>
@@ -53,32 +159,45 @@ export const Dashboard = () => {
   mockInquiries.forEach((val) => {
     dashboardDataMap[val.status] = dashboardDataMap[val.status] ?? 0 + 1
   })
-  const [dashBoardData, _] = useState<{
-    labels: string[],
+
+  const [dashboardData, setDashboardData] = useState<{
+    labels: string[];
     datasets: {
-      data: number[]
-    }[],
+      data: number[];
+    }[];
   }>({
     labels: [],
-    datasets: [{data:[]}]
-  })
-  Object.entries(dashboardDataMap).forEach((val) => {
-    dashBoardData.labels.push(val[0]);
-    dashBoardData.datasets[0].data.push(val[1])
-  })
-
-
+    datasets: [{ data: [] }],
+  });
   const fetchInquiries = async () => {
     setInquiries(mockInquiries);
   }
-
   useEffect(() => {
     setLoading(true);
     //TODO: catch loading API state
     fetchInquiries();
     const timer = setTimeout(() => setLoading(false), 300);
+    const districtInp = getDistricts();
+    getSummary(districtInp).then((tmp) => {
+      console.log("get summary done")
+      console.log(tmp)
+      const labels: string[] = []
+      const datasets: number[] = []
+      Object.entries(tmp[1]).forEach((val) => {
+        labels.push(val[0]);
+        datasets.push(val[1]);
+      });
+      setDashboardData({
+        labels: labels,
+        datasets: [{ data: datasets }]
+      })
+      console.log(dashboardData);
+    }).catch((e) => console.log(e))
     return () => clearTimeout(timer)
-  }, [])
+  }, []);
+
+
+
 
   return (<Container size="xl" fluid={true}>
     <PageTitle title="Dashboard"/>
@@ -129,7 +248,7 @@ export const Dashboard = () => {
             loading={loading}
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{ height: "50%" }}>
-              <DistrictStatusSummary data={dashBoardData} isForDashboard={true}></DistrictStatusSummary>
+              <DistrictStatusSummary data={dashboardData} isForDashboard={true}></DistrictStatusSummary>
             </Paper>}
           />
           <LoadingWrapper
