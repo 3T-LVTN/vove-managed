@@ -36,9 +36,8 @@ export class InquiryMongoDBRepository implements InquiryRepository {
     }
   }
 
-  async getUserInquiryList(id: string, query: Query): Promise<InquiryList> {
-    const options = QueryHelper.getOptions(query);
-    const filter = {userId: new Types.ObjectId(id)}
+  async getUserInquiryList(phone: string, query: Query): Promise<InquiryList> {
+    const filter = {author: phone}
     const count = await this.inquiryModel.count(filter).exec()
       .then((count) => {
           if (count) {
@@ -50,9 +49,7 @@ export class InquiryMongoDBRepository implements InquiryRepository {
       );
 
     const inquiryList = await this.inquiryModel.find(
-      filter,
-      null,
-      options
+      filter
     ).exec();
     return {
       inquiries: inquiryList,
@@ -97,10 +94,10 @@ export class InquiryMongoDBRepository implements InquiryRepository {
     return this.inquiryModel.findById(objectId).exec()
       .then((inquiry) => {
         if (inquiry) {
-          inquiry["reply"]?.push({
-            isUser: isUser,
+          inquiry["comments"]?.push({
+            isAdmin: isUser,
             time: new Date(),
-            content: comment
+            message: comment
           });
           inquiry.save();
           return inquiry._id.toString();

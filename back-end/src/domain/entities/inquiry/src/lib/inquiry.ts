@@ -1,20 +1,25 @@
 import {Types} from "mongoose";
 
+export enum Status {
+  WAITING = 0,
+  OPENING = 1,
+  CLOSED = 2,
+}
+
 export interface Inquiry {
   _id?: Types.ObjectId;
+  author: string;
+  status: Status;
   title: string;
   time: Date;
-  userId: Types.ObjectId;
-  userName: string;
-  content: string;
-  reply?: Comment[];
-  status: string;
+  message: string;
+  comments?: Comment[];
 }
 
 export interface Comment {
-  isUser: boolean;
+  isAdmin: boolean;
+  message: string;
   time: Date;
-  content: string;
 }
 
 export interface InquiryList {

@@ -1,18 +1,21 @@
+import {Status} from "@back-end/domain/entities/inquiry";
+
 export interface InquiryDTO {
   id?: string;
+  author?: string;
+  phone: string;
+  address?: string;
+  status: Status;
   title: string;
-  time?: Date;
-  userId: string;
-  userName: string;
-  content: string;
-  reply?: CommentDTO[];
-  status?: string;
+  time: Date;
+  message: string;
+  comments?: CommentDTO[];
 }
 
 export interface CommentDTO {
-  isUser: boolean;
+  isAdmin: boolean;
+  message: string;
   time: Date;
-  content: string;
 }
 
 export interface InquiryListDTO {

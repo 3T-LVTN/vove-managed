@@ -8,10 +8,9 @@ export interface Query {
 
 export interface UserQuery extends Query {
   id?: string;
+  phone?: string;
   name?: string;
-  email?: string;
-  phoneNumber?: string;
-  address?: string;
+  addressName?: string;
 }
 
 export interface InquiryQuery extends Query {

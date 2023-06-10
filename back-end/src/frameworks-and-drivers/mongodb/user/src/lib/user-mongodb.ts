@@ -45,6 +45,17 @@ export class UserMongoDBRepository implements UserRepository {
       });
   }
 
+  getUserByPhone(phone: string): Promise<User> {
+    return this.userModel.findOne({phone: phone}).exec()
+      .then(user => {
+        if (user) {
+          return user;
+        } else {
+          throw NotFoundException;
+        }
+      });
+  }
+
   updateUser(id: string, user: User): Promise<string> {
     return this.userModel.findByIdAndUpdate(new Types.ObjectId(id), user).exec()
       .then((user) => {
