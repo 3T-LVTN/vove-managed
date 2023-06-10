@@ -1,21 +1,26 @@
-import { ActionIcon, Button, Container, Grid, Modal, Paper, Stack, Text, Title } from '@mantine/core';
-import { VoveMap } from "../../components/map/map";
-import { PageTitle } from "../../components/page-title/page-title";
-import React, { useEffect, useState } from "react";
-import { LoadingWrapper } from "../../components/loading-wrapper/loading-wrapper";
+import {Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
+import {VoveMap} from "../../components/map/map";
+import {PageTitle} from "../../components/page-title/page-title";
+import React, {useEffect, useState} from "react";
+import {LoadingWrapper} from "../../components/loading-wrapper/loading-wrapper";
 import SearchHeatmapModal from "../../components/search-heatmap-modal/search-heatmap-modal";
-import { SearchHeatmapModalController } from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
-import { SearchHeatmapModalInteractor } from "@front-end/application/interactors/sreach-heatmap-modal";
-import { SearchHeatmapModalGlobalState } from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
+import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
+import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
+import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import DistrictStatusSummary from "../../components/district-status-summary/district-status-summary";
 import StatsGirdIcons from "../../components/stats-grid-icons/stats-gird-icons";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import AppAnalysisSummary from "../../components/app-analysis-summary/app-analysis-summary";
-import { InquiryViewModel } from "@front-end/interface-adapters/view-models/inquiry";
-import { useNavigate } from "react-router-dom";
-import { setLabels } from 'react-chartjs-2/dist/utils';
-import { getDistricts } from '@front-end/shared/administrative-division';
+import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+import {useNavigate} from "react-router-dom";
+import {getDistricts} from '@front-end/shared/administrative-division';
 import axios from 'axios';
+import {Status} from "@front-end/domain/entities/inquiry";
+import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
+import {InquiryRepository} from "@front-end/application/repositories/inquiry";
+import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
+import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
+import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
 
 enum DistrictSummaryStatus {
   Safe = 'SAFE',
@@ -134,27 +139,30 @@ export const Dashboard = () => {
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
+  const inquiryRepository: InquiryRepository = new InquiryApi();
+  const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
+  const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
+
   const mockInquiries: InquiryViewModel[] = [
     {
       id: "1",
-      username: "Nguyen Mai Thy",
-      timestamp: "03/05/2023 15:15",
-      address: "Address 1",
-      details: "The predict results at my living area is incorrect",
-      status: "Opening"
+      author: "Nguyen Mai Thy",
+      time: "2023-06-04T23:21:20.711Z",
+      addressName: "Address 1",
+      title: "The predict results at my living area is incorrect",
+      status: Status.WAITING
     },
     {
       id: "2",
-      username: "Le Tran Hoang Thinh",
-      timestamp: "04/05/2023 16:16",
-      address: "Address 2",
-      details: "I can't find my place on your map",
-      status: "Closed"
+      author: "Le Tran Hoang Thinh",
+      time: "04/05/2023 16:16",
+      addressName: "Address 2",
+      title: "I can't find my place on your map",
+      status: Status.OPENING
     },
   ]
 
   const dashboardDataMap: TDashboardDataMap = {}
-
 
   mockInquiries.forEach((val) => {
     dashboardDataMap[val.status] = dashboardDataMap[val.status] ?? 0 + 1
@@ -170,7 +178,14 @@ export const Dashboard = () => {
     datasets: [{ data: [] }],
   });
   const fetchInquiries = async () => {
-    setInquiries(mockInquiries);
+    const inquiries = await inquiryController.getInquiries();
+    inquiries.map((inquiry) => {
+      inquiry.author = "";
+      const date = new Date(inquiry.time);
+      inquiry.time = date.toLocaleString();
+      return inquiry;
+    })
+    setInquiries(inquiries);
   }
   useEffect(() => {
     setLoading(true);

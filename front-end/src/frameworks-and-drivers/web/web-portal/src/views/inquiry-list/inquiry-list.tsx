@@ -1,17 +1,11 @@
-import {
-  Container,
-  Badge, Tooltip, ActionIcon, Box
-} from "@mantine/core";
+import {ActionIcon, Badge, Container} from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useMemo, useState} from "react";
-import {
-  MantineReactTable,
-  MRT_ColumnDef,
-  MRT_SortingState
-} from "mantine-react-table";
+import {MantineReactTable, MRT_ColumnDef, MRT_SortingState} from "mantine-react-table";
 import {Query} from "@front-end/shared/utils";
-import {IconArrowUpRight, IconId} from "@tabler/icons-react";
+import {IconArrowUpRight} from "@tabler/icons-react";
 import {useNavigate} from "react-router-dom";
+import {Status} from "@front-end/domain/entities/inquiry";
 
 const data: RowData[] = [
   {
@@ -20,7 +14,7 @@ const data: RowData[] = [
     time: "2023-05-01 5:51:00",
     author: "Nguyen Mai Thy",
     lastResponse: "User",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "002",
@@ -28,7 +22,7 @@ const data: RowData[] = [
     time: "2023-05-02 09:15:00",
     author: "Le Tran Hoang Thinh",
     lastResponse: "Admin",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "003",
@@ -36,7 +30,7 @@ const data: RowData[] = [
     time: "2023-05-03 17:20:00",
     author: "Ung Tuong Phat",
     lastResponse: "User",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "004",
@@ -44,7 +38,7 @@ const data: RowData[] = [
     time: "2023-05-04 11:00:00",
     author: "Bui Hai Duong",
     lastResponse: "Admin",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "005",
@@ -52,7 +46,7 @@ const data: RowData[] = [
     time: "2023-05-05 15:30:00",
     author: "Doan Thuy Ha",
     lastResponse: "User",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "006",
@@ -60,7 +54,7 @@ const data: RowData[] = [
     time: "2023-05-03 12:27:00",
     author: "Le Tran Hoang Thinh",
     lastResponse: "Admin",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "007",
@@ -68,7 +62,7 @@ const data: RowData[] = [
     time: "2023-05-03 12:35:00",
     author: "Ung Binh Nguyen",
     lastResponse: "User",
-    status: "Closed",
+    status: Status.WAITING,
   },
   {
     id: "008",
@@ -76,7 +70,7 @@ const data: RowData[] = [
     time: "2023-05-03 12:30:00",
     author: "Thoa Ngoc Uyen",
     lastResponse: "Admin",
-    status: "Opening",
+    status: Status.WAITING,
   },
   {
     id: "009",
@@ -84,7 +78,7 @@ const data: RowData[] = [
     time: "2023-05-06 19:00:00",
     author: "Nguyen Mai Thy",
     lastResponse: "Admin",
-    status: "Opening",
+    status: Status.WAITING,
   },
   {
     id: "010",
@@ -92,7 +86,7 @@ const data: RowData[] = [
     time: "2023-05-09 14:45:00",
     author: "Le Tran Hoang Thinh",
     lastResponse: "User",
-    status: "Waiting",
+    status: Status.WAITING,
   },
 ];
 
@@ -102,7 +96,7 @@ interface RowData {
   time: string;
   author: string;
   lastResponse: "User" | "Admin";
-  status: "Waiting" | "Opening" | "Closed";
+  status: Status;
 }
 
 const InquiryList = () => {

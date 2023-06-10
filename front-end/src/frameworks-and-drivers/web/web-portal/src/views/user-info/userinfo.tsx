@@ -67,67 +67,20 @@ const UserInfo = () => {
     }
   }
 
-  const fetchInquiryList = async (id: string) => {
-    //TODO: Fetch inquiry list from API
-    setIsLoadingInquiry(false)
-    setInquiries([
-      {
-        id: "1",
-        username: user?.name ?? "Nguyen Mai Thy",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 1",
-        details: "The predict results at my living area is incorrect",
-        status: "Opening"
-      },
-      {
-        id: "2",
-        username: user?.name ?? "Nguyen Mai Thy",
-        timestamp: "01/05/2023 5:51",
-        address: "Address 2",
-        details: "My app is slow",
-        status: "Closed"
-      },
-      //   {
-      //     id: "3",
-      //     username: user?.name ?? "",
-      //     timestamp: "03/05/2023 15:15",
-      //     address: "Address 3",
-      //     details: "The predict results at my living area is incorrect",
-      //     status: "Closed"
-      //   },
-      //   {
-      //     id: "4",
-      //     username: user?.name ?? "",
-      //     timestamp: "03/05/2023 15:15",
-      //     address: "Address 4",
-      //     details: "I can't find my place on your map",
-      //     status: "Closed"
-      //   },
-      //   {
-      //     id: "5",
-      //     username: user?.name ?? "",
-      //     timestamp: "03/05/2023 15:15",
-      //     address: "Address 5",
-      //     details: "The predict results at my living area is incorrect",
-      //     status: "Closed"
-      //   },
-      //   {
-      //     id: "6",
-      //     username: user?.name ?? "",
-      //     timestamp: "03/05/2023 15:15",
-      //     address: "Address 6",
-      //     details: "I can't find my place on your map",
-      //     status: "Closed"
-      //   },
-      //   {
-      //     id: "7",
-      //     username: user?.name ?? "",
-      //     timestamp: "03/05/2023 15:15",
-      //     address: "Address 7",
-      //     details: "The predict results at my living area is incorrect",
-      //     status: "Closed"
-      //   }
-    ]);
+  const fetchInquiryList = async (user: AppUserDetail) => {
+    try {
+      const inquiryList = await inquiryController.getInquiryListByUser(user.id);
+      inquiryList.map((inquiry) => {
+        inquiry.author = user?.name ?? "";
+        const date = new Date(inquiry.time);
+        inquiry.time = date.toLocaleString();
+        return inquiry;
+      })
+      setInquiries(inquiryList);
+      return inquiryList;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -135,7 +88,7 @@ const UserInfo = () => {
       .then((user) => {
         setIsLoadingUser(false);
         fetchTrackingList(user?.trackingPlaces ?? []);
-        fetchInquiryList(id!);
+        fetchInquiryList(user!);
       });
   }, []);
 
@@ -145,6 +98,12 @@ const UserInfo = () => {
       setIsLoadingTracking(false)
     }
   }, [locations])
+
+  useEffect(() => {
+    if (inquiries.length !== 0) {
+      setIsLoadingInquiry(false)
+    }
+  }, [inquiries])
 
   const trackingList = locations.map((location) => {
     return (

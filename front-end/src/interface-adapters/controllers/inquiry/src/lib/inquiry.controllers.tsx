@@ -12,4 +12,12 @@ export class InquiryControllers {
         throw new Error(error)
       });
   }
+
+  async getInquiries(): Promise<InquiryViewModel[]> {
+    return await this.inquiryUseCase.getInquiryListByUser("64798821fe179aba987658e1")
+      .then((inquiries) => inquiries as InquiryViewModel[])
+      .catch((error) => {
+        throw new Error(error)
+      });
+  }
 }
