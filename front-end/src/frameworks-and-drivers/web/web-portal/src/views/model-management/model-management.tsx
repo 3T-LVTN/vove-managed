@@ -27,15 +27,15 @@ export interface Accuracy {
 
 const mockAccuracy: Accuracy[] = [
   {
-    name: 'Exactly',
+    name: 'Chính xác',
     value: 8
   },
   {
-    name: 'Normal',
+    name: 'Tạm ổn',
     value: 9
   },
   {
-    name: 'False',
+    name: 'Sai',
     value: 3
   }
 ];
@@ -127,11 +127,11 @@ export const ModelManagement = () => {
               <Paper withBorder p="md" radius="md">
                 <Grid>
                   <Grid.Col span={12}>
-                    <Title fw={500} fz="lg" order={4} color="dark.4">Input Data</Title>
+                    <Title fw={500} fz="lg" order={4} color="dark.4">Dữ liệu đã nhập</Title>
                   </Grid.Col>
                   <Grid.Col span={12}>
                     <DatePickerInput
-                      placeholder="Pick date"
+                      placeholder="Chọn một ngày"
                       value={inputDataDate}
                       onChange={setInputDataDate}
                       size="md"
@@ -139,7 +139,7 @@ export const ModelManagement = () => {
                     />
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button variant={"light"} w="100%" size="md" radius="md">Download CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md">Tải file CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -148,11 +148,11 @@ export const ModelManagement = () => {
               <Paper withBorder p="md" radius="md">
                 <Grid>
                   <Grid.Col span={12}>
-                    <Title fw={500} fz="lg" order={4} color="dark.4">Prediction Result</Title>
+                    <Title fw={500} fz="lg" order={4} color="dark.4">Kết quả dự đoán</Title>
                   </Grid.Col>
                   <Grid.Col span={12}>
                     <DatePickerInput
-                      placeholder="Pick date"
+                      placeholder="Chọn một ngày"
                       value={predictDate}
                       onChange={setPredictDate}
                       size="md"
@@ -160,7 +160,7 @@ export const ModelManagement = () => {
                     />
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button variant={"light"} w="100%" size="md" radius="md">Download CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md">Tải file CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -171,26 +171,26 @@ export const ModelManagement = () => {
           <Paper withBorder p="md" radius="md" h="100%">
             <Grid>
               <Grid.Col span={12}>
-                <Title fw={500} fz="lg" order={4} color="dark.4">Accuracy from user's feedback</Title>
+                <Title fw={500} fz="lg" order={4} color="dark.4">Độ chính xác theo phản hồi của người dùng</Title>
               </Grid.Col>
               <Grid.Col span={5} ta="center">
                 <IconStar color={theme.colors.cyan[7]} size={200}/>
-                <Text fz="xl" fw={500}>Normal</Text>
+                <Text fz="xl" fw={500}>Chính xác</Text>
                 <Text fz="sm" fw={500}>({mockAccuracy.reduce((sum, accuracy) => sum + accuracy.value, 0)} rates)</Text>
               </Grid.Col>
               <Grid.Col span={7}>
                 <Grid>
                   <Grid.Col span={6}>
                     <Select
-                      placeholder="District"
+                      placeholder="Quận huyện"
                       searchable
                       nothingFound="No options"
                       size="md"
                       radius="md"
                       data={getDistricts().map((district) => (
                         {
-                          label: district.district_code,
-                          value: district.district_name
+                          label: district.district_name,
+                          value: district.district_code
                         }
                       ))}
                       onChange={setDistrict}
@@ -198,7 +198,7 @@ export const ModelManagement = () => {
                   </Grid.Col>
                   <Grid.Col span={6}>
                     <Select
-                      placeholder="Ward"
+                      placeholder="Phường/xã"
                       searchable
                       nothingFound="No options"
                       searchValue={wardSearch}
@@ -217,7 +217,7 @@ export const ModelManagement = () => {
                   </Grid.Col>
                   <Grid.Col span={6}>
                     <DatePickerInput
-                      placeholder="From date"
+                      placeholder="Ngày bắt đầu"
                       value={fromDate}
                       onChange={setFromDate}
                       size="md"
@@ -226,7 +226,7 @@ export const ModelManagement = () => {
                   </Grid.Col>
                   <Grid.Col span={6}>
                     <DatePickerInput
-                      placeholder="To date"
+                      placeholder="Ngày kết thúc"
                       value={toDate}
                       onChange={setToDate}
                       size="md"
@@ -248,7 +248,7 @@ export const ModelManagement = () => {
                       .then(() => showUploadedNotification())
                       .catch(() => showWrongFileNotification())
                     }>
-              Upload data
+              Tải dữ liệu lên
             </Button>
           </Paper>
         </Grid.Col>

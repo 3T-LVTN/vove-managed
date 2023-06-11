@@ -91,13 +91,12 @@ export function DropzoneButton({uploadFile, setUploadFile}: DropzoneButtonProps)
           </Group>
 
           <Text ta="center" fw={700} fz="lg" mt="xl">
-            <Dropzone.Accept>Drop files here</Dropzone.Accept>
-            <Dropzone.Reject>Csv file less than 30mb</Dropzone.Reject>
-            <Dropzone.Idle>Upload data</Dropzone.Idle>
+            <Dropzone.Accept>Thả file vào ô này</Dropzone.Accept>
+            <Dropzone.Reject>Định dạng file CSV nhẹ hơn 30mb</Dropzone.Reject>
+            <Dropzone.Idle>Tải dữ liệu lên</Dropzone.Idle>
           </Text>
           <Text ta="center" fz="sm" mt="xs" c="dimmed">
-            Drag&apos;n&apos;drop files here to upload. We can accept only <i>.csv</i> files that
-            are less than 30mb in size.
+            Kéo thả file vào ô này để tải dữ liệu lên, hệ thống chỉ chấp nhận file CSV nhẹ hơn 30mb
           </Text>
         </div>
       </Dropzone>
