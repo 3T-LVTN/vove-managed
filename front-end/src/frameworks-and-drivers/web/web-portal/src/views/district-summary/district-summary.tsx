@@ -93,7 +93,7 @@ const getSummary = async (
   let mapWard2District: Record<string, string>
   let mapDistrict2Id: Record<string, number>
   let mapRate2Number: Record<string, number> = {}
-  let idx = 0 
+  let idx = 0
   inp.forEach((val, index) => {
     mapDistrict2Id = {
       ...mapDistrict2Id, [val.district_name]: index
@@ -368,7 +368,7 @@ const DistrictSummary = () => {
 
   return (
     <Container fluid>
-      <PageTitle title={'District Summary'} />
+      <PageTitle title={'Tổng quan tình hình TP.HCM'} />
       <Grid>
         <Modal
           opened={
@@ -426,7 +426,7 @@ const DistrictSummary = () => {
                         <td>{(row.number["LOW_RISK"] ?? 0) + (row.number["NORMAL"] ?? 0)+ (row.number["SAFE"] ?? 0)+(row.number["HIGH_RISK"] ?? 0)}</td>
                         <td>{row.number["SAFE"]??0}</td>
                         <td>{row.number["NORMAL"]??0}</td>
-                        <td>{row.number["LOW_RISK"]??0}</td>                        
+                        <td>{row.number["LOW_RISK"]??0}</td>
                       </tr>
                     ))
                   ) : (

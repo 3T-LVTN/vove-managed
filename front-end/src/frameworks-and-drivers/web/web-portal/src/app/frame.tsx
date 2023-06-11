@@ -100,7 +100,7 @@ export const Frame = () => {
                       .then(() => navigate("/login"))}
                     icon={<IconLogout size="1rem" stroke={1.5}/>}
                   >
-                    Logout
+                    Đăng xuất
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>

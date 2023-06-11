@@ -112,7 +112,7 @@ const InquiryDetail = () => {
 
   return (
     <Container>
-      <PageTitle title={"Inquiry Detail"}/>
+      <PageTitle title={"Chi tiết yêu cầu hỗ trợ"}/>
       <Paper withBorder p="md" radius="md">
         <Title order={1} mb="xs">{inquiryRequest?.title}</Title>
         <Text mb="xs"><b>Time:</b> {inquiryRequest?.time}</Text>

@@ -2680,3 +2680,19 @@ export const getWard = (districtName: string, wardName: string) => {
     locationCode: ward.name,
   };
 };
+
+
+export  const getRate= (value: string) =>  {
+  switch (value) {
+    case "LOW_RISK":
+      return "Nguy cơ thấp"
+    case "HIGH_RISK":
+      return "Nguy cơ cao"
+    case "NORMAL":
+      return "Bình thường"
+    case "SAFE":
+      return "An toàn"
+    default:
+      return "";
+  }
+}

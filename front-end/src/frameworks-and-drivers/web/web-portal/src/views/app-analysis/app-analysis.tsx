@@ -16,16 +16,16 @@ const AppAnalysis = () => {
         <Grid>
           <Grid.Col span={12}>
             <Group position={"apart"}>
-              <PageTitle title={"App Analysis" + (viewBy === "place" ? " - Places" : " - Time")}/>
+              <PageTitle title={"Thống kê sử dụng ứng dụng" + (viewBy === "place" ? " theo khu vực" : " theo thời gian")}/>
               <Tabs.List>
                 <Tabs.Tab value="place">
                   <Text fw={700} size="md">
-                    By Places
+                    Khu vực
                   </Text>
                 </Tabs.Tab>
                 <Tabs.Tab value="time">
                   <Text fw={700} size="md">
-                    By Time
+                    Thời gian
                   </Text>
                 </Tabs.Tab>
               </Tabs.List>

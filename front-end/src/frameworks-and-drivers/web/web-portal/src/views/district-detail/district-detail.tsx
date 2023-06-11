@@ -19,7 +19,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {IconChevronsLeft, IconRefresh} from "@tabler/icons-react";
 import axios from "axios";
-import {getWards} from "@front-end/shared/administrative-division";
+import {getRate, getWards} from "@front-end/shared/administrative-division";
 
 interface WardStatus {
   id: number;
@@ -226,7 +226,7 @@ const DistrictDetail = () => {
           row.status === "LOW RISK" ? "orange" : (
             row.status === "NORMAL" ? "yellow" : ""
           ))}>
-          {row.status}
+          {getRate(row.status)}
         </Badge>
       </td>
     </tr>

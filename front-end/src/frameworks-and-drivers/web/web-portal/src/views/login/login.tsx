@@ -70,25 +70,25 @@ export const Login = () => {
                   color="dark.4"
                   sx={(theme) => ({fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900})}
                 >
-                  Welcome Back!
+                  Xin chào!
                 </Title>
                 <TextInput
                   placeholder="Email"
-                  label="Username"
+                  label="Tên đăng nhập"
                   withAsterisk
                   {...form.getInputProps('email')}
                 />
                 <PasswordInput
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   label="Password"
                   withAsterisk
                   {...form.getInputProps('password')}
                 />
                 <Anchor size="sm" href="reset-password">
-                  Forgot password?
+                  Quên mật khẩu?
                 </Anchor>
                 <Button type="submit" mt="md">
-                  Log In
+                  Đăng nhập
                 </Button>
               </Stack>
             </form>

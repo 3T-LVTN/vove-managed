@@ -183,7 +183,7 @@ const InquiryList = () => {
 
   return (
     <Container fluid>
-      <PageTitle title={"Inquiry List"}></PageTitle>
+      <PageTitle title={"Danh sách yêu cầu hỗ trợ"}></PageTitle>
       <MantineReactTable
         columns={columns}
         data={tableData}

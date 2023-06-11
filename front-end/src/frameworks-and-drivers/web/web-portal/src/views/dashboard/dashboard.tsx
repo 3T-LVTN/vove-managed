@@ -13,7 +13,7 @@ import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import AppAnalysisSummary from "../../components/app-analysis-summary/app-analysis-summary";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 import {useNavigate} from "react-router-dom";
-import {getDistricts} from '@front-end/shared/administrative-division';
+import {getDistricts, getRate} from '@front-end/shared/administrative-division';
 import axios from 'axios';
 import {Status} from "@front-end/domain/entities/inquiry";
 import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
@@ -196,7 +196,7 @@ export const Dashboard = () => {
         datasets.push(val[1]);
       });
       setDashboardData({
-        labels: labels,
+        labels: labels.map((value)=>getRate(value)),
         datasets: [{ data: datasets }]
       })
     }).catch((e) => console.log(e))
@@ -207,7 +207,7 @@ export const Dashboard = () => {
 
 
   return (<Container size="xl" fluid={true}>
-    <PageTitle title="Tổng quan toàn thành phố"/>
+    <PageTitle title="Tổng quan"/>
     <Grid>
       <Grid.Col md={6} lg={4}>
         <LoadingWrapper

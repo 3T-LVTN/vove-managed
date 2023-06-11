@@ -4,7 +4,7 @@ import {PageTitle} from "./page-title";
 describe("PageTitle", () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <PageTitle title={"Tổng quan toàn thành phố"} />
+      <PageTitle title={"Tổng quan"} />
     );
     expect(baseElement).toBeTruthy();
   });

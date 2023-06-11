@@ -119,7 +119,7 @@ export const ModelManagement = () => {
 
   return (
     <Container size="xl" fluid={true}>
-      <PageTitle title="Model Management"/>
+      <PageTitle title="Quản lý mô hình dự đoán"/>
       <Grid>
         <Grid.Col md={12} lg={4}>
           <Grid>
