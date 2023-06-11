@@ -12,28 +12,28 @@ const AppAnalysisByTime = () => {
 
   useEffect(() => {
       setLabels([
-        'Thu Duc City',
-        'District 1',
-        'District 3',
-        'District 4',
-        'District 5',
-        'District 6',
-        'District 7',
-        'District 8',
-        'District 10',
-        'District 11',
-        'District 12',
-        'Binh Tan',
-        'Binh Thanh',
-        'Go Vap',
-        'Phu Nhuan',
-        'Tan Binh',
-        'Tan Phu',
-        'Binh Chanh',
-        'Can Gio',
-        'Cu Chi',
-        'Hoc Mon',
-        'Nha Be',
+        'Thành phố Thủ Đức',
+        'Quận 1',
+        'Quận 3',
+        'Quận 4',
+        'Quận 5',
+        'Quận 6',
+        'Quận 7',
+        'Quận 8',
+        'Quận 10',
+        'Quận 11',
+        'Quận 12',
+        'Bình Tân',
+        'Bình Thạnh',
+        'Gò Vấp',
+        'Phú Nhuận',
+        'Tân Bình',
+        'Tân Phú',
+        'Bình Chánh',
+        'Cần Giờ',
+        'Củ Chi',
+        'Hóc Môn',
+        'Nhà Bè',
       ]);
     }
     , []);
@@ -43,17 +43,17 @@ const AppAnalysisByTime = () => {
       <Grid.Col span={12}>
         <Paper withBorder radius="md" p="md">
           <BarChart
-            title={"User"}
+            title={"Người dùng ứng dụng"}
             labels={labels}
             datasets={[
               {
-                label: 'New Users',
-                data: [6, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 3, 0],
+                label: 'Số người dùng mới',
+                data: [3, 0, 0, 5, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 3, 0],
                 backgroundColor: secondColor,
               },
               {
-                label: 'Number of Users',
-                data: [6, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 3, 0],
+                label: 'Số người dùng',
+                data: [5, 5, 0, 10, 0, 5, 3, 3, 2, 2, 0, 0, 4, 4, 2, 1, 1, 1, 2, 1, 3, 1],
                 backgroundColor: firstColor,
               },
             ]}
@@ -63,11 +63,11 @@ const AppAnalysisByTime = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <BarChart
-            title={"Average Feedback"}
+            title={"Trung bình phản hồi"}
             labels={labels}
             datasets={[
               {
-                label: 'Average Feedback',
+                label: 'Trung bình phản hồi',
                 data: [0.83, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1.67, 0],
                 backgroundColor: firstColor,
               },
@@ -78,11 +78,11 @@ const AppAnalysisByTime = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <BarChart
-            title={"Visit"}
+            title={"Số lượt truy cập"}
             labels={labels}
             datasets={[
               {
-                label: 'Number of visits',
+                label: 'Số lượt truy cập',
                 data: [26, 0, 0, 8, 0, 0, 0, 0, 12, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 33, 0],
                 backgroundColor: firstColor,
               },
@@ -93,16 +93,16 @@ const AppAnalysisByTime = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <BarChart
-            title={"Inquiry"}
+            title={"Yêu cầu hỗ trợ"}
             labels={labels}
             datasets={[
               {
-                label: 'Open inquiry',
+                label: 'Số yêu cầu đang xử lý',
                 data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
                 backgroundColor: secondColor,
               },
               {
-                label: 'All inquiry',
+                label: 'Số yêu cầu',
                 data: [5, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
                 backgroundColor: firstColor,
               },
@@ -113,11 +113,11 @@ const AppAnalysisByTime = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <BarChart
-            title={"Tracking Points"}
+            title={"Số vị trí theo dõi"}
             labels={labels}
             datasets={[
               {
-                label: 'Number of Tracking Points Registered',
+                label: 'Số vị trí theo dõi đã được đăng ký',
                 data: [9, 0, 0, 1, 0, 0, 0, 0, 6, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 11, 0],
                 backgroundColor: firstColor,
               },

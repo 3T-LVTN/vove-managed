@@ -20,7 +20,7 @@ const AppAnalysisByPlace = () => {
   const secondColor = theme.colors.orange[4];
 
   useEffect(() => {
-      setLabels(['June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May']);
+      setLabels(['Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12', 'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5','Tháng 6']);
     }
     , []);
 
@@ -37,10 +37,10 @@ const AppAnalysisByPlace = () => {
               <Group>
                 <div>
                   <Text weight={700}>
-                    New User
+                    Số người dùng mới
                   </Text>
                   <Text weight={700}>
-                    Access Times
+                    Số lượt truy cập
                   </Text>
                 </div>
                 <div>
@@ -57,10 +57,10 @@ const AppAnalysisByPlace = () => {
               <Group>
                 <div>
                   <Text weight={700}>
-                    Tracking Points
+                    Số vị trí theo dõi
                   </Text>
                   <Text weight={700}>
-                    Tracking Points/User
+                    Số vị trí theo dõi/người dùng
                   </Text>
                 </div>
                 <div>
@@ -77,10 +77,10 @@ const AppAnalysisByPlace = () => {
               <Group>
                 <div>
                   <Text weight={700}>
-                    Inquiries
+                    Số yêu cầu hỗ trợ
                   </Text>
                   <Text weight={700}>
-                    Average Feedback
+                    Trung bình phản hồi
                   </Text>
                 </div>
                 <div>
@@ -99,18 +99,18 @@ const AppAnalysisByPlace = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={"Users"}
+            title={"Người dùng ứng dụng"}
             labels={labels}
             datasets={[
               {
-                label: 'New User',
-                data: [10, 30, 39, 20, 25, 44, 50, 10, 30, 39, 20, 25],
+                label: 'Người dùng mới',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 10],
                 borderColor: firstColor,
                 backgroundColor: firstColor,
               },
               {
-                label: 'Access Times',
-                data: [20, 29, 30, 10, 15, 35, 40, 20, 29, 30, 10, 15],
+                label: 'Số lượt truy cập',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 20, 30, 60, 100],
                 borderColor: secondColor,
                 backgroundColor: secondColor,
               },
@@ -121,18 +121,18 @@ const AppAnalysisByPlace = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={"Tracking Points"}
+            title={"Vị trí theo dõi"}
             labels={labels}
             datasets={[
               {
-                label: 'Tracking Points',
-                data: [10, 30, 39, 20, 25, 44, 50, 10, 30, 39, 20, 25],
+                label: 'Vị trí theo dõi',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 4, 15, 50, 150],
                 borderColor: firstColor,
                 backgroundColor: firstColor
               },
               {
-                label: 'Tracking Points/Users',
-                data: [20, 29, 30, 10, 15, 35, 40, 20, 29, 30, 10, 15],
+                label: 'Số vị trí theo dõi/người dùng',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 10, 10],
                 borderColor: secondColor,
                 backgroundColor: secondColor,
               },
@@ -143,12 +143,12 @@ const AppAnalysisByPlace = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={"Feedback"}
+            title={"Phản hồi về dự đoán"}
             labels={labels}
             datasets={[
               {
-                label: 'Average Feedback',
-                data: [20, 29, 30, 10, 15, 35, 40, 20, 29, 30, 10, 15],
+                label: 'Trung bình phản hồi',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 2.5, 2.4, 2.8, 2.7],
                 borderColor: firstColor,
                 backgroundColor: firstColor,
               },
@@ -159,12 +159,12 @@ const AppAnalysisByPlace = () => {
       <Grid.Col md={6} sm={12}>
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={"Inquiry"}
+            title={"Yêu cầu hỗ trợ"}
             labels={labels}
             datasets={[
               {
-                label: 'Inquiry Number',
-                data: [10, 30, 39, 20, 25, 44, 50, 10, 30, 39, 20, 25],
+                label: 'Số yêu cầu hỗ trợ',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 5, 10],
                 borderColor: firstColor,
                 backgroundColor: firstColor
               }

@@ -45,8 +45,6 @@ interface DistrictSummary {
 }
 
 interface DistrictLocation {
-  // lat?: number;
-  // lng?: number;
   district_name: string;
   wards: {
     lat: number;
@@ -439,7 +437,8 @@ const DistrictSummary = () => {
                 </tbody>
               </Table>
             </ScrollArea>
-          </Paper>        </Grid.Col>
+          </Paper>
+        </Grid.Col>
       </Grid>
     </Container>
   );

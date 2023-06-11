@@ -34,40 +34,40 @@ const AppAnalysis = () => {
           <Grid.Col span={12}>
             <Group position={"left"}>
               <Select
-                placeholder="Choose time period"
+                placeholder="Chọn khoảng thời gian"
                 data={[
-                  {value: '1d', label: '1 day'},
-                  {value: '1w', label: '1 week'},
-                  {value: '1m', label: '1 month'},
-                  {value: '3m', label: '3 months'},
-                  {value: '6m', label: '6 months'},
-                  {value: '1y', label: '1 year (default)', selected: true},
-                  {value: 'all', label: 'All time'}
+                  {value: '1d', label: '1 ngày'},
+                  {value: '1w', label: '1 tuần'},
+                  {value: '1m', label: '1 tháng'},
+                  {value: '3m', label: '3 tháng'},
+                  {value: '6m', label: '6 tháng'},
+                  {value: '1y', label: '1 năm', selected: true},
+                  {value: 'all', label: 'Tất cả'}
                 ]}
               />
               {viewBy === "place" ?
                 <Select
-                  placeholder="Choose area"
+                  placeholder="Chọn khu vực"
                   data={[
-                    {value: '1', label: 'Thu Duc City', selected: true},
-                    {value: '2', label: 'District 1'},
-                    {value: '3', label: 'District 3'},
-                    {value: '4', label: 'District 4'},
-                    {value: '5', label: 'District 5'},
-                    {value: '6', label: 'District 6'},
-                    {value: '7', label: 'District 7'},
-                    {value: '8', label: 'District 8'},
-                    {value: '9', label: 'District 10'},
-                    {value: '10', label: 'District 11'},
-                    {value: '11', label: 'District 12'},
-                    {value: '12', label: 'Hoc Mon'},
+                    {value: '1', label: 'Thành phố Thủ Đức', selected: true},
+                    {value: '2', label: 'Quận 1'},
+                    {value: '3', label: 'Quận 3'},
+                    {value: '4', label: 'Quận 4'},
+                    {value: '5', label: 'Quận 5'},
+                    {value: '6', label: 'Quận 6'},
+                    {value: '7', label: 'Quận 7'},
+                    {value: '8', label: 'Quận 8'},
+                    {value: '9', label: 'Quận 10'},
+                    {value: '10', label: 'Quận 11'},
+                    {value: '11', label: 'Quận 12'},
+                    {value: '12', label: 'Hóc Môn'},
                   ]}
                 />
                 :
                 null
               }
               <Button variant={"light"}>
-                Apply
+                Áp dụng
               </Button>
             </Group>
           </Grid.Col>
