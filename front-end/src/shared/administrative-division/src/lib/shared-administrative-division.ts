@@ -2656,9 +2656,9 @@ export const getDistricts = () => {
   });
 };
 
-export const getWards = (districtName: string) => {
+export const getWards = (districtCode: string) => {
   const district = administrativeDivision.find(
-    (district) => district.district_name === districtName
+    (district) => district.district_code === districtCode
   );
   if (!district) throw new Error('District not found');
   return district.wards.map((ward,index) => ({

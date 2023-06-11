@@ -8,7 +8,6 @@ interface InquiryRequest {
   title: string;
   time: string;
   author: string;
-  email: string;
   phoneNumber: string;
   address: string;
   content: string;
@@ -24,13 +23,12 @@ interface Comment {
 
 const mockData: InquiryRequest = {
   id: "001",
-  title: "Need more information about data sources and accuracy",
+  title: "Cần thêm thông tin về nguồn dữ liệu và độ chính xác",
   time: "2023-05-06 10:30:00",
-  author: "Nguyễn Mai Thy",
-  email: "cloudythy@gmail.com",
+  author: "Mai Thy",
   phoneNumber: "0394143031",
-  address: "Xã Tân Xuân, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
-  content: "I am writing to inquire about your epidemic forecast service. I am interested in using your service to help me better understand the likelihood and severity of potential disease outbreaks in my area. Can you provide me with more information about the data sources you use and the accuracy of your forecasts? Additionally, can you tell me more about the range of diseases that your service covers and the methods you use for analyzing and predicting outbreaks?",
+  address: "Vinalink Logistics, Đường Nguyễn Tất Thành, Phường 13, Quận 4, Thành phố Hồ Chí Minh, 854020, Việt Nam",
+  content: "Tôi viết thư này để hỏi về dịch vụ dự báo dịch bệnh của bạn. Tôi muốn sử dụng dịch vụ của bạn để giúp tôi hiểu rõ hơn về khả năng và mức độ nghiêm trọng của các đợt bùng phát dịch bệnh tiềm ẩn trong khu vực của tôi. Bạn có thể cung cấp cho tôi thêm thông tin về các nguồn dữ liệu mà bạn sử dụng và độ chính xác của các dự báo của bạn? Ngoài ra, bạn có thể cho tôi biết thêm về phạm vi bệnh mà dịch vụ của bạn bao gồm và các phương pháp bạn sử dụng để phân tích và dự đoán các đợt bùng phát không?",
   status: "Opening",
 }
 
@@ -39,19 +37,19 @@ const mockComment: Comment[] = [
     id: "000",
     isAdmin: true,
     time: "2023-05-06 11:00:00",
-    content: "Hi, thanks for your question. Our data on temperature and precipitation is continuously updated from the common data warehouse. About predicting the epidemic situation, we have written an AI program and trained it very carefully, ensuring the highest accuracy for users."
+    content: "Chào bạn, cảm ơn bạn đã đặt câu hỏi. Dữ liệu về nhiệt độ và lượng mưa được chúng tôi cập nhật liên tục từ kho dữ liệu chung. Về dự đoán tình hình dịch bệnh, chúng tôi đã viết chương trình AI và huấn luyện rất kỹ, đảm bảo độ chính xác cao nhất cho người dùng."
   },
   {
     id: "001",
     isAdmin: false,
     time: "2023-05-06 11:30:00",
-    content: "Thanks for fast reply. Can you give me more detail about your AI?"
+    content: "Cảm ơn đã trả lời nhanh chóng. Bạn có thể cho tôi biết thêm chi tiết về mô hình dự đoán của bạn?"
   },
   {
     id: "002",
     isAdmin: true,
     time: "2023-05-06 19:00:00",
-    content: "Sure. It was trained on a large dataset of historical epidemic data, including information on the location, time, and severity of outbreaks. We also included data on the weather conditions in each location at the time of the outbreak. The AI was trained to recognize patterns in the data and to predict the likelihood and severity of outbreaks based on the weather conditions. We have tested the AI on historical data and found that it is able to predict outbreaks with 95% accuracy."
+    content: "Chúng tôi sử dụng model GLMM."
   }
 ];
 
@@ -115,18 +113,17 @@ const InquiryDetail = () => {
       <PageTitle title={"Chi tiết yêu cầu hỗ trợ"}/>
       <Paper withBorder p="md" radius="md">
         <Title order={1} mb="xs">{inquiryRequest?.title}</Title>
-        <Text mb="xs"><b>Time:</b> {inquiryRequest?.time}</Text>
-        <Text mb="xs"><b>Author:</b> {inquiryRequest?.author}</Text>
-        <Text mb="xs"><b>Email:</b> {inquiryRequest?.email}</Text>
-        <Text mb="xs"><b>Phone:</b> {inquiryRequest?.phoneNumber}</Text>
-        <Text mb="xs"><b>Address:</b> {inquiryRequest?.address}</Text>
-        <Text mb="xs"><b>Content:</b> {inquiryRequest?.content}</Text>
+        <Text mb="xs"><b>Thời gian:</b> {inquiryRequest?.time}</Text>
+        <Text mb="xs"><b>Người gửi:</b> {inquiryRequest?.author}</Text>
+        <Text mb="xs"><b>Số điện thoại:</b> {inquiryRequest?.phoneNumber}</Text>
+        <Text mb="xs"><b>Địa chỉ:</b> {inquiryRequest?.address}</Text>
+        <Text mb="xs"><b>Nội dung:</b> {inquiryRequest?.content}</Text>
         {inquiryRequest?.status === "Waiting" ?
-          <Button variant={"light"} size="sm">Accept this Inquiry</Button> : ""}
+          <Button variant={"light"} size="sm">Xử lý yêu cầu này</Button> : ""}
       </Paper>
       {inquiryRequest?.status === "Waiting" ? "" :
         <Paper withBorder p="md" radius="md" mt="md">
-          <Title order={2} mb="lg">Comments</Title>
+          <Title order={2} mb="lg">Bình luận</Title>
           {commentList}
           {isCommenting ?
             <Textarea
@@ -138,17 +135,17 @@ const InquiryDetail = () => {
             />
             : ""}
           {inquiryRequest?.status === "Closed" ?
-            <Button variant={"light"} size="sm">Reopen</Button>
+            <Button variant={"light"} size="sm">Mở lại yêu cầu</Button>
             :
             isCommenting ?
               <Group>
-                <Button variant={"light"} size="sm" onClick={() => confirmComment()}>Comment</Button>
-                <Button variant={"light"} size="sm" onClick={() => cancelComment()} color="red">Cancel</Button>
+                <Button variant={"light"} size="sm" onClick={() => confirmComment()}>Bình luận</Button>
+                <Button variant={"light"} size="sm" onClick={() => cancelComment()} color="red">Huỷ</Button>
               </Group>
               :
               <Group>
-                <Button variant={"light"} size="sm" onClick={() => setIsCommenting(true)}>Add comment</Button>
-                <Button variant={"light"} size="sm" color="red">Close inquiry</Button>
+                <Button variant={"light"} size="sm" onClick={() => setIsCommenting(true)}>Thêm bình luận</Button>
+                <Button variant={"light"} size="sm" color="red">Đóng yêu cầu</Button>
               </Group>
           }
         </Paper>

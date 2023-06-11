@@ -10,9 +10,9 @@ import {Status} from "@front-end/domain/entities/inquiry";
 const data: RowData[] = [
   {
     id: "001",
-    title: "My app is slow",
+    title: "Cần thêm thông tin về nguồn dữ liệu và độ chính xác",
     time: "2023-05-01 5:51:00",
-    author: "Nguyen Mai Thy",
+    author: "Mai Thy",
     lastResponse: "User",
     status: Status.WAITING,
   },
@@ -142,39 +142,40 @@ const InquiryList = () => {
 
   const columns = useMemo<MRT_ColumnDef<RowData>[]>(
     () => [
-      {
-        accessorKey: 'id',
-        header: 'ID',
-        size: 50,
-      },
+      // {
+      //   accessorKey: 'id',
+      //   header: 'ID',
+      //   size: 50,
+      // },
       {
         accessorKey: 'title',
-        header: 'Title',
+        header: 'Tiêu đề',
         size: 300,
       },
       {
         accessorKey: 'time',
-        header: 'Time',
+        header: 'Thời gian',
         size: 130,
       },
       {
         accessorKey: 'author',
-        header: 'Author',
+        header: 'Người gửi',
         size: 130,
       },
       {
         accessorKey: 'lastResponse',
-        header: 'Last Response',
+        header: 'Phản hồi cuối',
         size: 10,
       },
       {
         accessorKey: 'status',
-        header: 'Status',
+        header: 'Trạng thái',
         size: 50,
         Cell: ({cell}) => (
           <Badge variant={"light"} color={cell.getValue<string>() === "Waiting" ? "yellow" :
             cell.getValue<string>() === "Closed" ? "gray" : ""}>
-            {cell.getValue<string>()}
+            {/*{cell.getValue<string>()}*/}
+            Đang mở
           </Badge>
         )
       },
@@ -200,6 +201,10 @@ const InquiryList = () => {
           showGlobalFilter: true,
         }}
 
+        mantineSearchTextInputProps={{
+          placeholder: 'Tìm kiếm',
+        }}
+
         mantinePaginationProps={{
           showFirstLastPageButtons: true,
           showRowsPerPage: false,
@@ -217,7 +222,13 @@ const InquiryList = () => {
                 size="2rem"/>
             </ActionIcon>
         )}
-        enableRowActions
+        displayColumnDefOptions={{
+          'mrt-row-actions': {
+            header: 'Hành động'
+          },
+        }}
+
+        enableRowActions = {true}
         positionActionsColumn="last"
       />
     </Container>

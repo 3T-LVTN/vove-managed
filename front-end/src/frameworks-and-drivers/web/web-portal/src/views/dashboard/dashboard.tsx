@@ -141,7 +141,7 @@ export const Dashboard = () => {
   const mockInquiries: InquiryViewModel[] = [
     {
       id: "1",
-      author: "Nguyen Mai Thy",
+      author: "Mai Thy",
       time: "2023-06-04T23:21:20.711Z",
       addressName: "Address 1",
       title: "The predict results at my living area is incorrect",
@@ -149,7 +149,7 @@ export const Dashboard = () => {
     },
     {
       id: "2",
-      author: "Le Tran Hoang Thinh",
+      author: "Pham Hoang Vu",
       time: "04/05/2023 16:16",
       addressName: "Address 2",
       title: "I can't find my place on your map",
