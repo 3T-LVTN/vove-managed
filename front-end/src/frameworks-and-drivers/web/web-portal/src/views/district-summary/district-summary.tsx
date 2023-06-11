@@ -57,6 +57,7 @@ interface DistrictLocation {
 
 interface DistrictSummaryApiRequest {
   locations: {
+    idx?: number,
     lat: number,
     lng: number,
     locationCode: string
@@ -92,12 +93,14 @@ const getSummary = async (
   let mapWard2District: Record<string, string>
   let mapDistrict2Id: Record<string, number>
   let mapRate2Number: Record<string, number> = {}
+  let idx = 0 
   inp.forEach((val, index) => {
     mapDistrict2Id = {
       ...mapDistrict2Id, [val.district_name]: index
     }
     val.wards.forEach((ward) => {
-      body.locations.push(ward)
+      idx += 1
+      body.locations.push({...ward, idx: idx})
       mapWard2District = {
         ...mapWard2District,
         [ward.locationCode]: val.district_name
