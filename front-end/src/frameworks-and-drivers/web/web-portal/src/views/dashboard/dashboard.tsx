@@ -207,7 +207,7 @@ export const Dashboard = () => {
 
 
   return (<Container size="xl" fluid={true}>
-    <PageTitle title="Dashboard"/>
+    <PageTitle title="Tổng quan toàn thành phố"/>
     <Grid>
       <Grid.Col md={6} lg={4}>
         <LoadingWrapper

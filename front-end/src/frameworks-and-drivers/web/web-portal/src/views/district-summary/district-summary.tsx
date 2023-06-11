@@ -409,19 +409,19 @@ const DistrictSummary = () => {
               <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} highlightOnHover>
                 <thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
                   <tr>
-                    <th>Id</th>
+                    <th>STT</th>
                     <th>Tên huyện</th>
-                    <th>Số lượng xã</th>
-                    <th>Số lượng xã thuộc top 75%</th>
-                    <th>Số lượng xã thuộc top 50%</th>
-                    <th>Số lượng xã thuộc top 25%</th>
+                    <th>Số lượng phường/xã</th>
+                    <th>Số lượng phường/xã thuộc top 75%</th>
+                    <th>Số lượng phường/xã thuộc top 50%</th>
+                    <th>Số lượng phường/xã thuộc top 25%</th>
                   </tr>
                 </thead>
                 <tbody>
                   {districtSummary.length > 0 ? (
                     districtSummary.map((row) => (
                       <tr key={row.districtId} onClick={() => navigate(`/districts/${row.districtName}`)} style={{ cursor: "pointer" }}>
-                        <td>{row.districtId}</td>
+                        <td>{row.districtId + 1}</td>
                         <td>{row.districtName}</td>
                         <td>{(row.number["LOW_RISK"] ?? 0) + (row.number["NORMAL"] ?? 0)+ (row.number["SAFE"] ?? 0)+(row.number["HIGH_RISK"] ?? 0)}</td>
                         <td>{row.number["SAFE"]??0}</td>

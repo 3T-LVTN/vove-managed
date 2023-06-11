@@ -185,13 +185,13 @@ const WardDetail = () => {
               <Title order={2}>{rate}</Title>
             </Group>
             <Text size="lg">
-              <b>Số lượng dự đoán:</b> {data?.values?.slice(-1)[0]}
+              <b>Số lượng dự đoán:</b> {data?.values?.slice(-1)[0].toFixed(2)}
             </Text>
             <Text size="lg">
-              <b>Nhiệt độ:</b> {data?.temp?.slice(-1)[0]}
+              <b>Nhiệt độ:</b> {data?.temp?.slice(-1)[0].toFixed(2)}
             </Text>
             <Text size="lg">
-              <b>Lượng mưa:</b> {data?.rain?.slice(-1)[0]}
+              <b>Lượng mưa:</b> {data?.rain?.slice(-1)[0].toFixed(2)}
             </Text>
             <Text size="lg">
               <b>User response:</b> Normal

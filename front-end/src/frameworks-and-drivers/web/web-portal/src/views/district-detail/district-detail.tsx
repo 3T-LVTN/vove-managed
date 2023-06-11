@@ -217,10 +217,10 @@ const DistrictDetail = () => {
   const rows = data.map((row) => (
     <tr key={row.id} onClick={() => navigate(`wards/${row.wardName??row.locationCode}`)} style={{cursor: "pointer"}}>
       <td>{row.id+1}</td>
-      <td>{row.wardName}</td>
-      <td>{row.mosquitoAmount}</td>
-      <td>{row.rainMeter}</td>
-      <td>{row.temperature}</td>
+      <td>{(row.wardName?row.wardName.length:0) <= 2?"Phường "+row.wardName:row.wardName}</td>
+      <td>{row.mosquitoAmount.toFixed(2)}</td>
+      <td>{row.rainMeter.toFixed(2)}</td>
+      <td>{row.temperature.toFixed(2)}</td>
       <td>
         <Badge variant="light" size="lg" color={row.status === "HIGH RISK" ? "red" : (
           row.status === "LOW RISK" ? "orange" : (
@@ -232,7 +232,7 @@ const DistrictDetail = () => {
     </tr>
   ));
 
-  const labels = data.map((districtStatus) => districtStatus.locationCode);
+  const labels = data.map((wardStatus) => (wardStatus.wardName?wardStatus.wardName.length:0) <= 2?"Phường "+wardStatus.wardName:wardStatus.wardName??"");
   const date = new Date();
   const time = date.toLocaleTimeString() + " - " + date.toLocaleDateString();
 
@@ -335,8 +335,8 @@ const DistrictDetail = () => {
               <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} highlightOnHover>
                 <thead className={cx(classes.header, {[classes.scrolled]: scrolled})}>
                 <tr>
-                  <th>Id</th>
-                  <th>Tên xã</th>
+                  <th>STT</th>
+                  <th>Tên phường/xã</th>
                   <th>Số lượng dự đoán</th>
                   <th>Lượng mưa (mm)</th>
                   <th>Nhiệt độ (°C) </th>
