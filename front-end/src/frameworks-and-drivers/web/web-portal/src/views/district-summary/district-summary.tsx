@@ -378,7 +378,7 @@ const DistrictSummary = () => {
           onClose={() => searchHeatmapModalController.setIsModalOpened(false)}
           title={
             <Text color="dark.4" fw={900}>
-              HCMC Mosquito Heatmap
+              Heatmap phân bố muỗi ở TP.HCM
             </Text>
           }
           centered={true}
