@@ -2660,7 +2660,8 @@ export const getWards = (districtName: string) => {
     (district) => district.district_name === districtName
   );
   if (!district) throw new Error('District not found');
-  return district.wards.map((ward) => ({
+  return district.wards.map((ward,index) => ({
+    idx: index,
     code: ward.ward_code,
     name: ward.ward_name,
     lat: ward.ward_location.lat,

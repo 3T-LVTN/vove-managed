@@ -32,6 +32,7 @@ interface WardStatus {
 }
 
 interface WardLocation {
+  idx:number,
   lat?: number,
   lng?: number,
   locationCode: string

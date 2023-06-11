@@ -57,7 +57,7 @@ interface DistrictLocation {
 
 interface DistrictSummaryApiRequest {
   locations: {
-    idx?: number,
+    idx: number,
     lat: number,
     lng: number,
     locationCode: string
