@@ -156,8 +156,8 @@ const getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
           id: index,
           locationCode: val.locationCode,
           status: val.rate,
-          temperature: val.temperature,
-          rainMeter: val.precip,
+          temperature: (val.temperature-32)/1.8,
+          rainMeter: val.precip*25.4,
           mosquitoAmount: val.value,
         })
       })
@@ -205,7 +205,7 @@ const DistrictDetail = () => {
         (value, idx, _) => {
             return {
               ...value, 
-              wardName: wards[idx].name
+              wardName: wards[idx].name,     
             };
       })
       setData(out)
@@ -305,7 +305,7 @@ const DistrictDetail = () => {
                   datasets={[
                     {
                       label: 'Nhiệt độ (°C)',
-                      data: data.map((districtStatus) => (districtStatus.temperature-32)/1.8),
+                      data: data.map((districtStatus) => (districtStatus.temperature)),
                       backgroundColor: theme.colors.cyan[3],
                     },
                   ]}

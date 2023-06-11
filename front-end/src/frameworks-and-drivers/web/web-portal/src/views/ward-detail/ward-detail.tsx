@@ -18,6 +18,7 @@ import LineChart from '../../components/line-chart/line-chart';
 import { IconChevronsLeft } from '@tabler/icons-react';
 import axios from 'axios';
 import { getWard } from '@front-end/shared/administrative-division';
+import { validateEmail } from '@front-end/shared/utils';
 
 interface GetDetailApiRequest {
   startTime: number;
@@ -67,7 +68,11 @@ const getDetail = async (
   return axios
     .post<GetDetailApiResponse>('/prediction/detail', body)
     .then((response) => {
-      return response.data.data.locationDetail;
+      return response.data.data.locationDetail.map((val)=> {return {
+        ...val,
+        temperature: (val.temperature-32)/1.8,
+        precip: val.precip*25.4
+      }});
     })
     .catch((error) => {
       throw new Error(error);
@@ -102,9 +107,11 @@ const WardDetail = () => {
 
     const year = date.getFullYear();
     const month = date.getMonth();
+    console.log("month", month)
+    console.log("labels", labels)
     const day = date.getDate();
     labels.push(
-      `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`
+      `${year}-${month < 9 ? '0' : ''}${month+1}-${day < 10 ? '0' : ''}${day}`
     );
   }
 
