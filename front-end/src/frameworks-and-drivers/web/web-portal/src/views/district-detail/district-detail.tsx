@@ -216,7 +216,7 @@ const DistrictDetail = () => {
 
   const rows = data.map((row) => (
     <tr key={row.id} onClick={() => navigate(`wards/${row.wardName??row.locationCode}`)} style={{cursor: "pointer"}}>
-      <td>{row.id}</td>
+      <td>{row.id+1}</td>
       <td>{row.wardName}</td>
       <td>{row.mosquitoAmount}</td>
       <td>{row.rainMeter}</td>
@@ -249,7 +249,7 @@ const DistrictDetail = () => {
           Reload
         </Button>
         <Text size="md">
-          Last updated:<b> {time}</b>
+        cập nhật lần cuối:<b> {time}</b>
         </Text>
       </Group>
       <Grid>
@@ -269,17 +269,17 @@ const DistrictDetail = () => {
               <Tabs.List style={{justifyContent: "right"}}>
                 <Tabs.Tab value="rain">
                   <Text fw={700} size="md">
-                    By Rain Meter
+                  Lượng mưa (mm)
                   </Text>
                 </Tabs.Tab>
                 <Tabs.Tab value="temperature">
                   <Text fw={700} size="md">
-                    By Temperature
+                    Nhiệt độ (°C) 
                   </Text>
                 </Tabs.Tab>
                 <Tabs.Tab value="mosquito">
                   <Text fw={700} size="md">
-                    By Mosquito Amount
+                  Số lượng dự đoán
                   </Text>
                 </Tabs.Tab>
               </Tabs.List>
@@ -290,7 +290,7 @@ const DistrictDetail = () => {
                   labels={labels}
                   datasets={[
                     {
-                      label: 'Rain Meter (mm)',
+                      label: 'Lượng mưa (mm)',
                       data: data.map((districtStatus) => districtStatus.rainMeter),
                       backgroundColor: theme.colors.cyan[3],
                     },
@@ -304,8 +304,8 @@ const DistrictDetail = () => {
                   labels={labels}
                   datasets={[
                     {
-                      label: 'Temperature',
-                      data: data.map((districtStatus) => districtStatus.temperature),
+                      label: 'Nhiệt độ (°C)',
+                      data: data.map((districtStatus) => (districtStatus.temperature-32)/1.8),
                       backgroundColor: theme.colors.cyan[3],
                     },
                   ]}
@@ -318,7 +318,7 @@ const DistrictDetail = () => {
                   labels={labels}
                   datasets={[
                     {
-                      label: 'Amount of Mosquito',
+                      label: 'Số lượng dự đoán',
                       data: data.map((districtStatus) => districtStatus.mosquitoAmount),
                       backgroundColor: theme.colors.cyan[3],
                     },
@@ -336,11 +336,11 @@ const DistrictDetail = () => {
                 <thead className={cx(classes.header, {[classes.scrolled]: scrolled})}>
                 <tr>
                   <th>Id</th>
-                  <th>Ward Name</th>
-                  <th>Mosquito Amount</th>
-                  <th>Rain Meter</th>
-                  <th>Temperature</th>
-                  <th>Status</th>
+                  <th>Tên xã</th>
+                  <th>Số lượng dự đoán</th>
+                  <th>Lượng mưa (mm)</th>
+                  <th>Nhiệt độ (°C) </th>
+                  <th>Nhãn</th>
                 </tr>
                 </thead>
                 <tbody>

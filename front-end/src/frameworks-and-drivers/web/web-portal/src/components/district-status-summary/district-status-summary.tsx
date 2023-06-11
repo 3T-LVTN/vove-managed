@@ -90,8 +90,8 @@ export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
     }}>
       <Stack h={"100%"} justify={"center"}>
         <div>
-          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>{pieChartData.datasets.length}</Text>
-          <Text fz="xs" color="dimmed">Districts tracked</Text>
+          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>{pieChartData.datasets[0].data.length}</Text>
+          <Text fz="xs" color="dimmed">xã lấy mẫu</Text>
         </div>
         <GroupTrackingData {...pieChartData}></GroupTrackingData>
       </Stack>

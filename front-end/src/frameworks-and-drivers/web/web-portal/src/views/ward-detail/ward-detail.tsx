@@ -136,7 +136,7 @@ const WardDetail = () => {
       setData(data)
       setRate(value[0].rate)
     });
-  },[]);
+  },[]  );
 
   return (
     <Container fluid>
@@ -144,24 +144,24 @@ const WardDetail = () => {
       <Group mb="md">
         <Button variant={'light'} onClick={() => navigate(-1)}>
           <IconChevronsLeft size={20} />
-          Back to District
+          Back
         </Button>
         <Text size="md">
-          Last updated: <b>{time}</b>
+          Cập nhật lần cuối: <b>{time}</b>
         </Text>
         <Text size="md">Displaying</Text>
         <Select
-          placeholder="Time range"
+          placeholder="Khoảng thời gian"
           size="md"
           radius="md"
           value={value}
           data={[
-            '1 day',
-            '1 week',
-            '1 month',
-            '3 months',
-            '6 months',
-            '1 year',
+            '1 ngày',
+            '1 tuần',
+            '1 tháng',
+            '3 tháng',
+            '6 tháng',
+            '1 năm',
           ]}
           onChange={setValue}
         />
@@ -178,13 +178,13 @@ const WardDetail = () => {
               <Title order={2}>{rate}</Title>
             </Group>
             <Text size="lg">
-              <b>Predict mosquito amount:</b> {data?.values?.slice(-1)[0]}
+              <b>Số lượng dự đoán:</b> {data?.values?.slice(-1)[0]}
             </Text>
             <Text size="lg">
-              <b>Temperature:</b> {data?.temp?.slice(-1)[0]}
+              <b>Nhiệt độ:</b> {data?.temp?.slice(-1)[0]}
             </Text>
             <Text size="lg">
-              <b>Rain meter:</b> {data?.rain?.slice(-1)[0]}
+              <b>Lượng mưa:</b> {data?.rain?.slice(-1)[0]}
             </Text>
             <Text size="lg">
               <b>User response:</b> Normal
@@ -208,11 +208,11 @@ const WardDetail = () => {
 
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={'Temperature'}
+            title={'Nhiệt độ (°C)'}
             labels={labels}
             datasets={[
               {
-                label: 'Temperature',
+                label: 'Nhiệt độ (°C) ',
                 data: data.temp,
                 borderColor: firstColor,
                 backgroundColor: firstColor,
@@ -223,11 +223,11 @@ const WardDetail = () => {
 
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={'Rain meter'}
+            title={'Lượng mưa (mm)'}
             labels={labels}
             datasets={[
               {
-                label: 'Rain meter',
+                label: 'Lượng mưa (mm)',
                 data: data.rain,
                 borderColor: firstColor,
                 backgroundColor: firstColor,
