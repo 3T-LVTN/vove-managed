@@ -19,8 +19,8 @@ interface PieChartVisualizableData {
 }
 
 const DefaultColors =  [
-  "#3BC9DB",
   "#FFD43B",
+  "#3BC9DB",
   "#FFA94D",
   "#FF8787",
 ]

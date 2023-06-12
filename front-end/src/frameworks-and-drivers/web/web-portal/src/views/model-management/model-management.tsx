@@ -110,9 +110,14 @@ export const ModelManagement = () => {
       setWardOptions(getWards(district, false));
       setWard(null);
       setWardSearch('');
-      setMockAccuracy(mockAccuracyOnChanged);
     }
   }, [district]);
+
+  useMemo(() => {
+    if (ward != null) {
+      setMockAccuracy(mockAccuracyOnChanged);
+    }
+  }, [ward]);
 
   const highestAccuracyStat: number = mockAccuracy.reduce((prev, current) => (prev.value > current.value) ? prev : current).value;
 
