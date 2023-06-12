@@ -80,9 +80,9 @@ export const ResetPassword = () => {
 
   const renderResetPassword = () => (
     <Container size={460} my="5%">
-      <Title color="dark.4" fw={900} fs="26rem" align="center">Reset Password</Title>
+      <Title color="dark.4" fw={900} fs="26rem" align="center">Đặt lại mật khẩu</Title>
       <Text color="dimmed" fz="sm" ta="center">
-        Enter your email to get a reset link
+        Nhập email để đặt lại mật khẩu
       </Text>
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
         <form onSubmit={
@@ -103,10 +103,10 @@ export const ResetPassword = () => {
               <Anchor color="dimmed" size="sm" className={classes.control} href="login">
                 <Center inline>
                   <IconArrowLeft size={rem(12)} stroke={1.5}/>
-                  <Box ml={5}>Back to the login page</Box>
+                  <Box ml={5}>Trở lại trang đăng nhập</Box>
                 </Center>
               </Anchor>
-              <Button className={classes.control} type="submit">Reset password</Button>
+              <Button className={classes.control} type="submit">Đặt lại mật khẩu</Button>
             </Group>
           </Stack>
         </form>
