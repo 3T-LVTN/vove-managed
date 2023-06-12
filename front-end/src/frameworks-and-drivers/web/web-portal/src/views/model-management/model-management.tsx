@@ -25,18 +25,33 @@ export interface Accuracy {
   value: number;
 }
 
-const mockAccuracy: Accuracy[] = [
+const mockAccuracyDefault: Accuracy[] = [
   {
     name: 'Chính xác',
-    value: 8
+    value: 9
   },
   {
     name: 'Tạm ổn',
-    value: 9
+    value: 8
   },
   {
     name: 'Sai',
     value: 3
+  }
+];
+
+const mockAccuracyOnChanged: Accuracy[] = [
+  {
+    name: 'Chính xác',
+    value: 5
+  },
+  {
+    name: 'Tạm ổn',
+    value: 3
+  },
+  {
+    name: 'Sai',
+    value: 1
   }
 ];
 
@@ -56,6 +71,8 @@ export const ModelManagement = () => {
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [mockAccuracy, setMockAccuracy] = useState(mockAccuracyDefault);
+  const [canDownloadCSV, setDownloadCSVState] = useState([false, false]);
 
   const fetchData = async () => {
     //TODO: Call API here
@@ -90,9 +107,10 @@ export const ModelManagement = () => {
 
   useMemo(() => {
     if (district != null) {
-      setWardOptions(getWards(district));
+      setWardOptions(getWards(district, false));
       setWard(null);
       setWardSearch('');
+      setMockAccuracy(mockAccuracyOnChanged);
     }
   }, [district]);
 
@@ -133,13 +151,13 @@ export const ModelManagement = () => {
                     <DatePickerInput
                       placeholder="Chọn một ngày"
                       value={inputDataDate}
-                      onChange={setInputDataDate}
+                      onChange={(e) => {setInputDataDate(e); setDownloadCSVState([true, canDownloadCSV[1]])}}
                       size="md"
                       radius="md"
                     />
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button variant={"light"} w="100%" size="md" radius="md">Tải file CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md" disabled={!canDownloadCSV[0]}>Tải file CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -154,13 +172,13 @@ export const ModelManagement = () => {
                     <DatePickerInput
                       placeholder="Chọn một ngày"
                       value={predictDate}
-                      onChange={setPredictDate}
+                      onChange={(e) => {setPredictDate(e); setDownloadCSVState([canDownloadCSV[0], true])}}
                       size="md"
                       radius="md"
                     />
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    <Button variant={"light"} w="100%" size="md" radius="md">Tải file CSV</Button>
+                    <Button variant={"light"} w="100%" size="md" radius="md" disabled={!canDownloadCSV[1]}>Tải file CSV</Button>
                   </Grid.Col>
                 </Grid>
               </Paper>
@@ -193,7 +211,7 @@ export const ModelManagement = () => {
                           value: district.district_code
                         }
                       ))}
-                      onChange={setDistrict}
+                      onChange={(e) => console.log(e)}
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
