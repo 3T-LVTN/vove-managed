@@ -1,103 +1,17 @@
-import {ActionIcon, Badge, Container} from "@mantine/core";
+import {ActionIcon, Badge, Container, Text} from "@mantine/core";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useMemo, useState} from "react";
 import {MantineReactTable, MRT_ColumnDef, MRT_SortingState} from "mantine-react-table";
 import {Query} from "@front-end/shared/utils";
 import {IconArrowUpRight} from "@tabler/icons-react";
 import {useNavigate} from "react-router-dom";
-import {Status} from "@front-end/domain/entities/inquiry";
-
-const data: RowData[] = [
-  {
-    id: "001",
-    title: "Cần thêm thông tin về nguồn dữ liệu và độ chính xác",
-    time: "2023-05-01 5:51:00",
-    author: "Mai Thy",
-    lastResponse: "User",
-    status: Status.WAITING,
-  },
-  {
-    id: "002",
-    title: "Improve disease outbreak tracking",
-    time: "2023-05-02 09:15:00",
-    author: "Le Tran Hoang Thinh",
-    lastResponse: "Admin",
-    status: Status.WAITING,
-  },
-  {
-    id: "003",
-    title: "Add vaccine availability information",
-    time: "2023-05-03 17:20:00",
-    author: "Ung Tuong Phat",
-    lastResponse: "User",
-    status: Status.WAITING,
-  },
-  {
-    id: "004",
-    title: "Improve symptom tracking",
-    time: "2023-05-04 11:00:00",
-    author: "Bui Hai Duong",
-    lastResponse: "Admin",
-    status: Status.WAITING,
-  },
-  {
-    id: "005",
-    title: "Add personalized recommendations",
-    time: "2023-05-05 15:30:00",
-    author: "Doan Thuy Ha",
-    lastResponse: "User",
-    status: Status.WAITING,
-  },
-  {
-    id: "006",
-    title: "Improve data accuracy",
-    time: "2023-05-03 12:27:00",
-    author: "Le Tran Hoang Thinh",
-    lastResponse: "Admin",
-    status: Status.WAITING,
-  },
-  {
-    id: "007",
-    title: "Add support for multiple languages",
-    time: "2023-05-03 12:35:00",
-    author: "Ung Binh Nguyen",
-    lastResponse: "User",
-    status: Status.WAITING,
-  },
-  {
-    id: "008",
-    title: "Improve app accessibility",
-    time: "2023-05-03 12:30:00",
-    author: "Thoa Ngoc Uyen",
-    lastResponse: "Admin",
-    status: Status.WAITING,
-  },
-  {
-    id: "009",
-    title: "The predict results in my living area is incorrect",
-    time: "2023-05-06 19:00:00",
-    author: "Nguyen Mai Thy",
-    lastResponse: "Admin",
-    status: Status.WAITING,
-  },
-  {
-    id: "010",
-    title: "Add travel advisories for disease outbreaks",
-    time: "2023-05-09 14:45:00",
-    author: "Le Tran Hoang Thinh",
-    lastResponse: "User",
-    status: Status.WAITING,
-  },
-];
-
-interface RowData {
-  id: string;
-  title: string;
-  time: string;
-  author: string;
-  lastResponse: "User" | "Admin";
-  status: Status;
-}
+import {CommentEntity, Status} from "@front-end/domain/entities/inquiry";
+import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
+import {InquiryRepository} from "@front-end/application/repositories/inquiry";
+import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
+import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
+import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
+import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 
 const InquiryList = () => {
   const [totalRows, setTotalRows] = useState(0);
@@ -108,9 +22,19 @@ const InquiryList = () => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
-  const [tableData, setTableData] = useState<RowData[]>([]);
+  const [tableData, setTableData] = useState<InquiryViewModel[]>([]);
 
   const navigate = useNavigate();
+
+  const inquiryRepository: InquiryRepository = new InquiryApi();
+  const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
+  const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
+
+  const fetchInquiryList = async () => {
+    const inquiryList = await inquiryController.getInquiries();
+    setTableData(inquiryList);
+    setTotalRows(15);
+  }
 
   const sortingConvert = (sorting: MRT_SortingState): { sort?: string, order?: string } => {
     if (sorting.length === 0) return {};
@@ -130,8 +54,7 @@ const InquiryList = () => {
       limit: pagination.pageSize,
     }
     //TODO: call api
-    setTableData(data);
-    setTotalRows(15);
+    fetchInquiryList()
   };
 
   useEffect(() => {
@@ -140,13 +63,23 @@ const InquiryList = () => {
     fetchData();
   }, [pagination, globalFilter, sorting]);
 
-  const columns = useMemo<MRT_ColumnDef<RowData>[]>(
+  const isAdminLast = (comments: CommentEntity[]) => {
+    if (comments.length === 0) return false;
+    return comments[comments.length - 1].isAdmin;
+  }
+
+  const renderStatusBage = (status: Status) => {
+    return (
+      <Badge variant={"light"} color={status === Status.WAITING ? "yellow" :
+        status === Status.CLOSED ? "gray" : ""}>
+        {status === Status.WAITING ? "Chờ duyệt" :
+          status === Status.CLOSED ? "Đã đóng" : "Đang mở"}
+      </Badge>
+    )
+  }
+
+  const columns = useMemo<MRT_ColumnDef<InquiryViewModel>[]>(
     () => [
-      // {
-      //   accessorKey: 'id',
-      //   header: 'ID',
-      //   size: 50,
-      // },
       {
         accessorKey: 'title',
         header: 'Tiêu đề',
@@ -163,20 +96,19 @@ const InquiryList = () => {
         size: 130,
       },
       {
-        accessorKey: 'lastResponse',
+        accessorKey: 'comments',
         header: 'Phản hồi cuối',
         size: 10,
+        Cell: ({cell}) => (
+          <Text>{isAdminLast(cell.getValue<CommentEntity[]>() ?? []) ? "Admin" : "Người dùng"}</Text>
+        )
       },
       {
         accessorKey: 'status',
         header: 'Trạng thái',
         size: 50,
         Cell: ({cell}) => (
-          <Badge variant={"light"} color={cell.getValue<string>() === "Waiting" ? "yellow" :
-            cell.getValue<string>() === "Closed" ? "gray" : ""}>
-            {/*{cell.getValue<string>()}*/}
-            Đang mở
-          </Badge>
+          renderStatusBage(cell.getValue<Status>())
         )
       },
     ], []
@@ -216,11 +148,11 @@ const InquiryList = () => {
         state={{pagination, globalFilter, sorting}}
 
         renderRowActions={({row, table}) => (
-            <ActionIcon color={"cyan"}
-                        onClick={() => navigate(row.original.id)}>
-              <IconArrowUpRight
-                size="2rem"/>
-            </ActionIcon>
+          <ActionIcon color={"cyan"}
+                      onClick={() => navigate(row.original.id)}>
+            <IconArrowUpRight
+              size="2rem"/>
+          </ActionIcon>
         )}
         displayColumnDefOptions={{
           'mrt-row-actions': {
@@ -228,7 +160,7 @@ const InquiryList = () => {
           },
         }}
 
-        enableRowActions = {true}
+        enableRowActions={true}
         positionActionsColumn="last"
       />
     </Container>
