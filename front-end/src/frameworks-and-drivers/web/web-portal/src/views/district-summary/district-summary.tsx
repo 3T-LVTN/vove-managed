@@ -418,8 +418,8 @@ const DistrictSummary = () => {
                 <tbody>
                   {districtSummary.length > 0 ? (
                     districtSummary.map((row) => (
-                      <tr key={row.districtId} onClick={() => navigate(`/districts/${row.districtName}`)} style={{ cursor: "pointer" }}>
-                        <td>{row.districtId + 1}</td>
+                      <tr key={row.districtId} onClick={() => navigate(`/districts/${row.districtId}`)} style={{ cursor: "pointer" }}>
+                        {/*<td>{row.districtId + 1}</td>*/}
                         <td>{row.districtName}</td>
                         <td>{(row.number["LOW_RISK"] ?? 0) + (row.number["NORMAL"] ?? 0)+ (row.number["SAFE"] ?? 0)+(row.number["HIGH_RISK"] ?? 0)}</td>
                         <td>{row.number["SAFE"]??0}</td>
