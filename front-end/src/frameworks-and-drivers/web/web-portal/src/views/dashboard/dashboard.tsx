@@ -175,7 +175,7 @@ export const Dashboard = () => {
   const fetchInquiries = async () => {
     const inquiries = await inquiryController.getInquiries();
     inquiries.map((inquiry) => {
-      inquiry.author = "";
+      inquiry.author = "Phạm Hoàng Vũ";
       const date = new Date(inquiry.time);
       inquiry.time = date.toLocaleString();
       return inquiry;

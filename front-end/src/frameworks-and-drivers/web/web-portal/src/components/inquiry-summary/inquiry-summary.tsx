@@ -32,9 +32,7 @@ export const InquirySummary = (props: InquirySummaryProps) => {
       >
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            {/*{inquiry.author} - {inquiry.time}*/}
-            PHẠM HOÀNG VŨ - {inquiry.time}
-
+            {inquiry.author} - {inquiry.time}
           </Text>
           {inquiry.status === Status.CLOSED ?
             <Badge variant={"light"} size={"xs"} color={"gray"}>Đã đóng</Badge>
