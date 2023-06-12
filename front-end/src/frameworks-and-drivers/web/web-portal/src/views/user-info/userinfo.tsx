@@ -72,8 +72,6 @@ const UserInfo = () => {
       const inquiryList = await inquiryController.getInquiryListByUser(user.id);
       inquiryList.map((inquiry) => {
         inquiry.author = user?.name ?? "";
-        const date = new Date(inquiry.time);
-        inquiry.time = date.toLocaleString('vi-VN');
         return inquiry;
       })
       setInquiries(inquiryList);

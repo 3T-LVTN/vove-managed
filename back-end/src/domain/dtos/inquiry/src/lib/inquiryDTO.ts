@@ -7,7 +7,7 @@ export interface InquiryDTO {
   address?: string;
   status: Status;
   title: string;
-  time: Date;
+  time: string;
   message: string;
   comments?: CommentDTO[];
 }
@@ -15,7 +15,7 @@ export interface InquiryDTO {
 export interface CommentDTO {
   isAdmin: boolean;
   message: string;
-  time: Date;
+  time: string;
 }
 
 export interface InquiryListDTO {

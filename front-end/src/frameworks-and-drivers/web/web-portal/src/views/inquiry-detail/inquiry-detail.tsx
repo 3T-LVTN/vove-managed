@@ -36,19 +36,19 @@ const mockComment: Comment[] = [
   {
     id: "000",
     isAdmin: true,
-    time: "2023-05-06 11:00:00",
+    time: "11:00:00 6/5/2023 ",
     content: "Chào bạn, cảm ơn bạn đã đặt câu hỏi. Dữ liệu về nhiệt độ và lượng mưa được chúng tôi cập nhật liên tục từ kho dữ liệu chung. Về dự đoán tình hình dịch bệnh, chúng tôi đã viết chương trình AI và huấn luyện rất kỹ, đảm bảo độ chính xác cao nhất cho người dùng."
   },
   {
     id: "001",
     isAdmin: false,
-    time: "2023-05-06 11:30:00",
+    time: "11:30:00 6/5/2023",
     content: "Cảm ơn đã trả lời nhanh chóng. Bạn có thể cho tôi biết thêm chi tiết về mô hình dự đoán của bạn?"
   },
   {
     id: "002",
     isAdmin: true,
-    time: "2023-05-06 19:00:00",
+    time: "19:00:00 6/5/2023",
     content: "Chúng tôi sử dụng model GLMM."
   }
 ];
@@ -129,7 +129,7 @@ const InquiryDetail = () => {
       </Paper>
       {inquiryRequest?.status === "Waiting" ? "" :
         <Paper withBorder p="md" radius="md" mt="md">
-          <Title order={2} mb="lg">Bình luận</Title>
+          <Title order={2} mb="lg">Phản hồi</Title>
           {commentList}
           {isCommenting ?
             <Textarea
@@ -145,7 +145,7 @@ const InquiryDetail = () => {
             :
             isCommenting ?
               <Group>
-                <Button variant={"light"} size="sm" onClick={() => confirmComment()}>Bình luận</Button>
+                <Button variant={"light"} size="sm" onClick={() => confirmComment()}>Gửi phản hồi</Button>
                 <Button variant={"light"} size="sm" onClick={() => cancelComment()} color="red">Huỷ</Button>
               </Group>
               :

@@ -138,31 +138,6 @@ export const Dashboard = () => {
   const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
   const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
 
-  const mockInquiries: InquiryViewModel[] = [
-    {
-      id: "1",
-      author: "Mai Thy",
-      time: "2023-06-04T23:21:20.711Z",
-      addressName: "Address 1",
-      title: "The predict results at my living area is incorrect",
-      status: Status.WAITING
-    },
-    {
-      id: "2",
-      author: "Pham Hoang Vu",
-      time: "04/05/2023 16:16",
-      addressName: "Address 2",
-      title: "I can't find my place on your map",
-      status: Status.OPENING
-    },
-  ]
-
-  const dashboardDataMap: TDashboardDataMap = {}
-
-  mockInquiries.forEach((val) => {
-    dashboardDataMap[val.status] = dashboardDataMap[val.status] ?? 0 + 1
-  })
-
   const [dashboardData, setDashboardData] = useState<{
     labels: string[];
     datasets: {
@@ -176,8 +151,6 @@ export const Dashboard = () => {
     const inquiries = await inquiryController.getInquiries();
     inquiries.map((inquiry) => {
       inquiry.author = "Phạm Hoàng Vũ";
-      const date = new Date(inquiry.time);
-      inquiry.time = date.toLocaleString();
       return inquiry;
     })
     setInquiries([inquiries[0], inquiries[1]]);
