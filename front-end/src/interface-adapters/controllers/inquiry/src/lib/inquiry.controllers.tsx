@@ -1,5 +1,5 @@
 import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
-import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+import {InquiryListViewModel, InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 import {CommentEntity} from "@front-end/domain/entities/inquiry";
 
 export class InquiryControllers {
@@ -14,9 +14,9 @@ export class InquiryControllers {
       });
   }
 
-  async getInquiries(): Promise<InquiryViewModel[]> {
+  async getInquiries(): Promise<InquiryListViewModel> {
     return await this.inquiryUseCase.getInquiries()
-      .then((inquiries) => inquiries as InquiryViewModel[])
+      .then((inquiries) => inquiries as InquiryListViewModel)
       .catch((error) => {
         throw new Error(error)
       });

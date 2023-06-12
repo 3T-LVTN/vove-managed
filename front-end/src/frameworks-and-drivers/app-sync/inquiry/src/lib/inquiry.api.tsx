@@ -1,6 +1,6 @@
 import {InquiryRepository} from "@front-end/application/repositories/inquiry";
 import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
-import {CommentEntity, InquiryEntity, Status} from "@front-end/domain/entities/inquiry";
+import {CommentEntity, InquiryEntity, InquiryList, Status} from "@front-end/domain/entities/inquiry";
 
 export class InquiryApi implements InquiryRepository {
   async getInquiryListByUser(userId: string): Promise<InquiryEntity[]> {
@@ -10,9 +10,9 @@ export class InquiryApi implements InquiryRepository {
       .catch((error) => {throw new Error(error)});
   }
 
-  async getInquiries(): Promise<InquiryEntity[]> {
+  async getInquiries(): Promise<InquiryList> {
     return axios.get(`inquiries`)
-      .then<InquiryEntity[]>((response) => response.data.inquiries)
+      .then<InquiryList>((response) => response.data)
       .catch((error) => {throw new Error(error)});
   }
 

@@ -1,5 +1,5 @@
 import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
-import {CommentEntity, InquiryEntity, Status} from "@front-end/domain/entities/inquiry";
+import {CommentEntity, InquiryEntity, InquiryList, Status} from "@front-end/domain/entities/inquiry";
 import {InquiryRepository} from "@front-end/application/repositories/inquiry";
 
 export class InquiryInteractors implements InquiryUsecases {
@@ -14,7 +14,7 @@ export class InquiryInteractors implements InquiryUsecases {
       });
   }
 
-  async getInquiries(): Promise<InquiryEntity[]> {
+  async getInquiries(): Promise<InquiryList> {
     return this.inquiryRepository.getInquiries()
       .then((inquiries) => inquiries)
       .catch((error) => {

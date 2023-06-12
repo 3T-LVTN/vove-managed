@@ -99,16 +99,16 @@ const getSummary = async (
     })
   })
   let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
-  return  axios
+  return axios
     .post<DistrictSummaryApiResponse>('/prediction/summary', body)
     .then((response) => {
       response.data.data.forEach((ward, index, _) => {
         const district = mapWard2District[ward.locationCode]
-        const mapState2Number = mapDist2NumberOfRecord[district]??{[ward.rate]:0}
-        const numberOfStatus = mapState2Number[ward.rate]?mapState2Number[ward.rate]+1:1
+        const mapState2Number = mapDist2NumberOfRecord[district] ?? {[ward.rate]: 0}
+        const numberOfStatus = mapState2Number[ward.rate] ? mapState2Number[ward.rate] + 1 : 1
         mapDist2NumberOfRecord = {
           ...mapDist2NumberOfRecord,
-          [district]: { ...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus }
+          [district]: {...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus}
         }
         mapRate2Number = {
           ...mapRate2Number,
@@ -116,7 +116,7 @@ const getSummary = async (
         }
       });
       return [Object.entries(mapDist2NumberOfRecord).map((val) => {
-        return { districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1] }
+        return {districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1]}
       }), mapRate2Number]
     })
 };
@@ -145,15 +145,15 @@ export const Dashboard = () => {
     }[];
   }>({
     labels: [],
-    datasets: [{ data: [] }],
+    datasets: [{data: []}],
   });
   const fetchInquiries = async () => {
-    const inquiries = await inquiryController.getInquiries();
-    inquiries.map((inquiry) => {
+    const inquiryList = await inquiryController.getInquiries();
+    inquiryList.inquiries.map((inquiry) => {
       inquiry.author = "Phạm Hoàng Vũ";
       return inquiry;
     })
-    setInquiries([inquiries[0], inquiries[1]]);
+    setInquiries([inquiryList.inquiries[0], inquiryList.inquiries[1]]);
   }
   useEffect(() => {
     setLoading(true);
@@ -169,14 +169,12 @@ export const Dashboard = () => {
         datasets.push(val[1]);
       });
       setDashboardData({
-        labels: labels.map((value)=>getRate(value)),
-        datasets: [{ data: datasets }]
+        labels: labels.map((value) => getRate(value)),
+        datasets: [{data: datasets}]
       })
     }).catch((e) => console.log(e))
     return () => clearTimeout(timer)
   }, []);
-
-
 
 
   return (<Container size="xl" fluid={true}>
@@ -187,7 +185,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{ title: "Người dùng", value: "15", diff: 100 }} nav={'users'}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "Người dùng", value: "15", diff: 100}} nav={'users'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -197,8 +195,8 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{ title: "Phản hồi", value: "20", diff: 100 }}
-              nav={'/model-management'}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "Phản hồi", value: "20", diff: 100}}
+                            nav={'/model-management'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -208,7 +206,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <AppAnalysisSummary data={{ access: 20, tracking: 30, inquiries: 6 }}></AppAnalysisSummary>
+            <AppAnalysisSummary data={{access: 20, tracking: 30, inquiries: 6}}></AppAnalysisSummary>
           </Paper>}
         />
       </Grid.Col>
@@ -217,7 +215,7 @@ export const Dashboard = () => {
         <LoadingWrapper
           loading={loading}
           view_height={"65vh"}
-          children={<Paper withBorder p="md" radius="md" style={{ height: "65vh" }}>
+          children={<Paper withBorder p="md" radius="md" style={{height: "65vh"}}>
             <VoveMap></VoveMap>
           </Paper>}
         />
@@ -227,18 +225,19 @@ export const Dashboard = () => {
           <LoadingWrapper
             loading={loading}
             view_height={"50%"}
-            children={<Paper withBorder p="md" radius="md" style={{ height: "50%" }}>
+            children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
               <DistrictStatusSummary data={dashboardData} isForDashboard={true}></DistrictStatusSummary>
             </Paper>}
           />
           <LoadingWrapper
             loading={loading}
             view_height={"50%"}
-            children={<Paper withBorder p="md" radius="md" style={{ height: "50%" }}>
+            children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
               <Stack justify="space-between" align="flex-start" h="100%">
                 <Title fw={500} fz="lg" order={4} color="dark.4">Yêu cầu hỗ trợ</Title>
                 <InquirySummary inquiries={inquiries}></InquirySummary>
-                <Button variant={"light"} size="sm" mt={0} style={{ bottom: 0 }} onClick={() => navigator("inquiries")}>Xem tất cả</Button>
+                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} onClick={() => navigator("inquiries")}>
+                  Xem tất cả</Button>
               </Stack>
             </Paper>}
           />
@@ -253,7 +252,7 @@ export const Dashboard = () => {
       size={"90%"}
       xOffset={0}
     >
-      <SearchHeatmapModal />
+      <SearchHeatmapModal/>
     </Modal>
   </Container>);
 }

@@ -32,8 +32,8 @@ const InquiryList = () => {
 
   const fetchInquiryList = async () => {
     const inquiryList = await inquiryController.getInquiries();
-    setTableData(inquiryList);
-    setTotalRows(15);
+    setTableData(inquiryList.inquiries);
+    setTotalRows(inquiryList.total);
   }
 
   const sortingConvert = (sorting: MRT_SortingState): { sort?: string, order?: string } => {

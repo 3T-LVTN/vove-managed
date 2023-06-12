@@ -18,6 +18,7 @@ const useStyles = createStyles((theme) => ({
 export const InquirySummary = (props: InquirySummaryProps) => {
   const navigator = useNavigate();
   const {classes} = useStyles();
+  console.log(props.inquiries)
 
   const inquiryList = props.inquiries.map((inquiry) => {
 

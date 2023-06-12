@@ -21,3 +21,9 @@ export interface CommentEntity {
   message: string;
   time?: string;
 }
+
+export interface InquiryList {
+  inquiries: InquiryEntity[];
+  page: number;
+  total: number;
+}

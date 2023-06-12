@@ -11,3 +11,9 @@ export interface InquiryViewModel {
   status: Status;
   comments?: CommentEntity[];
 }
+
+export interface InquiryListViewModel {
+  inquiries: InquiryViewModel[];
+  page: number;
+  total: number;
+}
