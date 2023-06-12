@@ -90,14 +90,15 @@ export const ModelManagement = () => {
   const showWrongFileNotification = () => {
     console.error("File is null");
     notifications.show({
-      title: "File is null", message: 'You have not uploaded an valid file. Please try again', color: 'red',
+      title: "Thất bại", message: 'Tệp của bạn không được tải lên. Vui lòng kiểm tra và thử lại', color: 'red',
     });
   }
 
   const showUploadedNotification = () => {
     console.info("Uploaded successfully");
+    setUploadFile(null);
     notifications.show({
-      title: "Uploaded successfully", message: 'Your file have been uploaded successfully', color: 'green',
+      title: "Thành công", message: 'Tệp của bạn đã được tải lên thành công', color: 'green',
     });
   }
 
