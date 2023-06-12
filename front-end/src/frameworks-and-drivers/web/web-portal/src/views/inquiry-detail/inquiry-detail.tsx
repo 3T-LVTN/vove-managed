@@ -49,8 +49,10 @@ const InquiryDetail = () => {
       isAdmin: true,
       message: commentRef.current?.value ?? ""
     }
-    await inquiryController.postComment(id!, newComment);
-    fetchInquiry();
+    inquiryController.postComment(id!, newComment)
+      .then(() => {
+        fetchInquiry();
+      })
   }
 
   const cancelComment = () => {
