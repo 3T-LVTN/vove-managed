@@ -3,12 +3,12 @@ import {Grid, Group, Paper, SimpleGrid, Text, useMantineTheme} from "@mantine/co
 import LineChart from "../line-chart/line-chart";
 
 const mockData = {
-  newUsers: 2,
-  accessTimes: 20,
-  inquiries: 1,
-  tracking: 5,
-  averageTracking: 2.5,
-  averageFeedback: 1.5,
+  newUsers: 50,
+  accessTimes: 200,
+  inquiries: 10,
+  tracking: 150,
+  averageTracking: 10,
+  averageFeedback: 2.5,
 }
 
 const AppAnalysisByPlace = () => {

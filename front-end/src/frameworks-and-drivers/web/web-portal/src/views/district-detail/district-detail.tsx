@@ -204,8 +204,8 @@ const DistrictDetail = () => {
       const out = value.map(
         (value, idx, _) => {
             return {
-              ...value, 
-              wardName: wards[idx].name,     
+              ...value,
+              wardName: wards[idx].name,
             };
       })
       setData(out)
@@ -222,8 +222,8 @@ const DistrictDetail = () => {
       <td>{row.rainMeter.toFixed(2)}</td>
       <td>{row.temperature.toFixed(2)}</td>
       <td>
-        <Badge variant="light" size="lg" color={row.status === "HIGH RISK" ? "red" : (
-          row.status === "LOW RISK" ? "orange" : (
+        <Badge variant="light" size="lg" color={row.status === "HIGH_RISK" ? "red" : (
+          row.status === "LOW_RISK" ? "orange" : (
             row.status === "NORMAL" ? "yellow" : ""
           ))}>
           {getRate(row.status)}
@@ -240,13 +240,13 @@ const DistrictDetail = () => {
     <Container fluid>
       <PageTitle title={districtName ? districtName : ""}/>
       <Group mb="md">
-        <Button variant={"light"} color="yellow" onClick={() => navigate(-1)}>
+        <Button variant={"light"} onClick={() => navigate(-1)}>
           <IconChevronsLeft size={20}/>
-          Back to All places
+          Quay lại
         </Button>
         <Button variant={"light"} onClick={() => window.location.reload()}>
           <IconRefresh size={20}/>
-          Reload
+          Làm mới
         </Button>
         <Text size="md">
         cập nhật lần cuối:<b> {time}</b>
@@ -255,11 +255,11 @@ const DistrictDetail = () => {
       <Grid>
         <Grid.Col sm={12} md={4}>
           <Paper withBorder radius="md" p="md" h="50vh">
-            <PieChart labels={["SAFE", "NORMAL", "LOW RISK", "HIGH RISK"]}
+            <PieChart labels={["An toàn", "Bình thường", "Nguy cơ thấp", "Nguy cơ cao"]}
                       data={[data.filter((ward) => ward.status === "SAFE").length,
                         data.filter((ward) => ward.status === "NORMAL").length,
-                        data.filter((ward) => ward.status === "LOW RISK").length,
-                        data.filter((ward) => ward.status === "HIGH RISK").length]}/>
+                        data.filter((ward) => ward.status === "LOW_RISK").length,
+                        data.filter((ward) => ward.status === "HIGH_RISK").length]}/>
           </Paper>
         </Grid.Col>
 
@@ -274,12 +274,12 @@ const DistrictDetail = () => {
                 </Tabs.Tab>
                 <Tabs.Tab value="temperature">
                   <Text fw={700} size="md">
-                    Nhiệt độ (°C) 
+                    Nhiệt độ (°C)
                   </Text>
                 </Tabs.Tab>
                 <Tabs.Tab value="mosquito">
                   <Text fw={700} size="md">
-                  Số lượng dự đoán
+                  Số lượng muỗi dự đoán
                   </Text>
                 </Tabs.Tab>
               </Tabs.List>
@@ -340,7 +340,7 @@ const DistrictDetail = () => {
                   <th>Số lượng dự đoán</th>
                   <th>Lượng mưa (mm)</th>
                   <th>Nhiệt độ (°C) </th>
-                  <th>Nhãn</th>
+                  <th>Trạng thái</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -211,7 +211,7 @@ export const ModelManagement = () => {
                           value: district.district_code
                         }
                       ))}
-                      onChange={(e) => console.log(e)}
+                      onChange={setDistrict}
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
