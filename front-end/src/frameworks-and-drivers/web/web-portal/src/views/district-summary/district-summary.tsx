@@ -28,7 +28,7 @@ import { DistrictStatusSummary } from '../../components/district-status-summary/
 import { TDashboardDataMap } from '../dashboard/dashboard';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getDistricts } from '@front-end/shared/administrative-division';
+import {getDistricts, getRate} from '@front-end/shared/administrative-division';
 import { string } from 'prop-types';
 
 enum DistrictSummaryStatus {
@@ -356,7 +356,7 @@ const DistrictSummary = () => {
         datasets.push(val[1]);
       });
       setDashboardData({
-        labels: labels,
+        labels: labels.map((value)=>getRate(value)),
         datasets: [{ data: datasets }]
       })
       console.log(dashboardData);
