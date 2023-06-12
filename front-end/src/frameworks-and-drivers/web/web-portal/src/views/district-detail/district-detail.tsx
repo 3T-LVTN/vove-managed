@@ -167,6 +167,13 @@ const getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
       throw new Error(error)
     });
 }
+const DefaultColors =  [
+  "#3BC9DB",
+  "#FFD43B",
+  "#FFA94D",
+  "#FF8787",
+]
+
 const useStyles = createStyles((theme) => ({
   header: {
     position: 'sticky',

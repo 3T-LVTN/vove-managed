@@ -17,7 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LineChart from '../../components/line-chart/line-chart';
 import { IconChevronsLeft } from '@tabler/icons-react';
 import axios from 'axios';
-import { getWard } from '@front-end/shared/administrative-division';
+import {getRate, getWard} from '@front-end/shared/administrative-division';
 import { validateEmail } from '@front-end/shared/utils';
 
 interface GetDetailApiRequest {
@@ -116,9 +116,9 @@ const WardDetail = () => {
   }
 
   const [data, setData] = useState<ChartData>({
-    values: [120, 131, 129, 132, 141, 144, 157, 153, 155, 149, 152, 155, 163],
-    temp: [34, 33.5, 32.5, 31, 30.2, 31.5, 33, 34.8, 37, 37.2, 37, 36.3, 34.8],
-    rain: [52, 55, 62, 65, 73, 68, 71, 74, 76, 72, 78, 73, 77],
+    values: [34, 33.5, 32.5, 33, 33, 32, 32.5],
+    temp: [27.6, 27.5, 28.2, 28.5, 28.4, 28, 28.9],
+    rain: [16, 12, 10, 7, 0, 0, 0],
   });
 
   useEffect(() => {
@@ -151,12 +151,12 @@ const WardDetail = () => {
       <Group mb="md">
         <Button variant={'light'} onClick={() => navigate(-1)}>
           <IconChevronsLeft size={20} />
-          Back
+          Quay lại
         </Button>
         <Text size="md">
           Cập nhật lần cuối: <b>{time}</b>
         </Text>
-        <Text size="md">Displaying</Text>
+        <Text size="md">Hiển thị theo</Text>
         <Select
           placeholder="Khoảng thời gian"
           size="md"
@@ -182,29 +182,29 @@ const WardDetail = () => {
                 radius="50%"
                 color={theme.colors.red[4]}
               ></ThemeIcon> */}
-              <Title order={2}>{rate}</Title>
+              <Title order={2}>{getRate(rate)}</Title>
             </Group>
             <Text size="lg">
-              <b>Số lượng dự đoán:</b> {data?.values?.slice(-1)[0].toFixed(2)}
+              <b>Số lượng muỗi dự đoán:</b> {data?.values?.slice(-1)[0].toFixed(2)} (con)
             </Text>
             <Text size="lg">
-              <b>Nhiệt độ:</b> {data?.temp?.slice(-1)[0].toFixed(2)}
+              <b>Nhiệt độ:</b> {data?.temp?.slice(-1)[0].toFixed(2)} (°C)
             </Text>
             <Text size="lg">
-              <b>Lượng mưa:</b> {data?.rain?.slice(-1)[0].toFixed(2)}
+              <b>Lượng mưa:</b> {data?.rain?.slice(-1)[0].toFixed(2)} (mm)
             </Text>
             <Text size="lg">
-              <b>User response:</b> Normal
+              <b>Trung bình phản hồi:</b> Chính xác
             </Text>
           </Stack>
         </Paper>
         <Paper withBorder radius="md" p="md">
           <LineChart
-            title={'Predict mosquito amount'}
+            title={'Số lượng muỗi dự đoán'}
             labels={labels}
             datasets={[
               {
-                label: 'Mosquito amount',
+                label: 'Số lượng muỗi',
                 data: data.values,
                 borderColor: firstColor,
                 backgroundColor: firstColor,
@@ -219,7 +219,7 @@ const WardDetail = () => {
             labels={labels}
             datasets={[
               {
-                label: 'Nhiệt độ (°C) ',
+                label: 'Nhiệt độ (°C)',
                 data: data.temp,
                 borderColor: firstColor,
                 backgroundColor: firstColor,

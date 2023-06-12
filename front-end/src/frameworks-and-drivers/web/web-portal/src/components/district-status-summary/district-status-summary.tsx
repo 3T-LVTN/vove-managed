@@ -25,7 +25,7 @@ const DefaultColors =  [
   "#FF8787",
 ]
 const data: PieChartVisualizableData = {
-  labels: ["AN TOÀN", "THẤP", "VỪA", "CAO"],
+  labels: ["An toàn", "Bình thường", "Nguy cơ thấp", "Nguy cơ cao"],
   datasets: [{
     data: [14, 5, 2, 1],
     backgroundColor: DefaultColors,
@@ -44,8 +44,11 @@ export function PieChart(data: PieChartVisualizableData) {
   data.datasets = data.datasets.map(
     (val) => {
       const ret = val
+      console.log("****************",ret)
       const colors = DefaultColors.slice(0, ret.data.length)
+      console.log("****************",ret)
       ret.backgroundColor = ret.backgroundColor ?? colors
+      console.log("===",ret)
       return ret
     })
   return <Pie

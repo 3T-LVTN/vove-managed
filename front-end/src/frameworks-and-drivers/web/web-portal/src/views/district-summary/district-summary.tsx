@@ -113,10 +113,7 @@ const getSummary = async (
         const district = mapWard2District[ward.locationCode]
         const mapState2Number = mapDist2NumberOfRecord[district]??{[ward.rate]:0}
         const numberOfStatus = mapState2Number[ward.rate]?mapState2Number[ward.rate]+1:1
-        console.log("map dist 2 number of record", mapDist2NumberOfRecord)
-        console.log(ward.rate)
-        console.log(mapState2Number)
-        console.log(numberOfStatus)
+
         mapDist2NumberOfRecord = {
           ...mapDist2NumberOfRecord,
           [district]: { ...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus }
@@ -126,10 +123,6 @@ const getSummary = async (
           [ward.rate]: mapRate2Number[ward.rate] ? mapRate2Number[ward.rate] + 1 : 1
         }
       });
-      console.log("query done")
-      console.log(mapDist2NumberOfRecord)
-      console.log(mapRate2Number)
-      console.log("before return")
       return [Object.entries(mapDist2NumberOfRecord).map((val) => {
         return { districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1] }
       }), mapRate2Number]
