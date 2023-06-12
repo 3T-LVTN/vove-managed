@@ -138,6 +138,41 @@ const getSummary = async (
 
 const mockDistrictStatus: DistrictSummary[] = [
   {
+    districtId: 18,
+    districtName: 'Huyện Củ Chi',
+    number: {
+      SAFE: 0,
+    },
+  },
+  {
+    districtId: 19,
+    districtName: 'Huyện Nhà Bè',
+    number: {
+      SAFE: 0,
+    },
+  },
+  {
+    districtId: 20,
+    districtName: 'Huyện Cần Giờ',
+    number: {
+      SAFE: 0,
+    },
+  },
+  {
+    districtId: 21,
+    districtName: 'Huyện Bình Chánh',
+    number: {
+      SAFE: 0,
+    },
+  },
+  {
+    districtId: 22,
+    districtName: 'Huyện Hóc Môn',
+    number: {
+      SAFE: 0,
+    },
+  },
+  {
     districtId: 1,
     districtName: 'Thu Duc City',
     number: {
@@ -146,147 +181,112 @@ const mockDistrictStatus: DistrictSummary[] = [
   },
   {
     districtId: 2,
-    districtName: 'District 1',
+    districtName: 'Quận 1',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 3,
-    districtName: 'District 3',
+    districtName: 'Quận 3',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 4,
-    districtName: 'District 4',
+    districtName: 'Quận 4',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 5,
-    districtName: 'District 5',
+    districtName: 'Quận 5',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 6,
-    districtName: 'District 6',
+    districtName: 'Quận 6',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 7,
-    districtName: 'District 7',
+    districtName: 'Quận 7',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 8,
-    districtName: 'District 8',
+    districtName: 'Quận 8',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 9,
-    districtName: 'District 10',
+    districtName: 'Quận 10',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 10,
-    districtName: 'District 11',
+    districtName: 'Quận 11',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 11,
-    districtName: 'District 12',
+    districtName: 'Quận 12',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 12,
-    districtName: 'Binh Thanh',
+    districtName: 'Quận Bình Thạnh',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 13,
-    districtName: 'Go Vap',
+    districtName: 'Quận Gò Vấp',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 14,
-    districtName: 'Phu Nhuan',
+    districtName: 'Quận Phú Nhuận',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 15,
-    districtName: 'Tan Binh',
+    districtName: 'Quận Tân Bình',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 16,
-    districtName: 'Tan Phu',
+    districtName: 'Quận Tân Phú',
     number: {
       SAFE: 0,
     },
   },
   {
     districtId: 17,
-    districtName: 'Binh Tan',
-    number: {
-      SAFE: 0,
-    },
-  },
-  {
-    districtId: 18,
-    districtName: 'Cu Chi',
-    number: {
-      SAFE: 0,
-    },
-  },
-  {
-    districtId: 19,
-    districtName: 'Nha Be',
-    number: {
-      SAFE: 0,
-    },
-  },
-  {
-    districtId: 20,
-    districtName: 'Can Gio',
-    number: {
-      SAFE: 0,
-    },
-  },
-  {
-    districtId: 21,
-    districtName: 'Binh Chanh',
-    number: {
-      SAFE: 0,
-    },
-  },
-  {
-    districtId: 22,
-    districtName: 'Hoc Mon',
+    districtName: 'Quận Bình Tân',
     number: {
       SAFE: 0,
     },
