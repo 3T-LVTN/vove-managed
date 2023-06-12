@@ -82,7 +82,7 @@ export const ResetPassword = () => {
     <Container size={460} my="5%">
       <Title color="dark.4" fw={900} fs="26rem" align="center">Đặt lại mật khẩu</Title>
       <Text color="dimmed" fz="sm" ta="center">
-        Nhập email để đặt lại mật khẩu
+        Nhập email để đặt lại mật
       </Text>
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
         <form onSubmit={

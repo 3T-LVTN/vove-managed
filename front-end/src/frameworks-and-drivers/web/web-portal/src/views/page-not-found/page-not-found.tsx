@@ -58,13 +58,13 @@ export const PageNotFound = () => {
         <Image src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/PageNotFound.png"} alt="Page Not Found"
                className={classes.mobileImage}/>
         <div>
-          <Title className={classes.title} color="dark.4">Something is not right...</Title>
+          <Title className={classes.title} color="dark.4">Có gì đó không đúng...</Title>
           <Text color="dimmed" size="lg">
-            Page you are trying to open does not exist. You may have mistyped the address, or the
-            page has been moved to another URL. If you think this is an error contact support.
+            Trang bạn đang muốn mở không tồn tại. Bạn có thể đã gõ sai đường dẫn, hoặc trang đó đã được
+            chuyển đến một URL khác. Nếu bạn nghĩ đây là một lỗi, hãy liên hệ để được hỗ trợ.
           </Text>
           <Button variant="outline" size="md" mt="xl" className={classes.control} onClick={goBack}>
-            Get back to previous page
+            Quay lại trang trước
           </Button>
         </div>
         <Image src={"https://lvtn-s3-vove-web.s3.ap-southeast-1.amazonaws.com/Vove.png"} alt="Page Not Found"
