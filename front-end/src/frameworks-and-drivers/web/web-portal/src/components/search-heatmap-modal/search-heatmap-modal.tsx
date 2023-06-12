@@ -43,7 +43,8 @@ interface ApiResponse {
 
 
 const getSummary = async (inp: ApiRequest): Promise<ApiResponse> => {
-  return (await axios.post<ApiResponse>("/prediction/summary", inp)).data
+  const mapApi = new MapApi() 
+  return mapApi.getSummary(inp)
 }
 export function SearchHeatmapModal() {
   const [centerPoint, setCenterPoint] = React.useState<{ lat: number, lng: number }>({ lat: 10.7644912, lng: 106.702996 })

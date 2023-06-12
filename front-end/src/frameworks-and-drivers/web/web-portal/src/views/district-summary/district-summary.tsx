@@ -30,6 +30,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {getDistricts, getRate} from '@front-end/shared/administrative-division';
 import { string } from 'prop-types';
+import { MapApi } from '@front-end/frameworks-and-drivers/app-sync/map';
 
 enum DistrictSummaryStatus {
   Safe = 'SAFE',
@@ -106,10 +107,10 @@ const getSummary = async (
     })
   })
   let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
-  return  axios
-    .post<DistrictSummaryApiResponse>('/prediction/summary', body)
+  const mapApi = new MapApi()
+  return  mapApi.getSummary(body)
     .then((response) => {
-      response.data.data.forEach((ward, index, _) => {
+      response.data.forEach((ward, index, _) => {
         const district = mapWard2District[ward.locationCode]
         const mapState2Number = mapDist2NumberOfRecord[district]??{[ward.rate]:0}
         const numberOfStatus = mapState2Number[ward.rate]?mapState2Number[ward.rate]+1:1

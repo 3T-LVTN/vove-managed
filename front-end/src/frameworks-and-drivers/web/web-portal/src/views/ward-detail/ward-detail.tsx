@@ -19,6 +19,7 @@ import { IconChevronsLeft } from '@tabler/icons-react';
 import axios from 'axios';
 import {getRate, getWard} from '@front-end/shared/administrative-division';
 import { validateEmail } from '@front-end/shared/utils';
+import { MapApi } from '@front-end/frameworks-and-drivers/app-sync/map';
 
 interface GetDetailApiRequest {
   startTime: number;
@@ -64,15 +65,9 @@ const getDetail = async (
     lat: location.lat,
     lng: location.lng,
   };
-
-  return axios
-    .post<GetDetailApiResponse>('/prediction/detail', body)
-    .then((response) => {
-      return response.data.data.locationDetail.map((val)=> {return {
-        ...val,
-        temperature: (val.temperature-32)/1.8,
-        precip: val.precip*25.4
-      }});
+  const mapApi = new MapApi()
+  return   mapApi.getDetail(body).then((response) => {
+      return response.data.locationDetail;
     })
     .catch((error) => {
       throw new Error(error);

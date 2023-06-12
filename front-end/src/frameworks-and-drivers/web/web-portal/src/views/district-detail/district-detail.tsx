@@ -20,6 +20,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {IconChevronsLeft, IconRefresh} from "@tabler/icons-react";
 import axios from "axios";
 import {getRate, getWards} from "@front-end/shared/administrative-division";
+import { MapApi } from "@front-end/frameworks-and-drivers/app-sync/map";
 
 interface WardStatus {
   id: number;
@@ -147,17 +148,17 @@ const getSummary = async (inp: WardLocation[]): Promise<WardStatus[]> => {
   const body: WardSummaryApiRequest = {
     locations: inp
   }
-
-  return axios.post<WardSummaryApiResponse>("/prediction/summary", body)
+  const mapApi = new MapApi()
+  return mapApi.getSummary(body)
     .then((response) => {
       const newData: WardStatus[] = []
-      response.data.data.forEach((val, index, _) => {
+      response.data.forEach((val, index, _) => {
         newData.push({
           id: index,
           locationCode: val.locationCode,
           status: val.rate,
-          temperature: (val.temperature-32)/1.8,
-          rainMeter: val.precip*25.4,
+          temperature: val.temperature,
+          rainMeter: val.precip,
           mosquitoAmount: val.value,
         })
       })
