@@ -89,13 +89,13 @@ export class InquiryMongoDBRepository implements InquiryRepository {
       );
   }
 
-  async addComment(id: string, comment: string, isUser: boolean): Promise<string> {
+  async addComment(id: string, comment: string, isAdmin: boolean): Promise<string> {
     const objectId = new Types.ObjectId(id);
     return this.inquiryModel.findById(objectId).exec()
       .then((inquiry) => {
         if (inquiry) {
           inquiry["comments"]?.push({
-            isAdmin: isUser,
+            isAdmin: isAdmin,
             time: new Date(),
             message: comment
           });

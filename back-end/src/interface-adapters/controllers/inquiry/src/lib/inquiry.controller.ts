@@ -50,8 +50,8 @@ export class InquiryControllers {
 
   @Post(":id/comment")
   @Roles("admin", "user")
-  async addComment(@Param("id") id: string, @Body() {comment, isUser}: { comment: string, isUser: boolean }) {
-    const updatedInquiryId = await this.inquiryUseCase.addComment(id, comment, isUser);
+  async addComment(@Param("id") id: string, @Body() {isAdmin, message}: { isAdmin: boolean, message: string }) {
+    const updatedInquiryId = await this.inquiryUseCase.addComment(id, message, isAdmin);
     return {
       inquiryId: updatedInquiryId
     };

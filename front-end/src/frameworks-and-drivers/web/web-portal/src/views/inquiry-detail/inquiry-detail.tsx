@@ -2,83 +2,55 @@ import {useParams} from "react-router-dom";
 import {Button, Container, Grid, Group, Paper, Text, Textarea, Title, useMantineTheme} from "@mantine/core";
 import React, {useEffect, useRef, useState} from "react";
 import {PageTitle} from "../../components/page-title/page-title";
-
-interface InquiryRequest {
-  id: string;
-  title: string;
-  time: string;
-  author: string;
-  phoneNumber: string;
-  address: string;
-  content: string;
-  status: "Waiting" | "Opening" | "Closed";
-}
-
-interface Comment {
-  id: string;
-  isAdmin: boolean;
-  time: string;
-  content: string;
-}
-
-const mockData: InquiryRequest = {
-  id: "001",
-  title: "Cần thêm thông tin về nguồn dữ liệu và độ chính xác",
-  time: "2023-05-06 10:30:00",
-  author: "Mai Thy",
-  phoneNumber: "0394143031",
-  address: "Vinalink Logistics, Đường Nguyễn Tất Thành, Phường 13, Quận 4, Thành phố Hồ Chí Minh, 854020, Việt Nam",
-  content: "Tôi viết thư này để hỏi về dịch vụ dự báo dịch bệnh của bạn. Tôi muốn sử dụng dịch vụ của bạn để giúp tôi hiểu rõ hơn về khả năng và mức độ nghiêm trọng của các đợt bùng phát dịch bệnh tiềm ẩn trong khu vực của tôi. Bạn có thể cung cấp cho tôi thêm thông tin về các nguồn dữ liệu mà bạn sử dụng và độ chính xác của các dự báo của bạn? Ngoài ra, bạn có thể cho tôi biết thêm về phạm vi bệnh mà dịch vụ của bạn bao gồm và các phương pháp bạn sử dụng để phân tích và dự đoán các đợt bùng phát không?",
-  status: "Opening",
-}
-
-const mockComment: Comment[] = [
-  {
-    id: "000",
-    isAdmin: true,
-    time: "11:00:00 6/5/2023 ",
-    content: "Chào bạn, cảm ơn bạn đã đặt câu hỏi. Dữ liệu về nhiệt độ và lượng mưa được chúng tôi cập nhật liên tục từ kho dữ liệu chung. Về dự đoán tình hình dịch bệnh, chúng tôi đã viết chương trình AI và huấn luyện rất kỹ, đảm bảo độ chính xác cao nhất cho người dùng."
-  },
-  {
-    id: "001",
-    isAdmin: false,
-    time: "11:30:00 6/5/2023",
-    content: "Cảm ơn đã trả lời nhanh chóng. Bạn có thể cho tôi biết thêm chi tiết về mô hình dự đoán của bạn?"
-  },
-  {
-    id: "002",
-    isAdmin: true,
-    time: "19:00:00 6/5/2023",
-    content: "Chúng tôi sử dụng model GLMM."
-  }
-];
+import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+import {CommentEntity, Status} from "@front-end/domain/entities/inquiry";
+import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
+import {InquiryRepository} from "@front-end/application/repositories/inquiry";
+import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
+import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
+import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
 
 const InquiryDetail = () => {
-  const [inquiryRequest, setInquiryRequest] = useState<InquiryRequest | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [inquiryRequest, setInquiryRequest] = useState<InquiryViewModel>();
   const [isCommenting, setIsCommenting] = useState<boolean>(false);
   const commentRef = useRef<HTMLTextAreaElement>(null);
+
+  const inquiryRepository: InquiryRepository = new InquiryApi();
+  const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
+  const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
 
   const {id} = useParams();
 
   const theme = useMantineTheme();
 
+  const fetchInquiry = async () => {
+    const inquiry = await inquiryController.getInquiryById(id!);
+    setInquiryRequest(inquiry);
+  }
+
+  const openInquiry = async () => {
+    await inquiryController.changeStatus(id!, Status.OPENING);
+    fetchInquiry();
+  }
+
+  const closeInquiry = async () => {
+    await inquiryController.changeStatus(id!, Status.CLOSED);
+    fetchInquiry();
+  }
+
   useEffect(() => {
-    setInquiryRequest(mockData);
-    setComments(mockComment);
+    fetchInquiry();
   }, [id]);
 
-  const confirmComment = () => {
-    console.log(commentRef.current?.value);
+  const confirmComment = async () => {
     setIsCommenting(false);
     if (commentRef.current?.value.length === 0) return;
-    const newComment: Comment = {
-      id: "033",
+    const newComment: CommentEntity = {
       isAdmin: true,
-      time: new Date().toLocaleString('vi-VN'),
-      content: commentRef.current?.value??""
+      message: commentRef.current?.value ?? ""
     }
-    setComments([...comments, newComment]);
+    await inquiryController.postComment(id!, newComment);
+    fetchInquiry();
   }
 
   const cancelComment = () => {
@@ -86,13 +58,13 @@ const InquiryDetail = () => {
     commentRef.current!.value = "";
   }
 
-  const commentList = comments.map((comment) => {
+  const commentList = inquiryRequest?.comments?.map((comment) => {
     return (
       <>
         <Grid>
           <Grid.Col w={"200px"} span={"content"}>
             <Paper p="xs" bg={comment.isAdmin ? "rgb(21, 170, 191)" : theme.colors.gray[3]}
-            sx={{borderRadius:"8px 8px 0 0"}}>
+                   sx={{borderRadius: "8px 8px 0 0"}}>
               <Text size="md" weight={500} color={comment.isAdmin ? "#FFF" : ""}>
                 {comment.isAdmin ? "Admin" : inquiryRequest?.author}
               </Text>
@@ -105,9 +77,9 @@ const InquiryDetail = () => {
           </Grid.Col>
         </Grid>
 
-        <Paper withBorder sx={{borderRadius:"0 8px 8px 8px"}} mb="md">
+        <Paper withBorder sx={{borderRadius: "0 8px 8px 8px"}} mb="md">
           <Text size="md" align={"left"} p="md">
-            {comment.content}
+            {comment.message}
           </Text>
         </Paper>
       </>
@@ -121,13 +93,13 @@ const InquiryDetail = () => {
         <Title order={1} mb="xs">{inquiryRequest?.title}</Title>
         <Text mb="xs"><b>Thời gian:</b> {inquiryRequest?.time}</Text>
         <Text mb="xs"><b>Người gửi:</b> {inquiryRequest?.author}</Text>
-        <Text mb="xs"><b>Số điện thoại:</b> {inquiryRequest?.phoneNumber}</Text>
-        <Text mb="xs"><b>Địa chỉ:</b> {inquiryRequest?.address}</Text>
-        <Text mb="xs"><b>Nội dung:</b> {inquiryRequest?.content}</Text>
-        {inquiryRequest?.status === "Waiting" ?
-          <Button variant={"light"} size="sm">Xử lý yêu cầu này</Button> : ""}
+        <Text mb="xs"><b>Số điện thoại:</b> {inquiryRequest?.phone}</Text>
+        <Text mb="xs"><b>Địa chỉ:</b> {inquiryRequest?.address ?? ""}</Text>
+        <Text mb="xs"><b>Nội dung:</b> {inquiryRequest?.message}</Text>
+        {inquiryRequest?.status === Status.WAITING ?
+          <Button variant={"light"} size="sm" onClick={() => openInquiry()}>Xử lý yêu cầu này</Button> : ""}
       </Paper>
-      {inquiryRequest?.status === "Waiting" ? "" :
+      {inquiryRequest?.status === Status.WAITING ? "" :
         <Paper withBorder p="md" radius="md" mt="md">
           <Title order={2} mb="lg">Phản hồi</Title>
           {commentList}
@@ -140,8 +112,8 @@ const InquiryDetail = () => {
               ref={commentRef}
             />
             : ""}
-          {inquiryRequest?.status === "Closed" ?
-            <Button variant={"light"} size="sm">Mở lại yêu cầu</Button>
+          {inquiryRequest?.status === Status.CLOSED ?
+            <Button variant={"light"} size="sm" onClick={() => openInquiry()}>Mở lại yêu cầu</Button>
             :
             isCommenting ?
               <Group>
@@ -151,7 +123,7 @@ const InquiryDetail = () => {
               :
               <Group>
                 <Button variant={"light"} size="sm" onClick={() => setIsCommenting(true)}>Thêm bình luận</Button>
-                <Button variant={"light"} size="sm" color="red">Đóng yêu cầu</Button>
+                <Button variant={"light"} size="sm" color="red" onClick={() => closeInquiry()}>Đóng yêu cầu</Button>
               </Group>
           }
         </Paper>

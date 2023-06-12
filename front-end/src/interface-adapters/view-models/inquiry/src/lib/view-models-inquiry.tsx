@@ -1,12 +1,13 @@
-import {Status} from "@front-end/domain/entities/inquiry";
+import {Status, CommentEntity} from "@front-end/domain/entities/inquiry";
 
 export interface InquiryViewModel {
   id: string;
-  message?: string;
-  phone?: string;
+  message: string;
+  phone: string;
   time: string;
-  author?: string;
-  addressName?: string;
+  author: string;
+  address?: string;
   title: string;
   status: Status;
+  comments?: CommentEntity[];
 }

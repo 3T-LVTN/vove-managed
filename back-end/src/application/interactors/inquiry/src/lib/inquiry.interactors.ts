@@ -47,7 +47,6 @@ export class InquiryInteractors implements InquiryUseCase {
     const user = await this.userRepository.getUserByPhone(inquiryDTO.phone);
     inquiryDTO.author = user.name;
     inquiryDTO.address = user.addressName;
-    console.log(inquiryDTO);
     return inquiryDTO;
   }
 
@@ -59,7 +58,7 @@ export class InquiryInteractors implements InquiryUseCase {
     return this.inquiryRepository.updateInquiry(id, status);
   }
 
-  addComment(id: string, comment: string, isUser: boolean): Promise<string> {
-    return this.inquiryRepository.addComment(id, comment, isUser);
+  addComment(id: string, comment: string, isAdmin: boolean): Promise<string> {
+    return this.inquiryRepository.addComment(id, comment, isAdmin);
   }
 }

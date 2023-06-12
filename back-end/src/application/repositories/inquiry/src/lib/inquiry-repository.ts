@@ -7,5 +7,5 @@ export interface InquiryRepository {
   getInquiry(id: string): Promise<Inquiry>;
   createInquiry(inquiry: Inquiry): Promise<string>;
   updateInquiry(id: string, status: string): Promise<string>;
-  addComment(id: string, comment: string, isUser: boolean): Promise<string>;
+  addComment(id: string, comment: string, isAdmin: boolean): Promise<string>;
 }
