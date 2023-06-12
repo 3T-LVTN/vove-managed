@@ -73,7 +73,7 @@ const UserInfo = () => {
       inquiryList.map((inquiry) => {
         inquiry.author = user?.name ?? "";
         const date = new Date(inquiry.time);
-        inquiry.time = date.toLocaleString();
+        inquiry.time = date.toLocaleString('vi-VN');
         return inquiry;
       })
       setInquiries(inquiryList);
@@ -87,10 +87,13 @@ const UserInfo = () => {
     fetchDetails(id!)
       .then((user) => {
         setIsLoadingUser(false);
-        fetchTrackingList(user?.trackingPlaces ?? []);
-        fetchInquiryList(user!);
       });
   }, []);
+
+  useEffect(() => {
+    fetchTrackingList(user?.trackingPlaces ?? []);
+    fetchInquiryList(user!);
+  }, [user]);
 
   useEffect(() => {
     if (locations.length !== 0) {

@@ -72,7 +72,13 @@ const InquiryDetail = () => {
     console.log(commentRef.current?.value);
     setIsCommenting(false);
     if (commentRef.current?.value.length === 0) return;
-    const newComment = commentRef.current?.value;
+    const newComment: Comment = {
+      id: "033",
+      isAdmin: true,
+      time: new Date().toLocaleString('vi-VN'),
+      content: commentRef.current?.value??""
+    }
+    setComments([...comments, newComment]);
   }
 
   const cancelComment = () => {
@@ -127,8 +133,8 @@ const InquiryDetail = () => {
           {commentList}
           {isCommenting ?
             <Textarea
-              placeholder="Your comment"
-              label="Add new comment"
+              placeholder="Phản hồi của bạn"
+              label="Thêm phản hồi"
               mb="md"
               size="md"
               ref={commentRef}

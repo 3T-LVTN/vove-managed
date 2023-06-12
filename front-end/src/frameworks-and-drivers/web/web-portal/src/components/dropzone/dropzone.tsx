@@ -67,7 +67,6 @@ export function DropzoneButton({uploadFile, setUploadFile}: DropzoneButtonProps)
         className={classes.dropzone}
         radius="md"
         accept={[MIME_TYPES.csv]}
-        maxSize={30 * 1024 ** 2}
       >
         <div style={{pointerEvents: 'none'}}>
           <Group position="center">
@@ -96,7 +95,7 @@ export function DropzoneButton({uploadFile, setUploadFile}: DropzoneButtonProps)
             <Dropzone.Idle>Tải dữ liệu lên</Dropzone.Idle>
           </Text>
           <Text ta="center" fz="sm" mt="xs" c="dimmed">
-            Kéo thả file vào ô này để tải dữ liệu lên, hệ thống chỉ chấp nhận file CSV nhẹ hơn 30mb
+            Kéo thả file vào ô này để tải dữ liệu lên, hệ thống chỉ chấp nhận file CSV
           </Text>
         </div>
       </Dropzone>
