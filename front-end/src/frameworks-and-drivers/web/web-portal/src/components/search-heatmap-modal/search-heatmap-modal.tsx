@@ -1,6 +1,7 @@
 import { Divider, Grid, Space, Text, Title } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { GoogleMap, HeatmapLayerF, Marker } from "@react-google-maps/api";
+
 import SearchBox from "../search-box/search-box";
 import { HeatMapData } from "../map/map_data";
 import { initPoint } from "../map/init_state";
@@ -107,6 +108,7 @@ export function SearchHeatmapModal() {
   }, [selected])
 
   const renderHeatMap = () => {
+
     return (
       <GoogleMap
         mapContainerStyle={containerStyle}

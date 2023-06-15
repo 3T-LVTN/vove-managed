@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {GoogleMap, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+
 import {ActionIcon} from "@mantine/core";
 import {IconArrowsMaximize} from "@tabler/icons-react";
 import styles from './map.module.css'
@@ -11,6 +12,7 @@ import {initPoint} from "./init_state";
 import {MapApi} from "@front-end/frameworks-and-drivers/app-sync/map";
 import {MapInteractor} from "@front-end/application/interactors/map";
 import {MapControllers} from "@front-end/interface-adapters/controllers/map";
+
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -32,6 +34,7 @@ export const VoveMap = () => {
 
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
   const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
+
 
   const centerPoint = {lat: 10.7644912, lng: 106.702996};
 
@@ -79,6 +82,7 @@ export const VoveMap = () => {
       })
       .catch((e) => console.log(e));
   }, [])
+
 
   const renderMap = () => {
     return (
