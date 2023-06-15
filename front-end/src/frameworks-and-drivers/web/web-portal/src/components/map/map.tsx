@@ -1,14 +1,18 @@
-import React, {ReactElement, useEffect, useMemo, useState} from "react";
-import {GoogleMap, HeatmapLayerF, useGoogleMap, useJsApiLoader} from "@react-google-maps/api";
+import React, {useEffect, useState} from "react";
+import {GoogleMap, HeatmapLayerF, useJsApiLoader} from "@react-google-maps/api";
+
 import {ActionIcon} from "@mantine/core";
 import {IconArrowsMaximize} from "@tabler/icons-react";
 import styles from './map.module.css'
 import {SearchHeatmapModalGlobalState} from "@front-end/frameworks-and-drivers/global-states/sreach-heatmap-modal";
 import {SearchHeatmapModalInteractor} from "@front-end/application/interactors/sreach-heatmap-modal";
 import {SearchHeatmapModalController} from "@front-end/interface-adapters/controllers/sreach-heatmap-modal";
-import {axios} from "@front-end/frameworks-and-drivers/app-sync/axios";
-import { HeatMapData,HeatMapPointData } from "./map_data";
-import { initPoint } from "./init_state";
+import {HeatMapData} from "@front-end/domain/entities/map";
+import {initPoint} from "./init_state";
+import {MapApi} from "@front-end/frameworks-and-drivers/app-sync/map";
+import {MapInteractor} from "@front-end/application/interactors/map";
+import {MapControllers} from "@front-end/interface-adapters/controllers/map";
+
 
 export interface MapProps {
   fullScreenControl: boolean
@@ -19,35 +23,6 @@ const containerStyle = {
   height: "100%",
 };
 
-
-const mockData: Array<HeatMapPointData> = [
-  {
-    lat: 10.764,
-    long: 106.702,
-    weight: 5
-  },
-  {
-    lat: 10.764,
-    long: 106.703,
-    weight: 10
-  },
-  {
-    lat: 10.764,
-    long: 106.701,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.705,
-    weight: 15
-  },
-  {
-    lat: 10.764,
-    long: 106.704,
-    weight: 15
-  },
-]
-
 const libraries: ("visualization" | "places" | "drawing" | "geometry" | "localContext")[] = ["visualization", "places"];
 
 export const VoveMap = () => {
@@ -57,9 +32,9 @@ export const VoveMap = () => {
     libraries,
   });
 
-  const [stateData, setData] = useState(initPoint)
-  const [mapData, setMapData] = useState<HeatMapData>({})
   const [heatmapData, setHeatmapData] = useState<google.maps.visualization.WeightedLocation[]>([])
+  const [isLoadingHeatMap, setIsLoadingHeatMap] = useState(true)
+
 
   const centerPoint = {lat: 10.7644912, lng: 106.702996};
 
@@ -67,30 +42,47 @@ export const VoveMap = () => {
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
-  const fetchHeatmapData = () => {
-    const data = mapData.availableLocations ?? mockData;
-    data.forEach((value) => {
-      const val = initPoint.get(value.idx ? value.idx : 0)
+  const mapRepository = new MapApi();
+  const mapUsecases = new MapInteractor(mapRepository);
+  const mapController = new MapControllers(mapUsecases);
+
+  const fetchHeatmapData = async (heatMapData: HeatMapData) => {
+    return heatMapData.availableLocations?.map((value) => {
       const weightedLocation: google.maps.visualization.WeightedLocation = {
-        location: new google.maps.LatLng((val ? val : value).lat, (val ? val : value).long),
-        weight: value.weight ?? 0
-      };
-      heatmapData.push(weightedLocation);
-      setHeatmapData([...heatmapData])
+        location: new google.maps.LatLng(value.lat, value.long),
+        weight: (value.weight ?? 10) / 500,
+      }
+      return weightedLocation;
     })
-    console.log(heatmapData)
   }
 
   useEffect(() => {
-    // axios.post("/prediction", stateData)
-    //   .then((resp) => setMapData(resp.data))
-    //   .catch((e) => console.log(e))
+    mapController.getCachedHeatMapData()
+      .then((data) => {
+        if (isLoaded)
+          fetchHeatmapData(data)
+            .then((locations) => {
+              setHeatmapData(locations ?? [])
+              setIsLoadingHeatMap(false)
+              console.log("Load cache done!")
+            })
+      })
+      .catch((e) => console.log(e))
+  }, [isLoaded])
+
+  useEffect(() => {
+    mapController.getHeatMapData(initPoint)
+      .then((data) => {
+        fetchHeatmapData(data)
+          .then((locations) => {
+            setHeatmapData(locations ?? [])
+            setIsLoadingHeatMap(false)
+            console.log("Load map done!")
+          })
+      })
+      .catch((e) => console.log(e));
   }, [])
 
-  useMemo(() => {
-    if (!isLoaded) return;
-    fetchHeatmapData();
-  }, [isLoaded])
 
   const renderMap = () => {
     return (
@@ -100,7 +92,8 @@ export const VoveMap = () => {
         zoom={15}
         options={{streetViewControl: false, fullscreenControl: false}}
       >
-        <HeatmapLayerF data={heatmapData}/>
+        {(isLoadingHeatMap) ? null :
+          <HeatmapLayerF data={heatmapData} options={{radius: 100, opacity: 0.3}}/>}
         <div className={styles.buttonLayer}>
           <ActionIcon size="lg" variant="light" color="cyan"
                       onClick={() => searchHeatmapModalController.setIsModalOpened(true)}>

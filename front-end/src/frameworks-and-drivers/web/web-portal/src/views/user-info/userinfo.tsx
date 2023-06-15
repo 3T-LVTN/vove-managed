@@ -3,25 +3,12 @@ import {AppUserApi} from "@front-end/frameworks-and-drivers/app-sync/user";
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
 import {AppUserInteractor} from "@front-end/application/interactors/app-user";
 import {AppUserController} from "@front-end/interface-adapters/controllers/app-user";
-import {
-  Badge,
-  Card,
-  Container,
-  createStyles,
-  Grid,
-  Paper,
-  ScrollArea,
-  Skeleton,
-  Stack,
-  Text,
-  Title
-} from "@mantine/core";
+import {Card, Container, createStyles, Grid, Paper, ScrollArea, Skeleton, Stack, Text, Title} from "@mantine/core";
 import {useParams} from "react-router-dom";
-import {AppUser} from "@front-end/domain/entities/app-user";
+import {AppUserDetail, TrackingPlace} from "@front-end/domain/entities/app-user";
 import {useEffect, useState} from "react";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
-import {TrackingViewModel} from "@front-end/interface-adapters/view-models/tracking";
 import {TrackingApi} from "@front-end/frameworks-and-drivers/app-sync/tracking";
 import {TrackingRepository} from "@front-end/application/repositories/tracking";
 import {TrackingInteractors} from "@front-end/application/interactors/tracking";
@@ -55,139 +42,69 @@ const UserInfo = () => {
   const {id} = useParams();
   const {classes} = useStyles();
 
-  const [user, setUser] = useState<AppUser | null>(null);
-  const [locations, setLocations] = useState<TrackingViewModel[]>([]);
+  const [user, setUser] = useState<AppUserDetail | null>(null);
+  const [locations, setLocations] = useState<TrackingPlace[]>([]);
   const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [isLoadingTracking, setIsLoadingTracking] = useState<boolean>(true);
   const [isLoadingInquiry, setIsLoadingInquiry] = useState<boolean>(true);
 
   const fetchDetails = async (id: string) => {
-    appUserController.getUser(id!).then((user) => {
-      setUser(user);
-    });
+    try {
+      const userDetail = await appUserController.getUser(id);
+      setUser(userDetail);
+      return userDetail;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  const fetchTrackingList = async (id: string) => {
+  const fetchTrackingList = async (trackingPlaces: TrackingPlace[]) => {
     //TODO: Fetch tracking list from API
-    setIsLoadingTracking(false);
-    setLocations([
-      {
-        id: "Thinh's house",
-        name: "Location 1",
-        address: "12 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
-        status: "Good"
-      },
-      {
-        id: "2",
-        name: "School",
-        address: "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh",
-        status: "More Mosquitoes"
-      },
-      {
-        id: "3",
-        name: "Company",
-        address: "11 Đoàn Văn Bơ, Phường 10, Quận 4, Thành phố Hồ Chí Minh",
-        status: "Epidemic"
-      },
-      {
-        id: "4",
-        name: "Ngoc's house",
-        address: "Phường 5, Quận 11, Thành phố Hồ Chí Minh",
-        status: "High Risk"
-      },
-      {
-        id: "5",
-        name: "Khoa's house",
-        address: "Xã Trung Chánh, Huyện Hóc Môn, Thành phố Hồ Chí Minh",
-        status: "Good"
-      },
-      {
-        id: "6",
-        name: "Phong's house",
-        address: "Phường 2, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Good"
-      },
-      {
-        id: "7",
-        name: "Quang's house",
-        address: "Phường 3, Quận 9, Thành phố Hồ Chí Minh",
-        status: "Good"
-      }
-    ]);
+    if (trackingPlaces.length === 0) return;
+    else {
+      setLocations(trackingPlaces);
+    }
   }
 
-  const fetchInquiryList = async (id: string) => {
-    //TODO: Fetch inquiry list from API
-    setIsLoadingInquiry(false)
-    setInquiries([
-      {
-        id: "1",
-        username: user?.name ?? "Nguyen Mai Thy",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 1",
-        details: "The predict results at my living area is incorrect",
-        status: "Opening"
-      },
-      {
-        id: "2",
-        username: user?.name ?? "Nguyen Mai Thy",
-        timestamp: "03/05/2023 15:15",
-        address: "Address 2",
-        details: "My app is slow",
-        status: "Closed"
-      },
-    //   {
-    //     id: "3",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 3",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "4",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 4",
-    //     details: "I can't find my place on your map",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "5",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 5",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "6",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 6",
-    //     details: "I can't find my place on your map",
-    //     status: "Closed"
-    //   },
-    //   {
-    //     id: "7",
-    //     username: user?.name ?? "",
-    //     timestamp: "03/05/2023 15:15",
-    //     address: "Address 7",
-    //     details: "The predict results at my living area is incorrect",
-    //     status: "Closed"
-    //   }
-    ]);
+  const fetchInquiryList = async (user: AppUserDetail) => {
+    try {
+      const inquiryList = await inquiryController.getInquiryListByUser(user.id);
+      inquiryList.map((inquiry) => {
+        inquiry.author = user?.name ?? "";
+        return inquiry;
+      })
+      setInquiries(inquiryList);
+      return inquiryList;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
     fetchDetails(id!)
-      .then(() => {
+      .then((user) => {
         setIsLoadingUser(false);
-        fetchTrackingList(id!);
-        fetchInquiryList(id!);
       });
   }, []);
+
+  useEffect(() => {
+    fetchTrackingList(user?.trackingPlaces ?? []);
+    fetchInquiryList(user!);
+  }, [user]);
+
+  useEffect(() => {
+    if (locations.length !== 0) {
+      console.log(locations)
+      setIsLoadingTracking(false)
+    }
+  }, [locations])
+
+  useEffect(() => {
+    if (inquiries.length !== 0) {
+      setIsLoadingInquiry(false)
+    }
+  }, [inquiries])
 
   const trackingList = locations.map((location) => {
     return (
@@ -199,67 +116,68 @@ const UserInfo = () => {
       >
         <div style={{display: "flex", justifyContent: "space-between"}}>
           <Text fz="xs" tt="uppercase" fw={400} c="dimmed">
-            {location.address}
+            {location.addressName}
           </Text>
-          <Badge variant={"light"} size={"xs"} color={location.status === "Epidemic" ? "red" : (
-            location.status === "High Risk" ? "orange" : (
-              location.status === "More Mosquitoes" ? "yellow" : ""
-            ))}>
-            {location.status}
-          </Badge>
+          {/*<Badge variant={"light"} size={"xs"} color={location.status === "HIGH RISK" ? "red" : (*/}
+          {/*  location.status === "LOW RISK" ? "orange" : (*/}
+          {/*    location.status === "NORMAL" ? "yellow" : ""*/}
+          {/*  ))}>*/}
+          {/*  {location.status}*/}
+          {/*</Badge>*/}
         </div>
         <Text fz="lg" fw={500} c={"dark.4"}>
-          {location.name}
+          {location.title}
         </Text>
       </Card>
     )
   });
 
   return (
-    <Grid>
-      <Grid.Col span={12}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder p="md" radius="md">
-            <Title order={1} mb="xs">{user?.name}</Title>
-            <Text mb="xs"><b>Email:</b> {user?.email}</Text>
-            <Text mb="xs"><b>Phone:</b> {user?.phoneNumber}</Text>
-            <Text mb="xs"><b>Address:</b> {user?.address}</Text>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
+    <Container fluid>
+      <Grid>
+        <Grid.Col span={12}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder p="md" radius="md">
+              <Title order={1} mb="xs">{user?.name}</Title>
+              <Text mb="xs"><b>Phone:</b> {user?.phone}</Text>
+              <Text mb="xs"><b>Address:</b> {user?.addressName}</Text>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
 
-      <Grid.Col xs={12} md={6}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder radius="md" py="md">
-            <Title order={2} mb="xs" mx="md">Tracking List</Title>
-            <ScrollArea h="58vh">
-              <Container px="md">
-                <Skeleton visible={isLoadingTracking}>
-                  <Stack spacing={10}>
-                    {trackingList}
-                  </Stack>
-                </Skeleton>
-              </Container>
-            </ScrollArea>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
+        <Grid.Col xs={12} md={6}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder radius="md" py="md">
+              <Title order={2} mb="xs" mx="md">Tracking List</Title>
+              <ScrollArea h="60vh">
+                <Container px="md">
+                  <Skeleton visible={isLoadingTracking}>
+                    <Stack spacing={10}>
+                      {trackingList}
+                    </Stack>
+                  </Skeleton>
+                </Container>
+              </ScrollArea>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
 
-      <Grid.Col xs={12} md={6}>
-        <Skeleton visible={isLoadingUser}>
-          <Paper withBorder radius="md" py="md">
-            <Title order={2} mb="xs" mx="md">Inquiry List</Title>
-            <ScrollArea h="58vh">
-              <Container px="md">
-                <Skeleton visible={isLoadingInquiry}>
-                  <InquirySummary inquiries={inquiries}></InquirySummary>
-                </Skeleton>
-              </Container>
-            </ScrollArea>
-          </Paper>
-        </Skeleton>
-      </Grid.Col>
-    </Grid>
+        <Grid.Col xs={12} md={6}>
+          <Skeleton visible={isLoadingUser}>
+            <Paper withBorder radius="md" py="md">
+              <Title order={2} mb="xs" mx="md">Inquiry List</Title>
+              <ScrollArea h="60vh">
+                <Container px="md">
+                  <Skeleton visible={isLoadingInquiry}>
+                    <InquirySummary inquiries={inquiries}></InquirySummary>
+                  </Skeleton>
+                </Container>
+              </ScrollArea>
+            </Paper>
+          </Skeleton>
+        </Grid.Col>
+      </Grid>
+    </Container>
   )
 }
 

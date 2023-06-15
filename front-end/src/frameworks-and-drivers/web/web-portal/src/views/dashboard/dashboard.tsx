@@ -1,4 +1,4 @@
-import {ActionIcon, Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
+import {Button, Container, Grid, Modal, Paper, Stack, Text, Title} from '@mantine/core';
 import {VoveMap} from "../../components/map/map";
 import {PageTitle} from "../../components/page-title/page-title";
 import React, {useEffect, useState} from "react";
@@ -12,55 +12,181 @@ import StatsGirdIcons from "../../components/stats-grid-icons/stats-gird-icons";
 import InquirySummary from "../../components/inquiry-summary/inquiry-summary";
 import AppAnalysisSummary from "../../components/app-analysis-summary/app-analysis-summary";
 import {InquiryViewModel} from "@front-end/interface-adapters/view-models/inquiry";
+import {useNavigate} from "react-router-dom";
+import {getDistricts, getRate} from '@front-end/shared/administrative-division';
+import axios from 'axios';
+import {Status} from "@front-end/domain/entities/inquiry";
+import {InquiryApi} from "@front-end/frameworks-and-drivers/app-sync/inquiry";
+import {InquiryRepository} from "@front-end/application/repositories/inquiry";
+import {InquiryUsecases} from "@front-end/application/usecases/inquiry";
+import {InquiryInteractors} from "@front-end/application/interactors/inquiry";
+import {InquiryControllers} from "@front-end/interface-adapters/controllers/inquiry";
+import { MapApi } from '@front-end/frameworks-and-drivers/app-sync/map';
+
+enum DistrictSummaryStatus {
+  Safe = 'SAFE',
+  Normal = 'NORMAL',
+  LowRisk = 'LOW_RISK',
+  HighRisk = 'HIGH_RISK',
+}
+
+interface DistrictSummary {
+  districtId: number;
+  districtName: string;
+  number: Record<string, number>;
+}
+
+interface DistrictLocation {
+  // lat?: number;
+  // lng?: number;
+  district_name: string;
+  wards: {
+    lat: number;
+    lng: number;
+    locationCode: string;
+  }[]
+}
+
+interface DistrictSummaryApiRequest {
+  locations: {
+    idx?: number,
+    lat: number,
+    lng: number,
+    locationCode: string
+  }[];
+  // NOTE: currently not support filter with time interval, default 7
+  // timeInterval: number
+}
+
+interface DistrictSummaryApiResponseData {
+  locationCode: string;
+  lat: number;
+  lng: number;
+  value: number;
+  precip: number;
+  temperature: number;
+  rate: DistrictSummaryStatus;
+}
+
+interface DistrictSummaryApiResponse {
+  code: number;
+  message: string;
+  data: Array<DistrictSummaryApiResponseData>;
+}
+
+type MapWardRate2Number = Record<string, number>
+
+const getSummary = async (
+  inp: DistrictLocation[]
+): Promise<[DistrictSummary[], MapWardRate2Number]> => {
+  const body: DistrictSummaryApiRequest = {
+    locations: [],
+  };
+  let mapWard2District: Record<string, string>
+  let mapDistrict2Id: Record<string, number>
+  let mapRate2Number: Record<string, number> = {}
+  let idx = 0
+  inp.forEach((val, index) => {
+    mapDistrict2Id = {
+      ...mapDistrict2Id, [val.district_name]: index
+    }
+    val.wards.forEach((ward) => {
+      idx += 1;
+      body.locations.push({...ward, idx: idx})
+      mapWard2District = {
+        ...mapWard2District,
+        [ward.locationCode]: val.district_name
+      }
+    })
+  })
+  let mapDist2NumberOfRecord: Record<string, Record<string, number>> = {}
+  const mapApi = new MapApi()
+  return  mapApi.getSummary(body)
+    .then((response) => {
+      response.data.forEach((ward, index, _) => {
+        const district = mapWard2District[ward.locationCode]
+        const mapState2Number = mapDist2NumberOfRecord[district] ?? {[ward.rate]: 0}
+        const numberOfStatus = mapState2Number[ward.rate] ? mapState2Number[ward.rate] + 1 : 1
+        mapDist2NumberOfRecord = {
+          ...mapDist2NumberOfRecord,
+          [district]: {...mapDist2NumberOfRecord[district], [ward.rate]: numberOfStatus}
+        }
+        mapRate2Number = {
+          ...mapRate2Number,
+          [ward.rate]: mapRate2Number[ward.rate] ? mapRate2Number[ward.rate] + 1 : 1
+        }
+      });
+      return [Object.entries(mapDist2NumberOfRecord).map((val) => {
+        return {districtId: mapDistrict2Id[val[0]], districtName: val[0], number: val[1]}
+      }), mapRate2Number]
+    })
+};
+
+
+export type TDashboardDataMap = Record<string, number>
 
 export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [inquiries, setInquiries] = useState<InquiryViewModel[]>([]);
 
+  const navigator = useNavigate();
+
   const searchHeatmapModalGlobalState = new SearchHeatmapModalGlobalState()
   const searchHeatmapModalUsecase = new SearchHeatmapModalInteractor(searchHeatmapModalGlobalState)
   const searchHeatmapModalController = new SearchHeatmapModalController(searchHeatmapModalUsecase)
 
-  const mockInquiries: InquiryViewModel[] = [
-    {
-      id: "1",
-      username: "Nguyen Mai Thy",
-      timestamp: "03/05/2023 15:15",
-      address: "Address 1",
-      details: "The predict results at my living area is incorrect",
-      status: "Opening"
-    },
-    {
-      id: "2",
-      username: "Le Tran Hoang Thinh",
-      timestamp: "03/05/2023 15:15",
-      address: "Address 2",
-      details: "I can't find my place on your map",
-      status: "Closed"
-    }
-  ]
+  const inquiryRepository: InquiryRepository = new InquiryApi();
+  const inquiryUseCase: InquiryUsecases = new InquiryInteractors(inquiryRepository);
+  const inquiryController: InquiryControllers = new InquiryControllers(inquiryUseCase);
 
+  const [dashboardData, setDashboardData] = useState<{
+    labels: string[];
+    datasets: {
+      data: number[];
+    }[];
+  }>({
+    labels: [],
+    datasets: [{data: []}],
+  });
   const fetchInquiries = async () => {
-    setInquiries(mockInquiries);
+    const inquiryList = await inquiryController.getInquiries();
+    inquiryList.inquiries.map((inquiry) => {
+      inquiry.author = "Phạm Hoàng Vũ";
+      return inquiry;
+    })
+    setInquiries([inquiryList.inquiries[0], inquiryList.inquiries[1]]);
   }
-
   useEffect(() => {
     setLoading(true);
     //TODO: catch loading API state
     fetchInquiries();
     const timer = setTimeout(() => setLoading(false), 300);
+    const districtInp = getDistricts();
+    getSummary(districtInp).then((tmp) => {
+      const labels: string[] = []
+      const datasets: number[] = []
+      Object.entries(tmp[1]).forEach((val) => {
+        labels.push(val[0]);
+        datasets.push(val[1]);
+      });
+      setDashboardData({
+        labels: labels.map((value) => getRate(value)),
+        datasets: [{data: datasets}]
+      })
+    }).catch((e) => console.log(e))
     return () => clearTimeout(timer)
-  }, [])
+  }, []);
+
 
   return (<Container size="xl" fluid={true}>
-    <PageTitle title="Dash Board"/>
+    <PageTitle title="Tổng quan"/>
     <Grid>
       <Grid.Col md={6} lg={4}>
         <LoadingWrapper
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "User", value: "1000", diff: 1}} nav={'users'}></StatsGirdIcons>
+            <StatsGirdIcons data={{title: "Người dùng", value: "15", diff: 100}} nav={'users'}></StatsGirdIcons>
           </Paper>}
         />
       </Grid.Col>
@@ -70,7 +196,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <StatsGirdIcons data={{title: "Model feedback", value: "4.2", diff: 3}}
+            <StatsGirdIcons data={{title: "Phản hồi", value: "20", diff: 100}}
                             nav={'/model-management'}></StatsGirdIcons>
           </Paper>}
         />
@@ -81,7 +207,7 @@ export const Dashboard = () => {
           loading={loading}
           view_height={"15vh"}
           children={<Paper withBorder p="md" radius="md" h={"13.5vh"}>
-            <AppAnalysisSummary data={{access: 20, tracking: 200, inquiries: 20}}></AppAnalysisSummary>
+            <AppAnalysisSummary data={{access: 20, tracking: 30, inquiries: 6}}></AppAnalysisSummary>
           </Paper>}
         />
       </Grid.Col>
@@ -101,7 +227,7 @@ export const Dashboard = () => {
             loading={loading}
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
-              <DistrictStatusSummary isForDashboard={true}></DistrictStatusSummary>
+              <DistrictStatusSummary data={dashboardData} isForDashboard={true}></DistrictStatusSummary>
             </Paper>}
           />
           <LoadingWrapper
@@ -109,9 +235,10 @@ export const Dashboard = () => {
             view_height={"50%"}
             children={<Paper withBorder p="md" radius="md" style={{height: "50%"}}>
               <Stack justify="space-between" align="flex-start" h="100%">
-                <Title fw={500} fz="lg" order={4} color="dark.4">Inquiries (1 opening)</Title>
+                <Title fw={500} fz="lg" order={4} color="dark.4">Yêu cầu hỗ trợ</Title>
                 <InquirySummary inquiries={inquiries}></InquirySummary>
-                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}}>Inquiries List</Button>
+                <Button variant={"light"} size="sm" mt={0} style={{bottom: 0}} onClick={() => navigator("inquiries")}>
+                  Xem tất cả</Button>
               </Stack>
             </Paper>}
           />

@@ -1,30 +1,90 @@
-import React from "react";
-import {ActionIcon, Group, rem, Stack, Text} from "@mantine/core";
-import {Pie} from "react-chartjs-2";
-import {ArcElement, Chart as ChartJS, Legend, LinearScale, Tooltip} from 'chart.js';
-import {IconArrowUpRight} from "@tabler/icons-react";
+import React, { useState } from "react";
+import { ActionIcon, Group, rem, Stack, Text } from "@mantine/core";
+import { Pie } from "react-chartjs-2";
+import { ArcElement, Chart as ChartJS, Legend, LinearScale, Tooltip } from 'chart.js';
+import { IconArrowUpRight } from "@tabler/icons-react";
 import styles from './district-status-summary.module.css'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend, LinearScale);
 
-export const data = {
-  labels: ['OK', 'NG'], datasets: [{
-    data: [18, 6], backgroundColor: ["#61c0d0", "#FFA8A8"],
+interface PieChartDataSet {
+  data: number[]
+  backgroundColor?: string[]
+  borderWidth?: number
+}
+interface PieChartVisualizableData {
+  labels: string[]
+  datasets: PieChartDataSet[]
+}
+
+const DefaultColors =  [
+  "#FFD43B",
+  "#3BC9DB",
+  "#FFA94D",
+  "#FF8787",
+]
+const data: PieChartVisualizableData = {
+  labels: ["An toàn", "Bình thường", "Nguy cơ thấp", "Nguy cơ cao"],
+  datasets: [{
+    data: [14, 5, 2, 1],
+    backgroundColor: DefaultColors,
+    borderWidth: 1,
   },],
 };
 
+
+
 interface DistrictStatusSummaryProps {
   isForDashboard: boolean
+  data: PieChartVisualizableData
 }
+
+export function PieChart(data: PieChartVisualizableData) {
+  data.datasets = data.datasets.map(
+    (val) => {
+      const ret = val
+      console.log("****************",ret)
+      const colors = DefaultColors.slice(0, ret.data.length)
+      console.log("****************",ret)
+      ret.backgroundColor = ret.backgroundColor ?? colors
+      console.log("===",ret)
+      return ret
+    })
+  return <Pie
+    data={data}
+    options={{
+      plugins: {
+        legend: {
+          position: "bottom",
+        }
+      }
+    }}
+  />
+}
+
+
+
+const GroupTrackingData = ({ labels, datasets }: PieChartVisualizableData) => {
+  return <Group mt={"lg"}>
+    {labels.map((val, idx) => <div>
+      <Text fz="lg" fw={700} c={"dark.4"}>{val}</Text>
+      <Text fz="xs" color="dimmed">{datasets[0].data[idx]}</Text>
+    </div>)}
+  </Group>
+}
+
 
 export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
   const navigator = useNavigate();
+  console.log("render summary")
+  console.log(props)
+  const pieChartData = props.data ?? data
   return (<>
     {props.isForDashboard ? <div className={styles.buttonLayer}>
       <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/districts')}>
         <IconArrowUpRight
-          size="2.125rem"/>
+          size="2.125rem" />
       </ActionIcon>
     </div> : <></>}
 
@@ -33,30 +93,12 @@ export function DistrictStatusSummary(props: DistrictStatusSummaryProps) {
     }}>
       <Stack h={"100%"} justify={"center"}>
         <div>
-          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>24</Text>
-          <Text fz="xs" color="dimmed">Districts tracked</Text>
+          <Text mt={30} fz={rem(25)} fw={700} c={"dark.4"}>{pieChartData.datasets[0].data.reduce((acc, ele)=>(acc+ele), 0)}</Text>
+          <Text fz="xs" color="dimmed">phường/xã lấy mẫu</Text>
         </div>
-        <Group mt={"lg"}>
-          <div>
-            <Text fz="lg" fw={700} c={"dark.4"}>18</Text>
-            <Text fz="xs" color="dimmed">Normal</Text>
-          </div>
-          <div>
-            <Text size="lg" fw={700} c={"dark.4"}>6</Text>
-            <Text size="xs" color="dimmed">High risk</Text>
-          </div>
-        </Group>
+        <GroupTrackingData {...pieChartData}></GroupTrackingData>
       </Stack>
-      <Pie
-        data={data}
-        options={{
-          plugins: {
-            legend: {
-              position: "bottom",
-            }
-          }
-        }}
-      />
+      <PieChart {...pieChartData} />
     </div>
   </>)
 }

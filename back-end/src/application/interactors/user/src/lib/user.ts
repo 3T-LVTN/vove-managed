@@ -12,7 +12,7 @@ export class UserInteractors implements UserUseCase {
     private userRepository: UserRepository) {
   }
 
-  async getUserList(query: UserQuery): Promise<UserListDTO> {
+  getUserList(query: UserQuery): Promise<UserListDTO> {
     return this.userRepository.getUserList(query)
       .then((users) => UsersMapper.toListDTO(users));
   }
@@ -26,7 +26,7 @@ export class UserInteractors implements UserUseCase {
     return this.userRepository.updateUser(id, UsersMapper.toEntity(user));
   }
 
-  deleteUser(id: string): Promise<void> {
+  deleteUser(id: string): Promise<string> {
     return this.userRepository.deleteUser(id);
   }
 }

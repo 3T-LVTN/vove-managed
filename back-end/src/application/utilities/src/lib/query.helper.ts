@@ -1,4 +1,4 @@
-import {Query, UserQuery} from "@back-end/domain/shared/query";
+import {InquiryQuery, Query, UserQuery} from "@back-end/domain/shared/query";
 
 export class QueryHelper {
   static getOptions(query: Query) {
@@ -19,34 +19,51 @@ export class QueryHelper {
     const search: { [key: string]: object } = {};
     if (userQuery.search) {
       search["$or"] = [
-        {_id: new RegExp(userQuery.search, "ig")},
+        {phone: new RegExp(userQuery.search, "ig")},
         {name: new RegExp(userQuery.search, "ig")},
-        {email: new RegExp(userQuery.search, "ig")},
-        {phoneNumber: new RegExp(userQuery.search, "ig")},
-        {address: new RegExp(userQuery.search, "ig")},
+        {addressName: new RegExp(userQuery.search, "ig")},
       ]
     }
     const result: { [key: string]: RegExp | number } = {};
-    if (userQuery.id) {
-      result._id = new RegExp(userQuery.id, "ig");
+    if (userQuery.phone) {
+      result.phone = new RegExp(userQuery.phone, "ig");
     }
     if (userQuery.name) {
       result.name = new RegExp(userQuery.name, "ig");
     }
-    if (userQuery.email) {
-      result.email = new RegExp(userQuery.email, "ig");
+    if (userQuery.addressName) {
+      result.addressName = new RegExp(userQuery.addressName, "ig");
     }
-    if (userQuery.phoneNumber) {
-      result.phoneNumber = new RegExp(userQuery.phoneNumber, "ig");
+    return {
+      $and: [
+        search,
+        result,
+        {deleteAt: null}
+      ]
+    };
+  }
+
+  static getInquiryFilter(inquiryQuery: InquiryQuery) {
+    const search: { [key: string]: object } = {};
+    if (inquiryQuery.search) {
+      search["$or"] = [
+        {title: new RegExp(inquiryQuery.search, "ig")},
+        {author: new RegExp(inquiryQuery.search, "ig")},
+      ]
     }
-    if (userQuery.address) {
-      result.address = new RegExp(userQuery.address, "ig");
+
+    const result: { [key: string]: RegExp | number } = {};
+    if (inquiryQuery.title) {
+      result.title = new RegExp(inquiryQuery.title, "ig");
+    }
+    if (inquiryQuery.author) {
+      result.author = new RegExp(inquiryQuery.author, "ig");
     }
     return {
       $and: [
         search,
         result
       ]
-    };
+    }
   }
 }

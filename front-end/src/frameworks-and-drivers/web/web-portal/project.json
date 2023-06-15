@@ -17,7 +17,8 @@
         "tsConfig": "src/frameworks-and-drivers/web/web-portal/tsconfig.app.json",
         "assets": [
           "src/frameworks-and-drivers/web/web-portal/src/favicon.ico",
-          "src/frameworks-and-drivers/web/web-portal/src/assets"
+          "src/frameworks-and-drivers/web/web-portal/src/assets",
+          "src/frameworks-and-drivers/web/web-portal/src/robots.txt"
         ],
         "styles": ["src/frameworks-and-drivers/web/web-portal/src/styles.css"],
         "scripts": [],
@@ -88,5 +89,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["layer:frameworks-and-drivers"]
 }

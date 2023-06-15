@@ -1,5 +1,9 @@
 import {AppUserUseCase} from "@front-end/application/usecases/app-user";
-import {AppUserListViewModel, AppUserViewModel} from "@front-end/interface-adapters/view-models/app-user";
+import {
+  AppUserDetailViewModel,
+  AppUserListViewModel,
+  AppUserViewModel
+} from "@front-end/interface-adapters/view-models/app-user";
 import {AppUser} from "@front-end/domain/entities/app-user";
 import {Query} from "@front-end/shared/utils";
 
@@ -14,23 +18,12 @@ export class AppUserController {
       });
   }
 
-  async getUser(id: string): Promise<AppUserViewModel> {
+  async getUser(id: string): Promise<AppUserDetailViewModel> {
     return this.appUserUseCase.getUser(id)
-      .then((user) => user as AppUserViewModel)
+      .then((user) => user as AppUserDetailViewModel)
       .catch((error) => {
         throw new Error(error)
       });
-  }
-
-  async updateUser(user: AppUserViewModel): Promise<number> {
-    const userEntity: AppUser = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      phoneNumber: user.phoneNumber,
-      address: user.address
-    };
-    return this.appUserUseCase.updateUser(userEntity);
   }
 
   async deleteUser(id: string): Promise<void> {

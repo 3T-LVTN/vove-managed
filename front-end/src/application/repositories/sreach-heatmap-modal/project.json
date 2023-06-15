@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "src/application/repositories/sreach-heatmap-modal/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["layer:application-business-rules"],
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",

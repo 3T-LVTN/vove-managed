@@ -16,34 +16,32 @@ interface AppAnalysisSummaryProps {
 export function AppAnalysisSummary({data}: AppAnalysisSummaryProps) {
   const navigator = useNavigate();
 
-  return (<>
-      <Group position="apart" align="top" mt={0}>
+  return (<Group position="apart" align="top" mt={0}>
         <div>
           <Text c="dimmed" fz="sm" mt="0">
             <Text component="span" c={'cyan'} fw={700}>
               {data.access}
             </Text>{' '}
-            accesses today
+            lượt truy cập hôm nay
           </Text>
           <Text c="dimmed" fz="sm" mt="sm">
             <Text component="span" c={'cyan'} fw={700}>
               {data.tracking}
             </Text>{' '}
-            tracking points registered
+            điểm theo dõi
           </Text>
           <Text c="dimmed" fz="sm" mt="sm">
             <Text component="span" c={'cyan'} fw={700}>
               {data.inquiries}
             </Text>{' '}
-            inquiries created
+            yêu cầu hỗ trợ
           </Text>
         </div>
         <ActionIcon size="lg" variant="light" color={"cyan"} onClick={() => navigator('/app-analysis')}>
           <IconArrowUpRight
             size="2.125rem"/>
         </ActionIcon>
-      </Group>
-    </>);
+      </Group>);
 }
 
 export default AppAnalysisSummary;

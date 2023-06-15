@@ -1,5 +1,4 @@
-export interface UserViewModels {
+export interface UserViewModel {
   email: string;
   name: string;
-  photoUrl: string;
 }

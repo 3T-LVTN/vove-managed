@@ -1,8 +1,19 @@
+import {Status, CommentEntity} from "@front-end/domain/entities/inquiry";
+
 export interface InquiryViewModel {
   id: string;
-  username: string;
-  timestamp: string;
-  address: string;
-  details: string;
-  status: string;
+  message: string;
+  phone: string;
+  time: string;
+  author: string;
+  address?: string;
+  title: string;
+  status: Status;
+  comments?: CommentEntity[];
+}
+
+export interface InquiryListViewModel {
+  inquiries: InquiryViewModel[];
+  page: number;
+  total: number;
 }

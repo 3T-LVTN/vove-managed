@@ -4,6 +4,7 @@ import {UserQuery} from "@back-end/domain/shared/query";
 export interface UserRepository {
   getUserList(query: UserQuery): Promise<UserList>;
   getUser(id: string): Promise<User>;
+  getUserByPhone(phone: string): Promise<User>;
   updateUser(id: string, user: User): Promise<string>;
-  deleteUser(id: string): Promise<void>;
+  deleteUser(id: string): Promise<string>;
 }

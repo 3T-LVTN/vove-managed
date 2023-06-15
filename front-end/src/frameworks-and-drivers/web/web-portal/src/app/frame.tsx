@@ -1,19 +1,13 @@
-import {AppShell, Header, Container, Group, Menu, ActionIcon, Avatar} from "@mantine/core";
+import {AppShell, Header, Container, Group, Menu, ActionIcon, Avatar, Anchor, Button} from "@mantine/core";
 import {createStyles, useMantineTheme} from "@mantine/core";
-import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import {Outlet, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from "react";
-import {onAuthStateChanged, getAuth} from "firebase/auth";
-import {User} from "@front-end/domain/entities/user";
 import {Logo} from "./logo";
 import {AuthFirebase} from "@front-end/frameworks-and-drivers/firebase-auth";
 import {UserInteractor} from "@front-end/application/interactors/user";
 import {UserController} from "@front-end/interface-adapters/controllers/user";
-import { IconLogout } from "@tabler/icons-react";
-
-const authRoutes = [
-  "/login",
-  "/reset-password"
-]
+import {IconLogout} from "@tabler/icons-react";
+import {UserViewModel} from "@front-end/interface-adapters/view-models/user";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -24,6 +18,12 @@ const useStyles = createStyles((theme) => ({
   },
 
   navigation: {
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+  },
+
+  username: {
     [theme.fn.smallerThan("sm")]: {
       display: "none",
     },
@@ -35,41 +35,23 @@ export const Frame = () => {
   const userUseCase = new UserInteractor(authRepository);
   const userController = new UserController(userUseCase);
 
-  const [currentUser, setCurrentUser] = useState<User>();
-  const userEmail = currentUser?.email ?? "";
+  const [currentUser, setCurrentUser] = useState<UserViewModel>();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   const navigate = useNavigate();
-  const location = useLocation();
   const {classes} = useStyles();
   window.scrollTo(0, 0);
-  const auth = getAuth();
 
-  const isAuthRoutes = () => {
-    return authRoutes.includes(location.pathname);
-  }
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        if (currentUser !== undefined) return;
-        user.getIdToken()
-          .then((token) => {
-            localStorage.setItem("token", token);
-          })
-        setCurrentUser({
-          email: user.email,
-          name: user.displayName,
-          photoUrl: user.photoURL
-        } as User);
-        if(isAuthRoutes())navigate("");
-      } else {
-        if (isAuthRoutes()) return;
-        setCurrentUser(undefined);
-        navigate("/login");
-      }
-    });
-  }, [currentUser]);
+    userController.getUser()
+      .then((user) => setCurrentUser(user))
+      .then(() => setIsAuthenticated(true))
+      .catch(() => navigate("/login"));
+  }, []);
 
   const theme = useMantineTheme();
-  return (
+
+  const renderFrame = () => (
     <AppShell
       styles={{
         main: {
@@ -80,41 +62,56 @@ export const Frame = () => {
         },
       }}
       header={
-        !isAuthRoutes() ?
-          <Header height={60} mb={120} px="md">
-            <Container className={classes.inner} fluid>
-              <Group>
-                <Logo/>
-              </Group>
-              <Group>
-                <span>{userEmail}</span>
-                <Menu
-                  transitionProps={{ transition: "pop" }}
-                  position="bottom-end"
-                  withinPortal
-                >
-                  <Menu.Target>
-                    <ActionIcon>
-                      <Avatar color="cyan" radius="xl" />
-                    </ActionIcon>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      onClick={() => userController.signOut()}
-                      icon={<IconLogout size="1rem" stroke={1.5} />}
-                    >
-                      Logout
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Group>
-            </Container>
-          </Header>
-          :
-          <></>
+        <Header height={60} mb={120} px="md">
+          <Container className={classes.inner} fluid>
+            <Logo/>
+            <Group spacing="xl" className={classes.navigation}>
+              <Anchor underline={false} onClick={() => navigate("users")}>
+                Người dùng
+              </Anchor>
+              <Anchor underline={false} onClick={() => navigate("model-management")}>
+                Mô hình
+              </Anchor>
+              <Anchor underline={false} onClick={() => navigate("app-analysis")}>
+                Thống kê
+              </Anchor>
+              <Anchor underline={false} onClick={() => navigate("districts")}>
+                Địa điểm
+              </Anchor>
+              <Anchor underline={false} onClick={() => navigate("inquiries")}>
+                Yêu cầu hỗ trợ
+              </Anchor>
+            </Group>
+            <Group miw={290} position="right">
+              <span className={classes.username}>{currentUser?.email}</span>
+              <Menu
+                transitionProps={{transition: "pop"}}
+                position="bottom-end"
+                withinPortal
+              >
+                <Menu.Target>
+                  <ActionIcon>
+                    <Avatar color="cyan" radius="xl"/>
+                  </ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    onClick={() => userController.signOut()
+                      .then(() => navigate("/login"))}
+                    icon={<IconLogout size="1rem" stroke={1.5}/>}
+                  >
+                    Đăng xuất
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </Group>
+          </Container>
+        </Header>
       }
     >
       <Outlet></Outlet>
     </AppShell>
   );
+
+  return isAuthenticated ? renderFrame() : null;
 };

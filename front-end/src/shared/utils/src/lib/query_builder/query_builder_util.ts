@@ -8,22 +8,18 @@ export interface Query {
 }
 
 export interface UserFilter {
-  id?: string;
   name?: string;
-  email?: string;
-  phoneNumber?: string;
-  address?: string;
+  phone?: string;
+  addressName?: string;
 
   [key: string]: string | undefined;
 }
 
 export class UserFilterBuild {
   static build = (filter: UserFilter): string => {
-    return (filter.id ? `&id=${filter.id}` : "") +
-      (filter.name ? `&name=${filter.name}` : "") +
-      (filter.email ? `&email=${filter.email}` : "") +
-      (filter.phoneNumber ? `&phone=${filter.phoneNumber}` : "") +
-      (filter.address ? `&address=${filter.address}` : "");
+    return (filter.name ? `&name=${filter.name}` : "") +
+      (filter.phone ? `&phone=${filter.phone}` : "") +
+      (filter.addressName ? `&address=${filter.addressName}` : "");
   }
 }
 

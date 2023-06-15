@@ -1,10 +1,20 @@
+import {LatLng} from "@back-end/domain/shared/location";
+
 export interface UserDTO {
-  id: string;
-  email: string;
+  id?: string;
+  phone?: string;
   name: string;
-  phoneNumber?: string;
+  avatar?: string;
+  trackingPlaces?: TrackingPlaceDTO[];
   address?: string;
-  photoUrl?: string;
+  addressName?: string;
+}
+
+export interface TrackingPlaceDTO {
+  id?: string;
+  title: string;
+  addressName: string;
+  address: LatLng;
 }
 
 export interface UserListDTO {

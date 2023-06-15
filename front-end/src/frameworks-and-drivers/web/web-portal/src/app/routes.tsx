@@ -7,8 +7,22 @@ import ResetPassword from "../views/reset-password/reset-password";
 import Userlist from "../views/users/userlist";
 import UserInfo from "../views/user-info/userinfo";
 import {ModelManagement} from "../views/model-management/model-management";
+import InquiryList from "../views/inquiry-list/inquiry-list";
+import InquiryDetail from "../views/inquiry-detail/inquiry-detail";
+import AppAnalysis from "../views/app-analysis/app-analysis";
+import DistrictSummary from "../views/district-summary/district-summary";
+import DistrictDetail from "../views/district-detail/district-detail";
+import WardDetail from "../views/ward-detail/ward-detail";
 
 export const routes = [
+  {
+    path: 'login',
+    element: <Login/>,
+  },
+  {
+    path: 'reset-password',
+    element: <ResetPassword/>,
+  },
   {
     path: '',
     element: <Frame />,
@@ -16,14 +30,6 @@ export const routes = [
       {
         path: '',
         element: <Dashboard/>
-      },
-      {
-        path: 'login',
-        element: <Login/>,
-      },
-      {
-        path: 'reset-password',
-        element: <ResetPassword/>,
       },
       {
         path: 'users',
@@ -36,6 +42,30 @@ export const routes = [
       {
         path: 'model-management',
         element: <ModelManagement/>,
+      },
+      {
+        path: 'inquiries',
+        element: <InquiryList/>,
+      },
+      {
+        path: 'inquiries/:id',
+        element: <InquiryDetail/>,
+      },
+      {
+        path: 'app-analysis',
+        element: <AppAnalysis/>,
+      },
+      {
+        path: 'districts',
+        element: <DistrictSummary/>,
+      },
+      {
+        path: 'districts/:districtName',
+        element: <DistrictDetail/>,
+      },
+      {
+        path: 'districts/:districtName/wards/:wardName',
+        element: <WardDetail/>,
       }
     ],
     errorElement: <PageNotFound/>
